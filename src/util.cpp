@@ -1,12 +1,12 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2019 The Dash Core developers
-// Copyright (c) 2020 The Raptoreum developers
+// Copyright (c) 2020 The But developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/raptoreum-config.h"
+#include "config/but-config.h"
 #endif
 
 #include "util.h"
@@ -96,7 +96,7 @@
 // Application startup time (used for uptime calculation)
 const int64_t nStartupTime = GetTime();
 
-//Raptoreum only features
+//But only features
 bool fSmartnodeMode = false;
 bool fLiteMode = false;
 /**
@@ -108,8 +108,9 @@ bool fLiteMode = false;
 */
 int nWalletBackups = 10;
 
-const char * const BITCOIN_CONF_FILENAME = "raptoreum.conf";
-const char * const BITCOIN_PID_FILENAME = "raptoreumd.pid";
+const char * const BITCOIN_CONF_FILENAME = "but.conf";
+const char * const BITCOIN_PID_FILENAME = "butd.pid";
+int miningAlgo = 0;
 
 ArgsManager gArgs;
 bool fPrintToConsole = false;
@@ -266,7 +267,7 @@ const CLogCategoryDesc LogCategories[] =
     {BCLog::ALL, "1"},
     {BCLog::ALL, "all"},
 
-    //Start Raptoreum
+    //Start But
     {BCLog::CHAINLOCKS, "chainlocks"},
     {BCLog::GOBJECT, "gobject"},
     {BCLog::INSTANTSEND, "instantsend"},
@@ -278,7 +279,7 @@ const CLogCategoryDesc LogCategories[] =
     {BCLog::MNSYNC, "mnsync"},
     {BCLog::PRIVATESEND, "privatesend"},
     {BCLog::SPORK, "spork"},
-    //End Raptoreum
+    //End But
 
 };
 
@@ -289,7 +290,7 @@ bool GetLogCategory(uint64_t *f, const std::string *str)
             *f = BCLog::ALL;
             return true;
         }
-        if (*str == "raptoreum") {
+        if (*str == "but") {
             *f = BCLog::CHAINLOCKS
                 | BCLog::GOBJECT
                 | BCLog::INSTANTSEND
@@ -618,13 +619,13 @@ void PrintExceptionContinue(const std::exception_ptr pex, const char* pszThread)
 
 fs::path GetDefaultDataDir()
 {
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\RaptoreumCore
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\RaptoreumCore
-    // Mac: ~/Library/Application Support/RaptoreumCore
-    // Unix: ~/.raptoreumcore
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\ButCore-2
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\ButCore-2
+    // Mac: ~/Library/Application Support/ButCore-2
+    // Unix: ~/.but
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "RaptoreumCore";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "ButCore-2";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -634,10 +635,10 @@ fs::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/RaptoreumCore";
+    return pathRet / "Library/Application Support/ButCore-2";
 #else
     // Unix
-    return pathRet / ".raptoreumcore";
+    return pathRet / ".but";
 #endif
 #endif
 }
@@ -704,7 +705,7 @@ void ArgsManager::ReadConfigFile(const std::string& confPath)
 {
     fs::ifstream streamConfig(GetConfigFile(confPath));
     if (!streamConfig.good()){
-        // Create empty raptoreum.conf if it does not excist
+        // Create empty but.conf if it does not excist
         FILE* configFile = fopen(GetConfigFile(confPath).string().c_str(), "a");
         if (configFile != nullptr)
             fclose(configFile);
@@ -718,7 +719,7 @@ void ArgsManager::ReadConfigFile(const std::string& confPath)
 
         for (boost::program_options::detail::config_file_iterator it(streamConfig, setOptions), end; it != end; ++it)
         {
-            // Don't overwrite existing settings so command line settings override raptoreum.conf
+            // Don't overwrite existing settings so command line settings override but.conf
             std::string strKey = std::string("-") + it->string_key;
             std::string strValue = it->value[0];
             InterpretNegativeSetting(strKey, strValue);

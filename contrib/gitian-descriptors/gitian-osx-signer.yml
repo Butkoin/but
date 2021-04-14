@@ -1,5 +1,5 @@
 ---
-name: "raptoreum-dmg-signer"
+name: "but-dmg-signer"
 suites:
 - "bionic"
 architectures:
@@ -7,10 +7,10 @@ architectures:
 packages:
 - "faketime"
 remotes:
-- "url": "https://github.com/raptoreum/raptoreum-detached-sigs.git"
+- "url": "https://github.com/but/but-detached-sigs.git"
   "dir": "signature"
 files:
-- "raptoreumcore-osx-unsigned.tar.gz"
+- "but-osx-unsigned.tar.gz"
 script: |
   WRAP_DIR=$HOME/wrapped
   mkdir -p ${WRAP_DIR}
@@ -27,8 +27,8 @@ script: |
     chmod +x ${WRAP_DIR}/${prog}
   done
 
-  UNSIGNED=raptoreumcore-osx-unsigned.tar.gz
-  SIGNED=raptoreumcore-osx-signed.dmg
+  UNSIGNED=but-osx-unsigned.tar.gz
+  SIGNED=but-osx-signed.dmg
 
   tar -xf ${UNSIGNED}
   OSX_VOLNAME="$(cat osx_volname)"

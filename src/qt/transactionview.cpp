@@ -579,7 +579,7 @@ void TransactionView::showAddressQRCode()
 
     dialog->setModel(model);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog->setInfo(tr("QR code"), "raptoreum:"+strAddress, "", strAddress);
+    dialog->setInfo(tr("QR code"), "but:"+strAddress, "", strAddress);
     dialog->show();
 }
 

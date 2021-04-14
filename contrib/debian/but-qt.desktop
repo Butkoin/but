@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=But Core
+Comment=But P2P Cryptocurrency
+Comment[de]=Verbinde mit dem But peer-to-peer Netzwerk
+Comment[fr]=But, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=But, eşten eşe kriptografik sanal para birimi
+Exec=but-qt %u
+Terminal=false
+Type=Application
+Icon=but128
+MimeType=x-scheme-handler/but;
+Categories=Office;Finance;

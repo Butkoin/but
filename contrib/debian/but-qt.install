@@ -1,0 +1,6 @@
+usr/local/bin/but-qt usr/bin
+share/pixmaps/but32.xpm usr/share/pixmaps
+share/pixmaps/but16.xpm usr/share/pixmaps
+share/pixmaps/but128.png usr/share/pixmaps
+debian/but-qt.desktop usr/share/applications
+debian/but-qt.protocol usr/share/kde4/services/

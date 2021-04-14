@@ -137,7 +137,7 @@ public:
 };
 
 /**
- * Raptoreum RPC command dispatcher.
+ * But RPC command dispatcher.
  */
 class CRPCTable
 {

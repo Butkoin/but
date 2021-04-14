@@ -1,10 +1,10 @@
 // Copyright (c) 2014-2019 The Dash Core developers
-// Copyright (c) 2020 The Raptoreum developers
+// Copyright (c) 2020 The But developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAPTOREUM_STACKTRACES_H
-#define RAPTOREUM_STACKTRACES_H
+#ifndef BUT_STACKTRACES_H
+#define BUT_STACKTRACES_H
 
 #include <string>
 #include <sstream>
@@ -40,4 +40,4 @@ inline std::string GetExceptionWhat(const T& e)
 void RegisterPrettyTerminateHander();
 void RegisterPrettySignalHandlers();
 
-#endif//RAPTOREUM_STACKTRACES_H
+#endif//BUT_STACKTRACES_H

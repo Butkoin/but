@@ -1,8 +1,8 @@
-Cross-compiliation of Raptoreum Core
+Cross-compiliation of But Core
 ===============================
 
-Raptoreum Core can be cross-compiled on Linux to all other supported host systems. This is done by changing
-the `HOST` parameter when building the dependencies and then specifying another `--prefix` directory when building Raptoreum.
+But Core can be cross-compiled on Linux to all other supported host systems. This is done by changing
+the `HOST` parameter when building the dependencies and then specifying another `--prefix` directory when building But.
 
 The following instructions are only tested on Debian Stretch and Ubuntu Bionic.
 
@@ -29,7 +29,7 @@ When building the dependencies, as described in [build-generic](build-generic.md
 $ make HOST=x86_64-apple-darwin11 -j4
 ```
 
-When building Raptoreum Core, use
+When building But Core, use
 
 ```bash
 $ ./configure --prefix=`pwd`/depends/x86_64-apple-darwin11
@@ -80,7 +80,7 @@ When building the dependencies, as described in [build-generic](build-generic.md
 $ make HOST=x86_64-w64-mingw32 -j4
 ```
 
-When building Raptoreum Core, use
+When building But Core, use
 
 ```bash
 $ ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
@@ -103,7 +103,7 @@ When building the dependencies, as described in [build-generic](build-generic.md
 $ make HOST=arm-linux-gnueabihf -j4
 ```
 
-When building Raptoreum Core, use
+When building But Core, use
 
 ```bash
 $ ./configure --prefix=`pwd`/depends/arm-linux-gnueabihf

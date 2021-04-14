@@ -1,10 +1,10 @@
 // Copyright (c) 2018-2019 The Dash Core developers
-// Copyright (c) 2020 The Raptoreum developers
+// Copyright (c) 2020 The But developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAPTOREUM_CRYPTO_BLS_BATCHVERIFIER_H
-#define RAPTOREUM_CRYPTO_BLS_BATCHVERIFIER_H
+#ifndef BUT_CRYPTO_BLS_BATCHVERIFIER_H
+#define BUT_CRYPTO_BLS_BATCHVERIFIER_H
 
 #include "bls.h"
 
@@ -233,4 +233,4 @@ private:
     }
 };
 
-#endif //RAPTOREUM_CRYPTO_BLS_BATCHVERIFIER_H
+#endif //BUT_CRYPTO_BLS_BATCHVERIFIER_H

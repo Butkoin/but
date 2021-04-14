@@ -14,7 +14,7 @@
 #include "crypto/hmac_sha512.h"
 #include "random.h"
 #include "utilstrencodings.h"
-#include "test/test_raptoreum.h"
+#include "test/test_but.h"
 
 #include <vector>
 

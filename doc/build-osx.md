@@ -33,37 +33,37 @@ Follow the instructions in [build-generic](build-generic.md)
 Running
 -------
 
-Raptoreum Core is now available at `./src/raptoreumd`
+But Core is now available at `./src/butd`
 
 Before running, it's recommended you create an RPC configuration file.
 
-    echo -e "rpcuser=raptoreumrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/RaptoreumCore/raptoreum.conf"
+    echo -e "rpcuser=butrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/ButCore/but.conf"
 
-    chmod 600 "/Users/${USER}/Library/Application Support/RaptoreumCore/raptoreum.conf"
+    chmod 600 "/Users/${USER}/Library/Application Support/ButCore/but.conf"
 
-The first time you run raptoreumd, it will start downloading the blockchain. This process could take several hours.
+The first time you run butd, it will start downloading the blockchain. This process could take several hours.
 
 You can monitor the download process by looking at the debug.log file:
 
-    tail -f $HOME/Library/Application\ Support/RaptoreumCore/debug.log
+    tail -f $HOME/Library/Application\ Support/ButCore/debug.log
 
 Other commands:
 -------
 
-    ./src/raptoreumd -daemon # Starts the raptoreum daemon.
-    ./src/raptoreum-cli --help # Outputs a list of command-line options.
-    ./src/raptoreum-cli help # Outputs a list of RPC commands when the daemon is running.
+    ./src/butd -daemon # Starts the but daemon.
+    ./src/but-cli --help # Outputs a list of command-line options.
+    ./src/but-cli help # Outputs a list of RPC commands when the daemon is running.
 
 Using Qt Creator as IDE
 ------------------------
-You can use Qt Creator as an IDE, for raptoreum development.
+You can use Qt Creator as an IDE, for but development.
 Download and install the community edition of [Qt Creator](https://www.qt.io/download/).
 Uncheck everything except Qt Creator during the installation process.
 
 1. Make sure you installed everything through Homebrew mentioned above
 2. Do a proper ./configure --enable-debug
 3. In Qt Creator do "New Project" -> Import Project -> Import Existing Project
-4. Enter "raptoreum-qt" as project name, enter src/qt as location
+4. Enter "but-qt" as project name, enter src/qt as location
 5. Leave the file selection as it is
 6. Confirm the "summary page"
 7. In the "Projects" tab select "Manage Kits..."

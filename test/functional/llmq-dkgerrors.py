@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # Copyright (c) 2015-2020 The Dash Core developers
-# Copyright (c) 2020 The Raptoreum developers
+# Copyright (c) 2020 The But developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import RaptoreumTestFramework
+from test_framework.test_framework import ButTestFramework
 from test_framework.util import *
 
 '''
@@ -14,9 +14,9 @@ Simulate and check DKG errors
 
 '''
 
-class LLMQDKGErrors(RaptoreumTestFramework):
+class LLMQDKGErrors(ButTestFramework):
     def set_test_params(self):
-        self.set_raptoreum_test_params(6, 5, [["-whitelist=127.0.0.1"]] * 6, fast_dip3_enforcement=True)
+        self.set_but_test_params(6, 5, [["-whitelist=127.0.0.1"]] * 6, fast_dip3_enforcement=True)
 
     def run_test(self):
 

@@ -1,7 +1,7 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2020 The Dash Core developers
-// Copyright (c) 2020 The Raptoreum developers
+// Copyright (c) 2020 The But developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -135,7 +135,7 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
     UniValue blockHashes(UniValue::VARR);
     while (nHeight < nHeightEnd)
     {
-        std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler(Params()).CreateNewBlock(coinbaseScript->reserveScript));
+        std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler(Params()).CreateNewBlock(coinbaseScript->reserveScript, miningAlgo));
         if (!pblocktemplate.get())
             throw JSONRPCError(RPC_INTERNAL_ERROR, "Couldn't create new block");
         CBlock *pblock = &pblocktemplate->block;
@@ -176,7 +176,7 @@ UniValue generatetoaddress(const JSONRPCRequest& request)
             "\nMine blocks immediately to a specified address (before the RPC call returns)\n"
             "\nArguments:\n"
             "1. nblocks      (numeric, required) How many blocks are generated immediately.\n"
-            "2. address      (string, required) The address to send the newly generated Raptoreum to.\n"
+            "2. address      (string, required) The address to send the newly generated But to.\n"
             "3. maxtries     (numeric, optional) How many iterations to try (default = 1000000).\n"
             "\nResult:\n"
             "[ blockhashes ]     (array) hashes of blocks generated\n"
@@ -233,7 +233,14 @@ UniValue getmininginfo(const JSONRPCRequest& request)
     obj.push_back(Pair("blocks",           (int)chainActive.Height()));
     obj.push_back(Pair("currentblocksize", (uint64_t)nLastBlockSize));
     obj.push_back(Pair("currentblocktx",   (uint64_t)nLastBlockTx));
-    obj.push_back(Pair("difficulty",       (double)GetDifficulty()));
+    obj.pushKV("pow_algo_id",        miningAlgo);
+    obj.pushKV("pow_algo",           GetAlgoName(miningAlgo));
+    obj.pushKV("difficulty",         (double)GetDifficulty(nullptr, miningAlgo));
+    obj.pushKV("difficulty_sha256d", (double)GetDifficulty(nullptr, ALGO_SHA256D));
+    obj.pushKV("difficulty_scrypt",  (double)GetDifficulty(nullptr, ALGO_SCRYPT));
+    obj.pushKV("difficulty_ghostrider",     (double)GetDifficulty(nullptr, ALGO_GHOSTRIDER));
+    obj.pushKV("difficulty_yespower",(double)GetDifficulty(nullptr, ALGO_YESPOWER));
+    obj.pushKV("difficulty_lyra2",   (double)GetDifficulty(nullptr, ALGO_LYRA2));
     obj.push_back(Pair("errors",           GetWarnings("statusbar")));
     obj.push_back(Pair("networkhashps",    getnetworkhashps(request)));
     obj.push_back(Pair("hashespersec",     (double)nHashesPerSec));
@@ -304,7 +311,7 @@ std::string gbt_vb_name(const Consensus::DeploymentPos pos) {
 
 UniValue getblocktemplate(const JSONRPCRequest& request)
 {
-    if (request.fHelp || request.params.size() > 1)
+    if (request.fHelp || request.params.size() > 2)
         throw std::runtime_error(
             "getblocktemplate ( TemplateRequest )\n"
             "\nIf the request parameters include a 'mode' key, that is used to explicitly select between the default 'template' request or a 'proposal'.\n"
@@ -327,8 +334,8 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
             "           ,...\n"
             "       ]\n"
             "     }\n"
+            "2. algo    (string, optional) The mining algorithm to use for this pow hash, 'sha256d', 'scrypt', 'ghostrider'\n"
             "\n"
-
             "\nResult:\n"
             "{\n"
             "  \"capabilities\" : [ \"capability\", ... ],    (array of strings) specific client side supported features\n"
@@ -463,6 +470,21 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
             }
         }
     }
+    int algo = miningAlgo;
+    if (!request.params[1].isNull()) {
+        std::string strAlgo = request.params[1].get_str();
+        transform(strAlgo.begin(),strAlgo.end(),strAlgo.begin(),::tolower);
+        if (strAlgo == "sha" || strAlgo == "sha256" || strAlgo == "sha256d")
+            algo = ALGO_SHA256D;
+        else if (strAlgo == "scrypt")
+            algo = ALGO_SCRYPT;
+        else if (strAlgo == "ghostrider")
+            algo = ALGO_GHOSTRIDER;
+        else if (strAlgo == "yespower")
+            algo = ALGO_YESPOWER;
+        else if (strAlgo == "lyra2" || strAlgo == "lyra2z330")
+            algo = ALGO_LYRA2;
+    }
 
     if (strMode != "template")
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid mode");
@@ -471,10 +493,10 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
 
     if (g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0)
-        throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED, "Raptoreum Core is not connected!");
+        throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED, "But Core is not connected!");
 
     if (IsInitialBlockDownload())
-        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Raptoreum Core is downloading blocks...");
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "But Core is downloading blocks...");
 
     // Get expected MN/superblock payees. The call to GetBlockTxOuts might fail on regtest/devnet or when
     // testnet is reset. This is fine and we ignore failure (blocks will be accepted)
@@ -485,7 +507,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
     if (sporkManager.IsSporkActive(SPORK_9_SUPERBLOCKS_ENABLED)
         && !smartnodeSync.IsSynced()
         && CSuperblock::IsValidBlockHeight(chainActive.Height() + 1))
-            throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Raptoreum Core is syncing with network...");
+            throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "But Core is syncing with network...");
 
     static unsigned int nTransactionsUpdatedLast;
 
@@ -539,8 +561,9 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
     static CBlockIndex* pindexPrev;
     static int64_t nStart;
     static std::unique_ptr<CBlockTemplate> pblocktemplate;
+    static int lastAlgo;
     if (pindexPrev != chainActive.Tip() ||
-        (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 5))
+        (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 5) || algo != lastAlgo)
     {
         // Clear pindexPrev so future calls make a new block, despite any failures from here on
         pindexPrev = nullptr;
@@ -549,10 +572,11 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
         nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
         CBlockIndex* pindexPrevNew = chainActive.Tip();
         nStart = GetTime();
+	lastAlgo = algo;
 
         // Create new block
         CScript scriptDummy = CScript() << OP_TRUE;
-        pblocktemplate = BlockAssembler(Params()).CreateNewBlock(scriptDummy);
+        pblocktemplate = BlockAssembler(Params()).CreateNewBlock(scriptDummy, algo);
         if (!pblocktemplate)
             throw JSONRPCError(RPC_OUT_OF_MEMORY, "Out of memory");
 
@@ -563,7 +587,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
     const Consensus::Params& consensusParams = Params().GetConsensus();
 
     // Update nTime
-    UpdateTime(pblock, consensusParams, pindexPrev);
+    UpdateTime(pblock, consensusParams, pindexPrev, algo);
     pblock->nNonce = 0;
 
     UniValue aCaps(UniValue::VARR); aCaps.push_back("proposal");
@@ -1073,7 +1097,7 @@ UniValue setgenerate(const JSONRPCRequest& request)
     gArgs.SoftSetArg("-genproclimit", itostr(nGenProcLimit));
     //mapArgs["-gen"] = (fGenerate ? "1" : "0");
     //mapArgs ["-genproclimit"] = itostr(nGenProcLimit);
-    int numCores = GenerateRaptoreums(fGenerate, nGenProcLimit, Params());
+    int numCores = GenerateButs(fGenerate, nGenProcLimit, Params());
 
     nGenProcLimit = nGenProcLimit >= 0 ? nGenProcLimit : numCores;
     std::string msg = std::to_string(nGenProcLimit) + " of " + std::to_string(numCores);

@@ -1,10 +1,10 @@
 // Copyright (c) 2019 The Dash Core developers
-// Copyright (c) 2020 The Raptoreum developers
+// Copyright (c) 2020 The But developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAPTOREUM_MNAUTH_H
-#define RAPTOREUM_MNAUTH_H
+#ifndef BUT_MNAUTH_H
+#define BUT_MNAUTH_H
 
 #include "bls/bls.h"
 #include "serialize.h"
@@ -56,4 +56,4 @@ public:
 };
 
 
-#endif //RAPTOREUM_MNAUTH_H
+#endif //BUT_MNAUTH_H

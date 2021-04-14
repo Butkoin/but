@@ -1,10 +1,10 @@
 // Copyright (c) 2018-2020 The Dash Core developers
-// Copyright (c) 2020 The Raptoreum developers
+// Copyright (c) 2020 The But developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAPTOREUM_EVODB_H
-#define RAPTOREUM_EVODB_H
+#ifndef BUT_EVODB_H
+#define BUT_EVODB_H
 
 #include "dbwrapper.h"
 #include "sync.h"
@@ -109,4 +109,4 @@ private:
 
 extern CEvoDB* evoDb;
 
-#endif //RAPTOREUM_EVODB_H
+#endif //BUT_EVODB_H

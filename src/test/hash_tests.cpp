@@ -4,7 +4,7 @@
 
 #include "hash.h"
 #include "utilstrencodings.h"
-#include "test/test_raptoreum.h"
+#include "test/test_but.h"
 
 #include <vector>
 

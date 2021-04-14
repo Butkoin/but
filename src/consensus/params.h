@@ -55,7 +55,7 @@ enum LLMQType : uint8_t
 };
 
 // Configures a LLMQ and its DKG
-// See https://github.com/raptoreum/dips/blob/master/dip-0006.md for more details
+// See https://github.com/but/dips/blob/master/dip-0006.md for more details
 struct LLMQParams {
     LLMQType type;
 
@@ -170,6 +170,28 @@ struct Params {
     int nPowDGWHeight;
     int DGWBlocksAvg;
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
+    int64_t nAveragingInterval;
+    int64_t multiAlgoTargetSpacing;
+    int64_t multiAlgoTargetSpacingV2;
+    int64_t nAveragingTargetTimespan;
+    int64_t nAveragingTargetTimespanV2;
+    int64_t nMaxAdjustDown;
+    int64_t nMaxAdjustUp;
+    int64_t nMaxAdjustDownV2;
+    int64_t nMaxAdjustUpV2;
+    int64_t nMinActualTimespan;
+    int64_t nMaxActualTimespan;
+    int64_t nMinActualTimespanV2;
+    int64_t nMaxActualTimespanV2;
+    int64_t nMinActualTimespanV3;
+    int64_t nMaxActualTimespanV3;
+    int64_t nLocalTargetAdjustment;
+    int64_t nLocalDifficultyAdjustment;
+    int vDiffChangeHeight;
+    int v2DiffChangeHeight;
+    int v3DiffChangeHeight;
+    int AlgoChangeHeight;
+
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
 

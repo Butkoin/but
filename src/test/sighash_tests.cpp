@@ -10,7 +10,7 @@
 #include "script/script.h"
 #include "serialize.h"
 #include "streams.h"
-#include "test/test_raptoreum.h"
+#include "test/test_but.h"
 #include "util.h"
 #include "utilstrencodings.h"
 #include "version.h"

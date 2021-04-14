@@ -1,39 +1,39 @@
-Raptoreum Core
+But Core
 ==========
 
-This is the official reference wallet for Raptoreum digital currency and comprises the backbone of the Raptoreum peer-to-peer network. You can [download Raptoreum Core](https://www.raptoreum.org/downloads/) or [build it yourself](#building) using the guides below.
+This is the official reference wallet for But digital currency and comprises the backbone of the But peer-to-peer network. You can [download But Core](https://www.but.xyz/downloads/) or [build it yourself](#building) using the guides below.
 
 Running
 ---------------------
-The following are some helpful notes on how to run Raptoreum on your native platform.
+The following are some helpful notes on how to run But on your native platform.
 
 ### Unix
 
 Unpack the files into a directory and run:
 
-- `bin/raptoreum-qt` (GUI) or
-- `bin/raptoreumd` (headless)
+- `bin/but-qt` (GUI) or
+- `bin/butd` (headless)
 
 ### Windows
 
-Unpack the files into a directory, and then run raptoreum-qt.exe.
+Unpack the files into a directory, and then run but-qt.exe.
 
 ### OS X
 
-Drag Raptoreum-Qt to your applications folder, and then run Raptoreum-Qt.
+Drag But-Qt to your applications folder, and then run But-Qt.
 
 ### Need Help?
 
-* See the [Raptoreum documentation](https://docs.raptoreum.org)
+* See the [But documentation](https://docs.but.xyz)
 for help and more information.
-* See the [Raptoreum Developer Documentation](https://raptoreum-docs.github.io/) 
+* See the [But Developer Documentation](https://but-docs.github.io/) 
 for technical specifications and implementation details.
-* Ask for help on [Raptoreum Nation Discord](http://raptoreumchat.org)
-* Ask for help on the [Raptoreum Forum](https://raptoreum.org/forum)
+* Ask for help on [But Nation Discord](http://butchat.org)
+* Ask for help on the [But Forum](https://but.xyz/forum)
 
 Building
 ---------------------
-The following are developer notes on how to build Raptoreum Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+The following are developer notes on how to build But Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
 - [OS X Build Notes](build-osx.md)
 - [Unix Build Notes](build-unix.md)
@@ -43,7 +43,7 @@ The following are developer notes on how to build Raptoreum Core on your native 
 
 Development
 ---------------------
-The Raptoreum Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
+The But Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
 - [Release Notes](release-notes.md)
@@ -59,8 +59,8 @@ The Raptoreum Core repo's [root README](/README.md) contains relevant informatio
 - [Benchmarking](benchmarking.md)
 
 ### Resources
-* Discuss on the [Raptoreum Forum](https://raptoreum.org/forum), in the Development & Technical Discussion board.
-* Discuss on [Raptoreum Nation Discord](http://raptoreumchat.org)
+* Discuss on the [But Forum](https://but.xyz/forum), in the Development & Technical Discussion board.
+* Discuss on [But Nation Discord](http://butchat.org)
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)

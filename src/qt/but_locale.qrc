@@ -1,0 +1,25 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="ar">locale/but_ar.qm</file>
+        <file alias="bg">locale/but_bg.qm</file>
+        <file alias="de">locale/but_de.qm</file>
+        <file alias="en">locale/but_en.qm</file>
+        <file alias="es">locale/but_es.qm</file>
+        <file alias="fi">locale/but_fi.qm</file>
+        <file alias="fr">locale/but_fr.qm</file>
+        <file alias="it">locale/but_it.qm</file>
+        <file alias="ja">locale/but_ja.qm</file>
+        <file alias="ko">locale/but_ko.qm</file>
+        <file alias="nl">locale/but_nl.qm</file>
+        <file alias="pl">locale/but_pl.qm</file>
+        <file alias="pt">locale/but_pt.qm</file>
+        <file alias="ro">locale/but_ro.qm</file>
+        <file alias="ru">locale/but_ru.qm</file>
+        <file alias="sk">locale/but_sk.qm</file>
+        <file alias="th">locale/but_th.qm</file>
+        <file alias="tr">locale/but_tr.qm</file>
+        <file alias="vi">locale/but_vi.qm</file>
+        <file alias="zh_CN">locale/but_zh_CN.qm</file>
+        <file alias="zh_TW">locale/but_zh_TW.qm</file>
+    </qresource>
+</RCC>

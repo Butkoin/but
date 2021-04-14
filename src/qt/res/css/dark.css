@@ -734,16 +734,16 @@ border: 1px solid #333;
 color: #ccc;
 }
 
-/* About Raptoreum Dialog */
+/* About But Dialog */
 QDialog#AboutDialog {
 background-color: #555;
 }
 
-QDialog#AboutDialog QLabel#label, QDialog#AboutDialog QLabel#copyrightLabel, QDialog#AboutDialog QLabel#label_2 { /* About Raptoreum Contents */
+QDialog#AboutDialog QLabel#label, QDialog#AboutDialog QLabel#copyrightLabel, QDialog#AboutDialog QLabel#label_2 { /* About But Contents */
 margin-left:10px;
 }
 
-QDialog#AboutDialog QLabel#label_2 { /* Margin for About Raptoreum text */
+QDialog#AboutDialog QLabel#label_2 { /* Margin for About But text */
 margin-right:10px;
 }
 

@@ -5,7 +5,7 @@
 #include "random.h"
 #include "scheduler.h"
 
-#include "test/test_raptoreum.h"
+#include "test/test_but.h"
 
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>

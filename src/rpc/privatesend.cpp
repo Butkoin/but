@@ -1,5 +1,5 @@
 // Copyright (c) 2019-2020 The Dash Core developers
-// Copyright (c) 2020 The Raptoreum developers
+// Copyright (c) 2020 The But developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -152,10 +152,10 @@ UniValue getprivatesendinfo(const JSONRPCRequest& request)
 static const CRPCCommand commands[] =
     { //  category              name                      actor (function)         okSafe argNames
         //  --------------------- ------------------------  -----------------------  ------ ----------
-        { "raptoreum",               "getpoolinfo",            &getpoolinfo,            true,  {} },
-        { "raptoreum",               "getprivatesendinfo",     &getprivatesendinfo,     true,  {} },
+        { "but",               "getpoolinfo",            &getpoolinfo,            true,  {} },
+        { "but",               "getprivatesendinfo",     &getprivatesendinfo,     true,  {} },
 #ifdef ENABLE_WALLET
-        { "raptoreum",               "privatesend",            &privatesend,            false, {} },
+        { "but",               "privatesend",            &privatesend,            false, {} },
 #endif // ENABLE_WALLET
 };
 

@@ -10,8 +10,8 @@
 #include <vector>
 
 /**
- * CBaseChainParams defines the base parameters (shared between raptoreum-cli and raptoreumd)
- * of a given instance of the Raptoreum system.
+ * CBaseChainParams defines the base parameters (shared between but-cli and butd)
+ * of a given instance of the But system.
  */
 class CBaseChainParams
 {

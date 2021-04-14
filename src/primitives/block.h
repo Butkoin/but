@@ -10,6 +10,35 @@
 #include "serialize.h"
 #include "uint256.h"
 
+enum
+{
+    ALGO_UNKNOWN  = -1,
+    ALGO_SHA256D  = 0,
+    ALGO_SCRYPT	  = 1,
+    ALGO_GHOSTRIDER      = 2,
+    ALGO_YESPOWER = 3,
+    ALGO_LYRA2    = 4,
+};
+
+const int NUM_ALGOS = 3;
+const int NUM_ALGOSV2 = 4;
+const int NUM_ALGOSV3 = 5;
+
+enum {
+    // primary version
+    BLOCK_VERSION_DEFAULT        = 2,
+
+    // algo
+    BLOCK_VERSION_ALGO           = (7 << 9),
+    BLOCK_VERSION_SCRYPT         = (0 << 9),
+    BLOCK_VERSION_LYRA2          = (1 << 9),
+    BLOCK_VERSION_SHA256D        = (2 << 9),
+    BLOCK_VERSION_GHOSTRIDER            = (4 << 9),
+	BLOCK_VERSION_YESPOWER       = (6 << 9),
+};
+
+std::string GetAlgoName(int Algo);
+
 /** Nodes collect new transactions into a block, hash them into a hash tree,
  * and scan through nonce values to make the block's hash satisfy proof-of-work
  * requirements.  When they solve the proof-of-work, they broadcast the block
@@ -59,6 +88,7 @@ public:
     {
         return (nBits == 0);
     }
+    int GetAlgo() const;
 
     uint256 GetHash() const;
     uint256 GetPOWHash() const;

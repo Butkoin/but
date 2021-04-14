@@ -1,0 +1,22 @@
+[Unit]
+Description=But's distributed currency daemon
+After=network.target
+
+[Service]
+User=but
+Group=but
+
+Type=forking
+PIDFile=/var/lib/butd/butd.pid
+ExecStart=/usr/bin/butd -daemon -pid=/var/lib/butd/butd.pid \
+-conf=/etc/but/but.conf -datadir=/var/lib/butd -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

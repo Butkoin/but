@@ -1,6 +1,6 @@
 all:
-	$(MAKE) -C .. raptoreum_test
+	$(MAKE) -C .. but_test
 clean:
-	$(MAKE) -C .. raptoreum_test_clean
+	$(MAKE) -C .. but_test_clean
 check:
-	$(MAKE) -C .. raptoreum_test_check
+	$(MAKE) -C .. but_test_check

@@ -1,7 +1,7 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin Core developers
 // Copyright (c) 2014-2020 The Dash Core developers
-// Copyright (c) 2020 The Raptoreum developers
+// Copyright (c) 2020 The But developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -80,8 +80,8 @@ static CBlock CreateDevNetGenesisBlock(const uint256 &prevBlockHash, const std::
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "The Times 22/Jan/2018 Raptoreum is name of the game for new generation of firms";
-    const CScript genesisOutputScript = CScript() << ParseHex("040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9") << OP_CHECKSIG;
+    const char* pszTimestamp = "0000000000000000000679cde96f90985c8b23f2880b46af017596f67cb4cdfe";
+    const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
@@ -384,7 +384,7 @@ public:
         consensus.nBudgetPaymentsCycleBlocks = 16616; // ~(60*24*30)/2.6, actual number of blocks per month is 200700 / 12 = 16725
         consensus.nBudgetPaymentsWindowBlocks = 100;
         consensus.nSuperblockStartBlock = INT_MAX; // The block at which 12.1 goes live (end of final 12.0 budget cycle)
-        consensus.nSuperblockStartHash = uint256S("0000000000020cb27c7ef164d21003d5d20cdca2f54dd9a9ca6d45f4d47f8aa3");
+        consensus.nSuperblockStartHash = uint256S("");
         consensus.nSuperblockCycle = 16616; // ~(60*24*30)/2.6, actual number of blocks per month is 200700 / 12 = 16725
         consensus.nGovernanceMinQuorum = 10;
         consensus.nGovernanceFilterElements = 20000;
@@ -399,8 +399,30 @@ public:
         consensus.DIP0008Enabled = true;
        // consensus.DIP0003EnforcementHeight = 1047200;
         consensus.powLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
-        consensus.nPowTargetTimespan = 24 * 60 * 60; // Raptoreum: 1 day
-        consensus.nPowTargetSpacing = 2 * 60; // Raptoreum: 2 minutes
+        consensus.nPowTargetTimespan = 60; // But: 1 minutes
+        consensus.nPowTargetSpacing =  60; // But: 1 minutes
+        consensus.nAveragingInterval = 10; // 10 blocks
+        consensus.multiAlgoTargetSpacing = 90 * 3; // NUM_ALGOS * 90 seconds
+        consensus.multiAlgoTargetSpacingV2 = 90 * 4; // add yespower
+        consensus.nAveragingTargetTimespan = consensus.nAveragingInterval * consensus.multiAlgoTargetSpacing; // 10 * NUM_ALGOS * 90
+        consensus.nAveragingTargetTimespanV2 = consensus.nAveragingInterval * consensus.multiAlgoTargetSpacingV2; // 10 * NUM_ALGOS * 90
+        consensus.nMaxAdjustDown = 16; // 16% adjustment down
+        consensus.nMaxAdjustUp = 8; // 8% adjustment up
+        consensus.nMaxAdjustDownV2 = 12; // 12% adjustment down -- lower a little slower
+        consensus.nMaxAdjustUpV2 = 10; // 10% adjustment up  -- rise a little faster
+        consensus.nMinActualTimespan = consensus.nAveragingTargetTimespan * (100 - consensus.nMaxAdjustUp) / 100;
+        consensus.nMaxActualTimespan = consensus.nAveragingTargetTimespan * (100 + consensus.nMaxAdjustDown) / 100;
+        consensus.nMinActualTimespanV2 = consensus.nAveragingTargetTimespan * (100 - consensus.nMaxAdjustUpV2) / 100;
+        consensus.nMaxActualTimespanV2 = consensus.nAveragingTargetTimespan * (100 + consensus.nMaxAdjustDownV2) / 100;
+        consensus.nMinActualTimespanV3 = consensus.nAveragingTargetTimespanV2 * (100 - consensus.nMaxAdjustUpV2) / 100;
+        consensus.nMaxActualTimespanV3 = consensus.nAveragingTargetTimespanV2 * (100 + consensus.nMaxAdjustDownV2) / 100;
+        consensus.vDiffChangeHeight =  3;
+        consensus.v2DiffChangeHeight = 5;
+        consensus.v3DiffChangeHeight = 10;
+        consensus.AlgoChangeHeight = 28;
+        consensus.nLocalTargetAdjustment = 4; //target adjustment per algo
+        consensus.nLocalDifficultyAdjustment = 4; //difficulty adjustment per algo
+
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nPowDGWHeight = 60;
@@ -423,38 +445,34 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = 0x72;//r
-        pchMessageStart[1] = 0x74;//t
-        pchMessageStart[2] = 0x6d;//m
-        pchMessageStart[3] = 0x2e;//.
-        nDefaultPort = 10226;
+        pchMessageStart[0] = 0x52;
+        pchMessageStart[1] = 0x34;
+        pchMessageStart[2] = 0x66;
+        pchMessageStart[3] = 0x2e;
+        nDefaultPort = 24240;
         nPruneAfterHeight = 100000;
-        //FindMainNetGenesisBlock(1614369600, 0x20001fff, "main");
-        genesis = CreateGenesisBlock(1614369600, 1130, 0x20001fff, 4, 5000 * COIN);
+//         FindMainNetGenesisBlock(1618361398, 0x20001fff, "main");
+        genesis = CreateGenesisBlock(1618361398, 43, 0x20001fff, 4, 5000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0xb79e5df07278b9567ada8fc655ffbfa9d3f586dc38da3dd93053686f41caeea0"));
-        assert(genesis.hashMerkleRoot == uint256S("0x87a48bc22468acdd72ee540aab7c086a5bbcddc12b51c6ac925717a74c269453"));
-        //98.38.235.195
-        vSeeds.emplace_back("47.151.7.226", true);
-        vSeeds.emplace_back("62.171.153.224", true);
-        vSeeds.emplace_back("98.38.235.195", true);
-        vSeeds.emplace_back("ger1.raptoreum.com", true);
-        vSeeds.emplace_back("ny1.raptoreum.com", true);
+        assert(consensus.hashGenesisBlock == uint256S("9c733e02aebf0e39a96d360402ce7e2cae629f6478b4488dacec9dcc5eeea79e"));
+        assert(genesis.hashMerkleRoot == uint256S("c083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
+        vSeeds.emplace_back("butnode.but.xyz", true);
+        vSeeds.emplace_back("node-01.but.xyz", true);
 
 
-        // Raptoreum addresses start with 'r'
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
-        // Raptoreum script addresses start with '7'
+        // But addresses start with 'x'
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,76);
+        // But script addresses start with '7'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,16);
-        // Raptoreum private keys start with '7' or 'X'
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,128);
-        // Raptoreum BIP32 pubkeys start with 'xpub' (Bitcoin defaults)
+        // But private keys start with '7' or 'X'
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,204);
+        // But BIP32 pubkeys start with 'xpub' (Bitcoin defaults)
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
-        // Raptoreum BIP32 prvkeys start with 'xprv' (Bitcoin defaults)
+        // But BIP32 prvkeys start with 'xprv' (Bitcoin defaults)
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
-        // Raptoreum BIP44 coin type is '5'
-        nExtCoinType = 200;
+        // But BIP44 coin type is '630'
+        nExtCoinType = 630;
         vector<FounderRewardStructure> rewardStructures = {  {INT_MAX, 5}// 5% founder/dev fee forever
                                         										   };
         consensus.nFounderPayment = FounderPayment(rewardStructures, 250);
@@ -489,21 +507,21 @@ public:
         nPoolMaxParticipants = 5;
         nFulfilledRequestExpireTime = 60*60; // fulfilled requests expire in 1 hour
 
-        vSporkAddresses = {"RWGvGpd3yJdnfh9ziyHNDEoHMJBvnZ23zK"};
+        vSporkAddresses = {"XdccBnRd4AMEnfEhVgoLUL6aPjC3kkgJih"};
         nMinSporkKeys = 1;
         fBIP9CheckSmartnodesUpgraded = true;
 
         checkpointData = (CCheckpointData) {
             {
-                {5145, uint256S("0x64c9cc82f05f4326e49fd4b21a48494b02b12a707de67a47c7e8e1102b0f1d9b")}
+                {0, uint256S("0x9c733e02aebf0e39a96d360402ce7e2cae629f6478b4488dacec9dcc5eeea79e")}
             }
         };
 
         chainTxData = ChainTxData{
-        	1614964862, // * UNIX timestamp of last known number of transactions (Block 0)
-			11169,   // * total number of transactions between genesis and that timestamp
+        	1618361398, // * UNIX timestamp of last known number of transactions (Block 0)
+                0,   // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
-            0.1         // * estimated number of transactions per second after that timestamp
+                0         // * estimated number of transactions per second after that timestamp
         };
     }
 };
@@ -539,12 +557,36 @@ public:
         consensus.BIP147Enabled = true;
      //   consensus.DIP0003EnforcementHeight = 7300;
         consensus.powLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
-        consensus.nPowTargetTimespan = 24 * 60 * 60; // Raptoreum: 1 day
-        consensus.nPowTargetSpacing = 2.5 * 60; // Raptoreum: 2.5 minutes
+
+
+        consensus.nAveragingInterval = 10; // 10 blocks
+        consensus.multiAlgoTargetSpacing = 90 * 3; // NUM_ALGOS * 90 seconds
+        consensus.multiAlgoTargetSpacingV2 = 90 * 4; // add yespower
+        consensus.nAveragingTargetTimespan = consensus.nAveragingInterval * consensus.multiAlgoTargetSpacing; // 10 * NUM_ALGOS * 90
+        consensus.nAveragingTargetTimespanV2 = consensus.nAveragingInterval * consensus.multiAlgoTargetSpacingV2; // 10 * NUM_ALGOS * 90
+        consensus.nMaxAdjustDown = 16; // 16% adjustment down
+        consensus.nMaxAdjustUp = 8; // 8% adjustment up
+        consensus.nMaxAdjustDownV2 = 12; // 12% adjustment down -- lower a little slower
+        consensus.nMaxAdjustUpV2 = 10; // 10% adjustment up  -- rise a little faster
+        consensus.nMinActualTimespan = consensus.nAveragingTargetTimespan * (100 - consensus.nMaxAdjustUp) / 100;
+        consensus.nMaxActualTimespan = consensus.nAveragingTargetTimespan * (100 + consensus.nMaxAdjustDown) / 100;
+        consensus.nMinActualTimespanV2 = consensus.nAveragingTargetTimespan * (100 - consensus.nMaxAdjustUpV2) / 100;
+        consensus.nMaxActualTimespanV2 = consensus.nAveragingTargetTimespan * (100 + consensus.nMaxAdjustDownV2) / 100;
+        consensus.nMinActualTimespanV3 = consensus.nAveragingTargetTimespanV2 * (100 - consensus.nMaxAdjustUpV2) / 100;
+        consensus.nMaxActualTimespanV3 = consensus.nAveragingTargetTimespanV2 * (100 + consensus.nMaxAdjustDownV2) / 100;
+        consensus.vDiffChangeHeight =  3;
+        consensus.v2DiffChangeHeight = 5;
+        consensus.v3DiffChangeHeight = 10;
+        consensus.AlgoChangeHeight = 28;
+        consensus.nLocalTargetAdjustment = 4; //target adjustment per algo
+        consensus.nLocalDifficultyAdjustment = 4; //difficulty adjustment per algo
+
+        consensus.nPowTargetTimespan = 60; // But: 1 minutes
+        consensus.nPowTargetSpacing =  60; // But: 1 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nPowDGWHeight = 60;
-		consensus.DGWBlocksAvg = 60;
+	consensus.DGWBlocksAvg = 60;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
@@ -552,42 +594,42 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000000000ac720e0b2ed13d"); // 260000
+        consensus.nMinimumChainWork = uint256S("0x0");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x000002bbe0f404f22f0aff8032e2a87cef6a32f0840e9199aa0b79ba3870b33c"); // 260000
+        consensus.defaultAssumeValid = uint256S("0x0");
 
-        pchMessageStart[0] = 0xce;
+        pchMessageStart[0] = 0x38;
         pchMessageStart[1] = 0xe2;
-        pchMessageStart[2] = 0xca;
+        pchMessageStart[2] = 0x68;
         pchMessageStart[3] = 0xff;
-        nDefaultPort = 19999;
+        nDefaultPort = 34340;
         nPruneAfterHeight = 1000;
-        //FindMainNetGenesisBlock(1598403784,  0x20001fff, "test");
-        genesis = CreateGenesisBlock(1598403784, 6708, 0x20001fff, 4, 5000 * COIN);
+       // FindMainNetGenesisBlock(1618300101,  0x20001fff, "test");
+        genesis = CreateGenesisBlock(1618300101, 3217, 0x20001fff, 4, 5000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0xc3c4a3a7f4baf59cd9612d8d5e9ea7152a8c9afc453785352e0c2d765d0ca9d5"));
-        assert(genesis.hashMerkleRoot == uint256S("0x87a48bc22468acdd72ee540aab7c086a5bbcddc12b51c6ac925717a74c269453"));
+        assert(consensus.hashGenesisBlock == uint256S("0x93055579e7cf39aa6434f445dcf415f9fe7319127b5309a61813b9e775f62192"));
+        assert(genesis.hashMerkleRoot == uint256S("0xc083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
 
         vFixedSeeds.clear();
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
-        vSeeds.emplace_back("testnet-seed.raptoreumdot.io", true);
+        vSeeds.emplace_back("testnet-seed.but.xyz", true);
 
-        // Testnet Raptoreum addresses start with 'y'
+        // Testnet But addresses start with 'y'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,140);
-        // Testnet Raptoreum script addresses start with '8' or '9'
+        // Testnet But script addresses start with '8' or '9'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,19);
         // Testnet private keys start with '9' or 'c' (Bitcoin defaults)
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
-        // Testnet Raptoreum BIP32 pubkeys start with 'tpub' (Bitcoin defaults)
+        // Testnet But BIP32 pubkeys start with 'tpub' (Bitcoin defaults)
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
-        // Testnet Raptoreum BIP32 prvkeys start with 'tprv' (Bitcoin defaults)
+        // Testnet But BIP32 prvkeys start with 'tprv' (Bitcoin defaults)
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        // Testnet Raptoreum BIP44 coin type is '1' (All coin's testnet default)
+        // Testnet But BIP44 coin type is '1' (All coin's testnet default)
         nExtCoinType = 1;
 
         // long living quorum params
@@ -599,7 +641,7 @@ public:
 
         vector<FounderRewardStructure> rewardStructures = {  {INT_MAX, 5}// 5% founder/dev fee forever
                                                 										   };
-		consensus.nFounderPayment = FounderPayment(rewardStructures, 200);
+	consensus.nFounderPayment = FounderPayment(rewardStructures, 200);
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = false;
@@ -618,19 +660,15 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-                {261, uint256S("0x00000c26026d0815a7e2ce4fa270775f61403c040647ff2c3091f99e894a4618")},
-                {1999, uint256S("0x00000052e538d27fa53693efe6fb6892a0c1d26c0235f599171c48a3cce553b1")},
-                {2999, uint256S("0x0000024bc3f4f4cb30d29827c13d921ad77d2c6072e586c7f60d83c2722cdcc5")},
-                {96090, uint256S("0x00000000033df4b94d17ab43e999caaf6c4735095cc77703685da81254d09bba")},
-                {200000, uint256S("0x000000001015eb5ef86a8fe2b3074d947bc972c5befe32b28dd5ce915dc0d029")},
+                {0, uint256S("0x93055579e7cf39aa6434f445dcf415f9fe7319127b5309a61813b9e775f62192")},
             }
         };
 
         chainTxData = ChainTxData{
             1574164251, // * UNIX timestamp of last known number of transactions (Block 213054)
-            1733259,    // * total number of transactions between genesis and that timestamp
+            0,    // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
-            0.01        // * estimated number of transactions per second after that timestamp
+            0        // * estimated number of transactions per second after that timestamp
         };
 
     }
@@ -667,12 +705,36 @@ public:
         consensus.DIP0003Enabled = true; // DIP0003 activated immediately on devnet
        // consensus.DIP0003EnforcementHeight = 2; // DIP0003 activated immediately on devnet
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1
-        consensus.nPowTargetTimespan = 24 * 60 * 60; // Raptoreum: 1 day
-        consensus.nPowTargetSpacing = 2.5 * 60; // Raptoreum: 2.5 minutes
+        consensus.nPowTargetTimespan = 60; // But: 1 minutes
+        consensus.nPowTargetSpacing = 60; // But: 1 minutes
+
+
+        consensus.nAveragingInterval = 10; // 10 blocks
+        consensus.multiAlgoTargetSpacing = 90 * 3; // NUM_ALGOS * 90 seconds
+        consensus.multiAlgoTargetSpacingV2 = 90 * 4; // add yespower
+        consensus.nAveragingTargetTimespan = consensus.nAveragingInterval * consensus.multiAlgoTargetSpacing; // 10 * NUM_ALGOS * 90
+        consensus.nAveragingTargetTimespanV2 = consensus.nAveragingInterval * consensus.multiAlgoTargetSpacingV2; // 10 * NUM_ALGOS * 90
+        consensus.nMaxAdjustDown = 16; // 16% adjustment down
+        consensus.nMaxAdjustUp = 8; // 8% adjustment up
+        consensus.nMaxAdjustDownV2 = 12; // 12% adjustment down -- lower a little slower
+        consensus.nMaxAdjustUpV2 = 10; // 10% adjustment up  -- rise a little faster
+        consensus.nMinActualTimespan = consensus.nAveragingTargetTimespan * (100 - consensus.nMaxAdjustUp) / 100;
+        consensus.nMaxActualTimespan = consensus.nAveragingTargetTimespan * (100 + consensus.nMaxAdjustDown) / 100;
+        consensus.nMinActualTimespanV2 = consensus.nAveragingTargetTimespan * (100 - consensus.nMaxAdjustUpV2) / 100;
+        consensus.nMaxActualTimespanV2 = consensus.nAveragingTargetTimespan * (100 + consensus.nMaxAdjustDownV2) / 100;
+        consensus.nMinActualTimespanV3 = consensus.nAveragingTargetTimespanV2 * (100 - consensus.nMaxAdjustUpV2) / 100;
+        consensus.nMaxActualTimespanV3 = consensus.nAveragingTargetTimespanV2 * (100 + consensus.nMaxAdjustDownV2) / 100;
+        consensus.vDiffChangeHeight =  3;
+        consensus.v2DiffChangeHeight = 5;
+        consensus.v3DiffChangeHeight = 10;
+        consensus.AlgoChangeHeight = 28;
+        consensus.nLocalTargetAdjustment = 4; //target adjustment per algo
+        consensus.nLocalDifficultyAdjustment = 4; //difficulty adjustment per algo
+
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nPowDGWHeight = 60;
-		consensus.DGWBlocksAvg = 60;
+	consensus.DGWBlocksAvg = 60;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
@@ -685,40 +747,37 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x000000000000000000000000000000000000000000000000000000000000000");
 
-        pchMessageStart[0] = 0xe2;
-        pchMessageStart[1] = 0xca;
+        pchMessageStart[0] = 0x56;
+        pchMessageStart[1] = 0x72;
         pchMessageStart[2] = 0xff;
         pchMessageStart[3] = 0xce;
-        nDefaultPort = 19799;
+        nDefaultPort = 45450;
         nPruneAfterHeight = 1000;
 
         genesis = CreateGenesisBlock(1417713337, 1096447, 0x207fffff, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x000008ca1832a4baf228eb1553c03d3a2c8e02399550dd6ea8d65cec3ef23d2e"));
-        assert(genesis.hashMerkleRoot == uint256S("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
+        assert(consensus.hashGenesisBlock == uint256S("0x0"));
+        assert(genesis.hashMerkleRoot == uint256S("0x0"));
 
-        devnetGenesis = FindDevNetGenesisBlock(consensus, genesis, 50 * COIN);
-        consensus.hashDevnetGenesisBlock = devnetGenesis.GetHash();
         vector<FounderRewardStructure> rewardStructures = {  {INT_MAX, 5}// 5% founder/dev fee forever
                                                                 										   };
 		consensus.nFounderPayment = FounderPayment(rewardStructures, 200);
-
         vFixedSeeds.clear();
         vSeeds.clear();
-        //vSeeds.push_back(CDNSSeedData("raptoreumevo.org",  "devnet-seed.raptoreumevo.org"));
+        //vSeeds.push_back(CDNSSeedData("butevo.org",  "devnet-seed.butevo.org"));
 
-        // Testnet Raptoreum addresses start with 'y'
+        // Testnet But addresses start with 'y'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,140);
-        // Testnet Raptoreum script addresses start with '8' or '9'
+        // Testnet But script addresses start with '8' or '9'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,19);
         // Testnet private keys start with '9' or 'c' (Bitcoin defaults)
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
-        // Testnet Raptoreum BIP32 pubkeys start with 'tpub' (Bitcoin defaults)
+        // Testnet But BIP32 pubkeys start with 'tpub' (Bitcoin defaults)
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
-        // Testnet Raptoreum BIP32 prvkeys start with 'tprv' (Bitcoin defaults)
+        // Testnet But BIP32 prvkeys start with 'tprv' (Bitcoin defaults)
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        // Testnet Raptoreum BIP44 coin type is '1' (All coin's testnet default)
+        // Testnet But BIP44 coin type is '1' (All coin's testnet default)
         nExtCoinType = 1;
 
         // long living quorum params
@@ -789,12 +848,35 @@ public:
         consensus.DIP0003Enabled = true;
        // consensus.DIP0003EnforcementHeight = 500;
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1
-        consensus.nPowTargetTimespan = 24 * 60 * 60; // Raptoreum: 1 day
-        consensus.nPowTargetSpacing = 2.5 * 60; // Raptoreum: 2.5 minutes
+        consensus.nPowTargetTimespan = 60; // But: 1 day
+        consensus.nPowTargetSpacing =  60; // But: 2.5 minutes
+
+        consensus.nAveragingInterval = 10; // 10 blocks
+        consensus.multiAlgoTargetSpacing = 90 * 3; // NUM_ALGOS * 90 seconds
+        consensus.multiAlgoTargetSpacingV2 = 90 * 4; // add yespower
+        consensus.nAveragingTargetTimespan = consensus.nAveragingInterval * consensus.multiAlgoTargetSpacing; // 10 * NUM_ALGOS * 90
+        consensus.nAveragingTargetTimespanV2 = consensus.nAveragingInterval * consensus.multiAlgoTargetSpacingV2; // 10 * NUM_ALGOS * 90
+        consensus.nMaxAdjustDown = 16; // 16% adjustment down
+        consensus.nMaxAdjustUp = 8; // 8% adjustment up
+        consensus.nMaxAdjustDownV2 = 12; // 12% adjustment down -- lower a little slower
+        consensus.nMaxAdjustUpV2 = 10; // 10% adjustment up  -- rise a little faster
+        consensus.nMinActualTimespan = consensus.nAveragingTargetTimespan * (100 - consensus.nMaxAdjustUp) / 100;
+        consensus.nMaxActualTimespan = consensus.nAveragingTargetTimespan * (100 + consensus.nMaxAdjustDown) / 100;
+        consensus.nMinActualTimespanV2 = consensus.nAveragingTargetTimespan * (100 - consensus.nMaxAdjustUpV2) / 100;
+        consensus.nMaxActualTimespanV2 = consensus.nAveragingTargetTimespan * (100 + consensus.nMaxAdjustDownV2) / 100;
+        consensus.nMinActualTimespanV3 = consensus.nAveragingTargetTimespanV2 * (100 - consensus.nMaxAdjustUpV2) / 100;
+        consensus.nMaxActualTimespanV3 = consensus.nAveragingTargetTimespanV2 * (100 + consensus.nMaxAdjustDownV2) / 100;
+        consensus.vDiffChangeHeight =  3;
+        consensus.v2DiffChangeHeight = 5;
+        consensus.v3DiffChangeHeight = 10;
+        consensus.AlgoChangeHeight = 28;
+        consensus.nLocalTargetAdjustment = 4; //target adjustment per algo
+        consensus.nLocalDifficultyAdjustment = 4; //difficulty adjustment per algo
+
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;
         consensus.nPowDGWHeight = 60;
-		consensus.DGWBlocksAvg = 60;
+	consensus.DGWBlocksAvg = 60;
         consensus.nRuleChangeActivationThreshold = 108; // 75% for testchains
         consensus.nMinerConfirmationWindow = 144; // Faster than normal for regtest (144 instead of 2016)
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
@@ -808,16 +890,16 @@ public:
         consensus.defaultAssumeValid = uint256S("0x00");
 
         pchMessageStart[0] = 0xfc;
-        pchMessageStart[1] = 0xc1;
+        pchMessageStart[1] = 0x44;
         pchMessageStart[2] = 0xb7;
-        pchMessageStart[3] = 0xdc;
-        nDefaultPort = 19899;
+        pchMessageStart[3] = 0x66;
+        nDefaultPort = 56560;
         nPruneAfterHeight = 1000;
 
         genesis = CreateGenesisBlock(1417713337, 1096447, 0x207fffff, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x000008ca1832a4baf228eb1553c03d3a2c8e02399550dd6ea8d65cec3ef23d2e"));
-        assert(genesis.hashMerkleRoot == uint256S("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
+        assert(consensus.hashGenesisBlock == uint256S("0x"));
+        assert(genesis.hashMerkleRoot == uint256S("0x"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -854,18 +936,18 @@ public:
             0
         };
 
-        // Regtest Raptoreum addresses start with 'y'
+        // Regtest But addresses start with 'y'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,140);
-        // Regtest Raptoreum script addresses start with '8' or '9'
+        // Regtest But script addresses start with '8' or '9'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,19);
         // Regtest private keys start with '9' or 'c' (Bitcoin defaults)
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
-        // Regtest Raptoreum BIP32 pubkeys start with 'tpub' (Bitcoin defaults)
+        // Regtest But BIP32 pubkeys start with 'tpub' (Bitcoin defaults)
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
-        // Regtest Raptoreum BIP32 prvkeys start with 'tprv' (Bitcoin defaults)
+        // Regtest But BIP32 prvkeys start with 'tprv' (Bitcoin defaults)
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        // Regtest Raptoreum BIP44 coin type is '1' (All coin's testnet default)
+        // Regtest But BIP44 coin type is '1' (All coin's testnet default)
         nExtCoinType = 1;
 
         // long living quorum params

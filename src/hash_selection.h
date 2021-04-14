@@ -1,4 +1,4 @@
-/* Copyright (c) 2020 The Raptoreum Core developers
+/* Copyright (c) 2020 The But Core developers
  * Distributed under the MIT software license, see the accompanying
  * file COPYING or http://www.opensource.org/licenses/mit-license.php.
  *
@@ -8,8 +8,8 @@
  *      Author: tri
  */
 
-#ifndef RAPTOREUM_SELECTION_H_
-#define RAPTOREUM_SELECTION_H_
+#ifndef BUT_SELECTION_H_
+#define BUT_SELECTION_H_
 
 #include "uint256.h"
 #include <string>
@@ -90,4 +90,4 @@ protected:
 
 };
 
-#endif /* RAPTOREUM_SELECTION_H_ */
+#endif /* BUT_SELECTION_H_ */

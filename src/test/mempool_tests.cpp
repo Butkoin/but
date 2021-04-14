@@ -5,7 +5,7 @@
 #include "txmempool.h"
 #include "util.h"
 
-#include "test/test_raptoreum.h"
+#include "test/test_but.h"
 
 #include <boost/test/unit_test.hpp>
 #include <list>

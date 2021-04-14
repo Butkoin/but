@@ -1,5 +1,5 @@
-Building Raptoreum
+Building But
 =============
 
 See doc/build-*.md for instructions on building the various
-elements of the Raptoreum Core reference implementation of Raptoreum.
+elements of the But Core reference implementation of But.

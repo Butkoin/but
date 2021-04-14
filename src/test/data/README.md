@@ -1,7 +1,7 @@
 Description
 ------------
 
-This directory contains data-driven tests for various aspects of Raptoreum.
+This directory contains data-driven tests for various aspects of But.
 
 License
 --------

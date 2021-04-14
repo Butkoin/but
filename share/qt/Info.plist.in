@@ -26,16 +26,16 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>Raptoreum-Qt</string>
+  <string>But-Qt</string>
 
   <key>CFBundleName</key>
-  <string>Raptoreum-Qt</string>
+  <string>But-Qt</string>
 
   <key>LSHasLocalizedDisplayName</key>
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>org.raptoreum.Raptoreum-Qt</string>
+  <string>org.but.But-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>
@@ -43,10 +43,10 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>org.raptoreum.RaptoreumPayment</string>
+      <string>org.but.ButPayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>raptoreum</string>
+        <string>but</string>
       </array>
     </dict>
   </array>
@@ -55,9 +55,9 @@
   <array>
     <dict>
       <key>UTTypeIdentifier</key>
-      <string>org.raptoreum.paymentrequest</string>
+      <string>org.but.paymentrequest</string>
       <key>UTTypeDescription</key>
-      <string>Raptoreum payment request</string>
+      <string>But payment request</string>
       <key>UTTypeConformsTo</key>
       <array>
         <string>public.data</string>
@@ -65,10 +65,10 @@
       <key>UTTypeTagSpecification</key>
       <dict>
         <key>public.mime-type</key>
-        <string>application/x-raptoreum-payment-request</string>
+        <string>application/x-but-payment-request</string>
         <key>public.filename-extension</key>
         <array>
-          <string>raptoreummentrequest</string>
+          <string>butmentrequest</string>
         </array>
       </dict>
     </dict>
@@ -81,7 +81,7 @@
       <string>Editor</string>
       <key>LSItemContentTypes</key>
       <array>
-        <string>org.raptoreum.paymentrequest</string>
+        <string>org.but.paymentrequest</string>
       </array>
       <key>LSHandlerRank</key>
       <string>Owner</string>

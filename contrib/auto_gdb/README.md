@@ -1,9 +1,9 @@
 # Contents
-This directory contains tools to automatically get data about the memory consumption by some objects in raptoreumd process with the help of GDB debugger.
+This directory contains tools to automatically get data about the memory consumption by some objects in butd process with the help of GDB debugger.
 
-## raptoreum_dbg.sh
-This shell script attaches GDB to the running raptoreumd process (should be built with debug info), executes debug.gdb script and detaches.
-By default it uses testnet settings, see script comments to attach it to mainnet raptoreumd.
+## but_dbg.sh
+This shell script attaches GDB to the running butd process (should be built with debug info), executes debug.gdb script and detaches.
+By default it uses testnet settings, see script comments to attach it to mainnet butd.
 
 ## debug.gdb
 Contains debugger instructions to execute during attach: loads python code and executes it for the objects we want to investigate.

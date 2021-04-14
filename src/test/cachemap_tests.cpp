@@ -1,9 +1,9 @@
 // Copyright (c) 2014-2019 The Dash Core developers
-// Copyright (c) 2020 The Raptoreum developers
+// Copyright (c) 2020 The But developers
 
 #include "cachemap.h"
 
-#include "test/test_raptoreum.h"
+#include "test/test_but.h"
 
 #include <boost/test/unit_test.hpp>
 

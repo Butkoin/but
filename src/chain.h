@@ -293,6 +293,17 @@ public:
     {
         return phashBlock == nullptr ? uint256() : *phashBlock;
     }
+    uint256 GetBlockPoWHash() const
+    {
+        CBlockHeader block = GetBlockHeader();
+        return block.GetPOWHash();
+    }
+
+    int GetAlgo() const
+    {
+        CBlockHeader block = GetBlockHeader();
+        return block.GetAlgo();
+    }
 
     int64_t GetBlockTime() const
     {

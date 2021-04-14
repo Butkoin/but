@@ -8,7 +8,7 @@
 #include "script/script.h"
 #include "script/standard.h"
 #include "uint256.h"
-#include "test/test_raptoreum.h"
+#include "test/test_but.h"
 
 #include <vector>
 

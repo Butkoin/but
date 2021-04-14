@@ -608,7 +608,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../raptoreum.qrc">
+            <iconset resource="../but.qrc">
              <normaloff>:/icons/prompticon</normaloff>
              <disabledoff>:/icons/prompticon</disabledoff>:/icons/prompticon</iconset>
            </property>
@@ -1747,7 +1747,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../raptoreum.qrc"/>
+  <include location="../but.qrc"/>
  </resources>
  <connections/>
 </ui>

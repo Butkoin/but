@@ -4,8 +4,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RAPTOREUM_ARITH_UINT256_H
-#define RAPTOREUM_ARITH_UINT256_H
+#ifndef BUT_ARITH_UINT256_H
+#define BUT_ARITH_UINT256_H
 #include "crypto/common.h"
 #include <assert.h>
 #include <cstring>
@@ -259,6 +259,8 @@ public:
      */
     unsigned int bits() const;
 
+    base_uint ApproxNthRoot(int n) const;
+
     uint64_t GetLow64() const
     {
         static_assert(WIDTH >= 2, "Assertion WIDTH >= 2 failed (WIDTH = BITS / 32). BITS is a template parameter.");
@@ -289,7 +291,7 @@ public:
      * Thus 0x1234560000 is compact (0x05123456)
      * and  0xc0de000000 is compact (0x0600c0de)
      *
-     * Raptoreum only uses this "compact" format for encoding difficulty
+     * But only uses this "compact" format for encoding difficulty
      * targets, which are unsigned 256bit quantities.  Thus, all the
      * complexities of the sign bit and using base 256 are probably an
      * implementation accident.
@@ -330,4 +332,4 @@ public:
 uint512 ArithToUint512(const arith_uint512 &);
 arith_uint512 UintToArith512(const uint512 &);
 
-#endif // RAPTOREUM_ARITH_UINT256_H
+#endif // BUT_ARITH_UINT256_H
