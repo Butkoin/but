@@ -1,7 +1,13 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin Core developers
 // Copyright (c) 2014-2020 The Dash Core developers
-// Copyright (c) 2020 The But developers
+// Copyright (c) 2014-2021 The Bitcoin developers
+// Copyright (c)      2021 The Dash developers
+// Copyright (c)      2020 The Digibyte developers
+// Copyright (c)      2020 The Pyrk developers
+// Copyright (c)      2020 The Raptoreum developers
+// Copyright (c)      2021 The Butcore developers
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -72,11 +78,10 @@ static CBlock CreateDevNetGenesisBlock(const uint256 &prevBlockHash, const std::
  * transaction cannot be spent since it did not originally exist in the
  * database.
  *
- * CBlock(hash=00000ffd590b14, ver=1, hashPrevBlock=00000000000000, hashMerkleRoot=e0028e, nTime=1390095618, nBits=1e0ffff0, nNonce=28917698, vtx=1)
- *   CTransaction(hash=e0028e, ver=1, vin.size=1, vout.size=1, nLockTime=0)
- *     CTxIn(COutPoint(000000, -1), coinbase 04ffff001d01044c5957697265642030392f4a616e2f3230313420546865204772616e64204578706572696d656e7420476f6573204c6976653a204f76657273746f636b2e636f6d204973204e6f7720416363657074696e6720426974636f696e73)
- *     CTxOut(nValue=50.00000000, scriptPubKey=0xA9037BAC7050C479B121CF)
- *   vMerkleTree: e0028e
+ * CBlock(hash=9c733e02aebf0e39a96d360402ce7e2cae629f6478b4488dacec9dcc5eeea79e, ver=0x00000004, pow_algo=1, pow_hash=000a25b9f5903157895f240b54aa80cd27966c99299d4ad692cdf3c49fce9583, hashPrevBlock=0000000000000000000000000000000000000000000000000000000000000000, hashMerkleRoot=c083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4, nTime=1618361398, nBits=20001fff, nNonce=43, vtx=1)
+ * CTransaction(hash=c083fb7c3b, ver=1, type=0, vin.size=1, vout.size=1, nLockTime=0, vExtraPayload.size=0)
+ * CTxIn(COutPoint(0000000000000000000000000000000000000000000000000000000000000000, 4294967295), coinbase 04ffff001d01044030303030303030303030303030303030303030363739636465393666393039383563386232336632383830623436616630313735393666363763623463646665)
+ * CTxOut(nValue=5000.00000000, scriptPubKey=4104678afdb0fe5548271967f1a671) 
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
@@ -392,8 +397,8 @@ public:
         consensus.BIPCSVEnabled = true;
         consensus.BIP147Enabled = true;
         consensus.BIP34Enabled = true;
-        consensus.BIP65Enabled = true; // 00000000000076d8fcea02ec0963de4abfd01e771fec0863f960c2c64fe6f357
-        consensus.BIP66Enabled = true; // 00000000000b1fa2dfa312863570e13fae9ca7b5566cb27e55422620b469aefa
+        consensus.BIP65Enabled = true;
+        consensus.BIP66Enabled = true;
         consensus.DIP0001Enabled = true;
         consensus.DIP0003Enabled = true;
         consensus.DIP0008Enabled = true;
@@ -435,10 +440,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0"); // 0
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000009fbd280"); // 0
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x0"); // 0
+        consensus.defaultAssumeValid = uint256S("0x00000000cf2271b298a6f28dd3209c93949b32707f02845fcb3b6f3b3cf60ba2"); // 0
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -456,8 +461,8 @@ public:
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("9c733e02aebf0e39a96d360402ce7e2cae629f6478b4488dacec9dcc5eeea79e"));
         assert(genesis.hashMerkleRoot == uint256S("c083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
-        vSeeds.emplace_back("butnode.but.xyz", true);
-        vSeeds.emplace_back("node-01.but.xyz", true);
+        vSeeds.emplace_back("butnode.but.tech", true);
+        vSeeds.emplace_back("node-01.but.tech", true);
 
 
         // But addresses start with 'x'
@@ -513,15 +518,20 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-                {0, uint256S("0x9c733e02aebf0e39a96d360402ce7e2cae629f6478b4488dacec9dcc5eeea79e")}
-            }
+                {0,   uint256S("0x9c733e02aebf0e39a96d360402ce7e2cae629f6478b4488dacec9dcc5eeea79e")},
+                {10,  uint256S("0x3135b1746e23dd813a802a3aa35bd15eb43d99919cb240d1568b747b6b28622e")},
+                {50,  uint256S("0xbe149e0e42f9f87b006e154b2432b046cec17aa05c9f7849a5f835d428eda0ed")},
+                {100, uint256S("0xef4e1c103039d13a862a9e6239ffb82437235d18d4da3d5bb03f49722f1a606b")},
+                {190, uint256S("0x000000464453f1874306c071e01f7d4591c3b2c00f3b9a7a9206dfe2920b2538")},
+                {200, uint256S("0xbcd4e62d711c62e7e6d0fec1209e92e6604f153a55c3127eef4a4b04ec9c9ba6")},
+	    }
         };
 
         chainTxData = ChainTxData{
-        	1618361398, // * UNIX timestamp of last known number of transactions (Block 0)
-                0,   // * total number of transactions between genesis and that timestamp
+        	1618401663, // * UNIX timestamp of last known number of transactions (Block 0)
+                304,   // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
-                0         // * estimated number of transactions per second after that timestamp
+                0.008064300066979236         // * estimated number of transactions per second after that timestamp
         };
     }
 };
