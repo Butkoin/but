@@ -399,8 +399,6 @@ crypto_libbut_crypto_base_a_SOURCES = \
   crypto/poly1305.h \
   crypto/poly1305.cpp \
   crypto/ripemd160.cpp \
-  crypto/scrypt.cpp \
-  crypto/scrypt.h \
   crypto/algos/Lyra2Z/Lyra2.c \
   crypto/algos/Lyra2Z/Lyra2Z.c \
   crypto/algos/Lyra2Z/Sponge.c \
@@ -427,6 +425,8 @@ crypto_libbut_crypto_base_a_SOURCES = \
   crypto/sph_sha2.c \
   crypto/sph_sha512.c \
   crypto/ripemd160.h \
+  crypto/scrypt.cpp \
+  crypto/scrypt.h \
   crypto/sha1.cpp \
   crypto/sha1.h \
   crypto/sha256.cpp \
@@ -702,7 +702,7 @@ if GLIBC_BACK_COMPAT
 endif
 
 libbutconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
-libbutconsensus_la_LIBADD = $(LIBSECP256K1) $(BLS_LIBS) $(LIBSECP256K1)
+libbutconsensus_la_LIBADD = $(LIBSECP256K1) $(BLS_LIBS) $(CRYPTO_LIBS)
 libbutconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
 libbutconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
