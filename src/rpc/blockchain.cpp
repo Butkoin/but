@@ -1468,7 +1468,14 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
     obj.push_back(Pair("verificationprogress",  GuessVerificationProgress(Params().TxData(), chainActive.Tip())));
     obj.push_back(Pair("chainwork",             chainActive.Tip()->nChainWork.GetHex()));
     obj.push_back(Pair("pruned",                fPruneMode));
-
+    obj.pushKV("pow_algo_id",        miningAlgo);
+    obj.pushKV("pow_algo",           GetAlgoName(miningAlgo));
+    obj.pushKV("difficulty",         (double)GetDifficulty(nullptr, miningAlgo));
+    obj.pushKV("difficulty_sha256d", (double)GetDifficulty(nullptr, ALGO_SHA256D));
+    obj.pushKV("difficulty_scrypt",  (double)GetDifficulty(nullptr, ALGO_SCRYPT));
+    obj.pushKV("difficulty_ghostrider",     (double)GetDifficulty(nullptr, ALGO_GHOSTRIDER));
+    obj.pushKV("difficulty_yespower",(double)GetDifficulty(nullptr, ALGO_YESPOWER));
+    obj.pushKV("difficulty_lyra2",   (double)GetDifficulty(nullptr, ALGO_LYRA2));
     const Consensus::Params& consensusParams = Params().GetConsensus();
     CBlockIndex* tip = chainActive.Tip();
     UniValue softforks(UniValue::VARR);
@@ -1485,12 +1492,7 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
 //    BIP9SoftForkDescPushBack(bip9_softforks, "dip0008", consensusParams, Consensus::DEPLOYMENT_DIP0008);
     obj.push_back(Pair("softforks",             softforks));
     obj.push_back(Pair("bip9_softforks", bip9_softforks));
-    UniValue difficulties(UniValue::VOBJ);
-    difficulties.push_back(Pair("sha256d", (double)GetDifficulty(NULL, ALGO_SHA256D)));
-    difficulties.push_back(Pair("scrypt", (double)GetDifficulty(NULL, ALGO_SCRYPT)));
-    difficulties.push_back(Pair("ghostrider", (double)GetDifficulty(NULL, ALGO_GHOSTRIDER)));
-    difficulties.push_back(Pair("yespower", (double)GetDifficulty(NULL, ALGO_YESPOWER)));
-    difficulties.push_back(Pair("lyra2", (double)GetDifficulty(NULL, ALGO_LYRA2)));
+
     if (fPruneMode)
     {
         CBlockIndex *block = chainActive.Tip();
