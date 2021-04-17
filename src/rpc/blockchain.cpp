@@ -1425,6 +1425,7 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
             "  \"chainwork\": \"xxxx\"     (string) total amount of work in active chain, in hexadecimal\n"
             "  \"pruned\": xx,             (boolean) if the blocks are subject to pruning\n"
             "  \"pruneheight\": xxxxxx,    (numeric) lowest-height complete block stored\n"
+	    "  \"toalamount\": xxxxxx,     (numeric) Total amount\n"
             "  \"softforks\": [            (array) status of softforks in progress\n"
             "     {\n"
             "        \"id\": \"xxxx\",        (string) name of softfork\n"
@@ -1468,6 +1469,12 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
     obj.push_back(Pair("verificationprogress",  GuessVerificationProgress(Params().TxData(), chainActive.Tip())));
     obj.push_back(Pair("chainwork",             chainActive.Tip()->nChainWork.GetHex()));
     obj.push_back(Pair("pruned",                fPruneMode));
+
+    CCoinsStats stats;
+    FlushStateToDisk();
+    if (GetUTXOStats(pcoinsdbview, stats)) {
+    obj.push_back(Pair("total_amount", ValueFromAmount(stats.nTotalAmount)));
+    }
     obj.pushKV("pow_algo_id",        miningAlgo);
     obj.pushKV("pow_algo",           GetAlgoName(miningAlgo));
     obj.pushKV("difficulty",         (double)GetDifficulty(nullptr, miningAlgo));
