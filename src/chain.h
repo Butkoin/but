@@ -296,7 +296,7 @@ public:
     uint256 GetBlockPoWHash() const
     {
         CBlockHeader block = GetBlockHeader();
-        return block.GetPOWHash();
+        return block.GetPOWHash(block.GetAlgo());
     }
 
     int GetAlgo() const
@@ -381,17 +381,22 @@ const CBlockIndex* LastCommonAncestor(const CBlockIndex* pa, const CBlockIndex* 
 class CDiskBlockIndex : public CBlockIndex
 {
 public:
-    uint256 hash;
+  //  uint256 hash;
     uint256 hashPrev;
+    uint256 hashBlockShared;
+    uint256 hashPOWShared;
 
     CDiskBlockIndex() {
-        hash = uint256();
+    //    hash = uint256();
         hashPrev = uint256();
+        hashBlockShared = uint256();
+        hashPOWShared = uint256();
     }
 
     explicit CDiskBlockIndex(const CBlockIndex* pindex) : CBlockIndex(*pindex) {
-        hash = (hash == uint256() ? pindex->GetBlockHash() : hash);
         hashPrev = (pprev ? pprev->GetBlockHash() : uint256());
+        hashBlockShared = pindex->GetBlockHash();
+        hashPOWShared = uint256();
     }
 
     ADD_SERIALIZE_METHODS;
@@ -405,6 +410,23 @@ public:
         READWRITE(VARINT(nHeight));
         READWRITE(VARINT(nStatus));
         READWRITE(VARINT(nTx));
+        // prepare block hash if not set yet (always scrypt)
+        if(!ser_action.ForRead() && hashBlockShared.IsNull()) {
+            hashBlockShared = this->GetBlockHash();
+        }
+        READWRITE(hashBlockShared);
+
+        if(!ser_action.ForRead()) {
+            // for write prepare POW hash if not set yet.
+            int algo = this->GetAlgo();
+            // we can reuse hashBlockShared if block ALGO is scrypt
+            if(hashPOWShared.IsNull() && algo == ALGO_SCRYPT){
+                hashPOWShared = uint256(hashBlockShared);
+            } else if (hashPOWShared.IsNull()) {
+                hashPOWShared = this->GetBlockHeader().GetPOWHash(algo);
+            }
+        }
+        READWRITE(hashPOWShared);
         if (nStatus & (BLOCK_HAVE_DATA | BLOCK_HAVE_UNDO))
             READWRITE(VARINT(nFile));
         if (nStatus & BLOCK_HAVE_DATA)
@@ -412,8 +434,6 @@ public:
         if (nStatus & BLOCK_HAVE_UNDO)
             READWRITE(VARINT(nUndoPos));
 
-        // block hash
-        READWRITE(hash);
         // block header
         READWRITE(this->nVersion);
         READWRITE(hashPrev);
@@ -425,8 +445,6 @@ public:
 
     uint256 GetBlockHash() const
     {
-        if(hash != uint256()) return hash;
-        // should never really get here, keeping this as a fallback
         CBlockHeader block;
         block.nVersion        = nVersion;
         block.hashPrevBlock   = hashPrev;

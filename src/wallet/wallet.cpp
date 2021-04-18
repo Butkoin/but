@@ -5351,6 +5351,15 @@ bool CWallet::ParameterInteraction()
     if (gArgs.GetBoolArg("-blocksonly", DEFAULT_BLOCKSONLY) && gArgs.SoftSetBoolArg("-walletbroadcast", false)) {
         LogPrintf("%s: parameter interaction: -blocksonly=1 -> setting -walletbroadcast=0\n", __func__);
     }
+        // determine mining Algo
+    std::string strAlgo = gArgs.GetArg("-algo", "scrypt");
+    transform(strAlgo.begin(),strAlgo.end(),strAlgo.begin(),::tolower);
+    ALGO = GetAlgoByName(strAlgo);
+
+//    gArgs.SoftSetArg("-fallbackfee", "0.01");
+    
+    LogPrintf("%s: Using algo: %s %d\n", __func__, strAlgo.c_str(), ALGO);
+
 
     if (gArgs.GetBoolArg("-salvagewallet", false)) {
         if (is_multiwallet) {

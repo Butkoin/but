@@ -60,11 +60,11 @@ unsigned int ParseConfirmTarget(const UniValue& value)
  * or from the last difficulty change if 'lookup' is nonpositive.
  * If 'height' is nonnegative, compute the estimate at the time when a given block was found.
  */
-UniValue GetNetworkHashPS(int lookup, int height) {
-    CBlockIndex *pb = chainActive.Tip();
+UniValue GetNetworkHashPS(int lookup, int height,int algo = ALGO) {
+    CBlockIndex *pb = GetLastBlockIndex4Algo(chainActive.Tip(), algo);
 
     if (height >= 0 && height < chainActive.Height())
-        pb = chainActive[height];
+        pb = GetLastBlockIndex4Algo(chainActive[height], algo);
 
     if (pb == nullptr || !pb->nHeight)
         return 0;
@@ -81,7 +81,7 @@ UniValue GetNetworkHashPS(int lookup, int height) {
     int64_t minTime = pb0->GetBlockTime();
     int64_t maxTime = minTime;
     for (int i = 0; i < lookup; i++) {
-        pb0 = pb0->pprev;
+        pb0 = GetLastBlockIndex4Algo(pb0->pprev, algo);
         int64_t time = pb0->GetBlockTime();
         minTime = std::min(time, minTime);
         maxTime = std::max(time, maxTime);
@@ -93,7 +93,7 @@ UniValue GetNetworkHashPS(int lookup, int height) {
 
     arith_uint256 workDiff = pb->nChainWork - pb0->nChainWork;
     int64_t timeDiff = maxTime - minTime;
-
+    workDiff /= GetAlgoWeight(algo);
     return workDiff.getdouble() / timeDiff;
 }
 
@@ -117,6 +117,36 @@ UniValue getnetworkhashps(const JSONRPCRequest& request)
 
     LOCK(cs_main);
     return GetNetworkHashPS(!request.params[0].isNull() ? request.params[0].get_int() : 120, !request.params[1].isNull() ? request.params[1].get_int() : -1);
+}
+
+static UniValue getallnetworkhashps(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() > 2)
+        throw std::runtime_error(
+            "getallnetworkhashps ( nblocks height )\n"
+            "\nReturns the estimated network hashes per second based on the last n blocks.\n"
+            "Pass in [blocks] to override # of blocks, -1 specifies since last difficulty change.\n"
+            "Pass in [height] to estimate the network speed at the time when a certain block was found.\n"
+            "\nArguments:\n"
+            "1. nblocks     (numeric, optional, default=360) The number of blocks, or -1 for blocks since last difficulty change.\n"
+            "2. height      (numeric, optional, default=-1) To estimate at the time of the given height.\n"
+            "\nResult:\n"
+            "x             (numeric) Hashes per second estimated\n"
+            "\nExamples:\n"
+            + HelpExampleCli("getallnetworkhashps", "")
+            + HelpExampleRpc("getallnetworkhashps", "")
+       );
+
+    LOCK(cs_main);
+    int blocks = !request.params[0].isNull() ? request.params[0].get_int() : 360;
+    int height =  !request.params[1].isNull() ? request.params[1].get_int() : -1;
+    UniValue obj(UniValue::VOBJ);
+    obj.pushKV("scrypt", GetNetworkHashPS(blocks, height, ALGO_SCRYPT));
+    obj.pushKV("sha256d", GetNetworkHashPS(blocks, height, ALGO_SHA256D));
+    obj.pushKV("lyra2", GetNetworkHashPS(blocks, height, ALGO_LYRA2));
+    obj.pushKV("ghostrider", GetNetworkHashPS(blocks, height, ALGO_GHOSTRIDER));
+    obj.pushKV("yespower", GetNetworkHashPS(blocks, height, ALGO_YESPOWER));
+    return obj;
 }
 
 #if ENABLE_MINER
@@ -143,7 +173,7 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
             LOCK(cs_main);
             IncrementExtraNonce(pblock, chainActive.Tip(), nExtraNonce);
         }
-        while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetPOWHash(), pblock->nBits, Params().GetConsensus())) {
+        while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetPOWHash(pblock->GetAlgo()), pblock->nBits, Params().GetConsensus())) {
             ++pblock->nNonce;
             --nMaxTries;
         }
@@ -233,14 +263,7 @@ UniValue getmininginfo(const JSONRPCRequest& request)
     obj.push_back(Pair("blocks",           (int)chainActive.Height()));
     obj.push_back(Pair("currentblocksize", (uint64_t)nLastBlockSize));
     obj.push_back(Pair("currentblocktx",   (uint64_t)nLastBlockTx));
-    obj.pushKV("pow_algo_id",        miningAlgo);
-    obj.pushKV("pow_algo",           GetAlgoName(miningAlgo));
-    obj.pushKV("difficulty",         (double)GetDifficulty(nullptr, miningAlgo));
-    obj.pushKV("difficulty_sha256d", (double)GetDifficulty(nullptr, ALGO_SHA256D));
-    obj.pushKV("difficulty_scrypt",  (double)GetDifficulty(nullptr, ALGO_SCRYPT));
-    obj.pushKV("difficulty_ghostrider",     (double)GetDifficulty(nullptr, ALGO_GHOSTRIDER));
-    obj.pushKV("difficulty_yespower",(double)GetDifficulty(nullptr, ALGO_YESPOWER));
-    obj.pushKV("difficulty_lyra2",   (double)GetDifficulty(nullptr, ALGO_LYRA2));
+    obj.pushKV("difficulty",       (double)GetDifficulty(chainActive.Tip()));
     obj.push_back(Pair("errors",           GetWarnings("statusbar")));
     obj.push_back(Pair("networkhashps",    getnetworkhashps(request)));
     obj.push_back(Pair("hashespersec",     (double)nHashesPerSec));
@@ -313,7 +336,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() > 2)
         throw std::runtime_error(
-            "getblocktemplate ( TemplateRequest )\n"
+            "getblocktemplate ( TemplateRequest ) ( algorithm )\n"
             "\nIf the request parameters include a 'mode' key, that is used to explicitly select between the default 'template' request or a 'proposal'.\n"
             "It returns data needed to construct a block to work on.\n"
             "For full specification, see BIPs 22, 23, and 9:\n"
@@ -334,7 +357,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
             "           ,...\n"
             "       ]\n"
             "     }\n"
-            "2. algo    (string, optional) The mining algorithm to use for this pow hash, 'sha256d', 'scrypt', 'ghostrider'\n"
+            "2. algorithm    (string, optional) The mining algorithm to use for this pow hash, 'sha256d', 'scrypt', 'ghostrider'\n"
             "\n"
             "\nResult:\n"
             "{\n"
@@ -1111,7 +1134,7 @@ static const CRPCCommand commands[] =
     { "mining",             "getnetworkhashps",       &getnetworkhashps,       true,  {"nblocks","height"} },
     { "mining",             "getmininginfo",          &getmininginfo,          true,  {} },
     { "mining",             "prioritisetransaction",  &prioritisetransaction,  true,  {"txid","fee_delta"} },
-    { "mining",             "getblocktemplate",       &getblocktemplate,       true,  {"template_request"} },
+    { "mining",             "getblocktemplate",       &getblocktemplate,       true,  {"template_request", "algo"} },
     { "mining",             "submitblock",            &submitblock,            true,  {"hexdata","dummy"} },
 
 #if ENABLE_MINER

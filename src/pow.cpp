@@ -272,3 +272,23 @@ const CBlockIndex* GetLastBlockIndexForAlgo(const CBlockIndex* pindex, const Con
     }
     return nullptr;
 }
+
+unsigned int GetAlgoWeight(int algo)
+{
+    switch (algo)
+    {
+        case ALGO_SHA256D:
+            return (unsigned int)(0.005 * 100000);
+        case ALGO_YESPOWER:
+            return (unsigned int)(0.00015 * 100000);
+        case ALGO_GHOSTRIDER:
+            return (unsigned int)(6 * 100000);
+        case ALGO_LYRA2:
+            return (unsigned int)(6 * 100000);
+        case ALGO_SCRYPT:
+            return (unsigned int)(1.4 * 100000);
+        default: // Lowest
+            printf("GetAlgoWeight(): can't find algo %d", algo);
+            return (unsigned int)(0.00015 * 100000);
+    }
+}

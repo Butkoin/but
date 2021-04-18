@@ -26,5 +26,6 @@ unsigned int GetNextWorkRequiredV3(const CBlockIndex* pindexLast, const Consensu
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&);
 
 const CBlockIndex* GetLastBlockIndexForAlgo(const CBlockIndex* pindex, const Consensus::Params&, int algo);
+unsigned int GetAlgoWeight(int algo);
 
 #endif // BITCOIN_POW_H

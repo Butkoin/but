@@ -970,7 +970,7 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     }
 
     // Check the header
-    if (!CheckProofOfWork(block.GetPOWHash(), block.nBits, consensusParams))
+    if (!CheckProofOfWork(block.GetPOWHash(block.GetAlgo()), block.nBits, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
     return true;
@@ -1685,7 +1685,7 @@ void ThreadScriptCheck() {
 // Protected by cs_main
 VersionBitsCache versionbitscache;
 
-int32_t ComputeBlockVersion(const CBlockIndex* pindexPrev, const Consensus::Params& params,int algo, bool fCheckSmartnodesUpgraded)
+int32_t ComputeBlockVersion(const CBlockIndex* pindexPrev, const Consensus::Params& params,  int algo, bool fCheckSmartnodesUpgraded)
 {
     LOCK(cs_main);
     int32_t nVersion = VERSIONBITS_TOP_BITS;
@@ -2363,6 +2363,7 @@ void static UpdateTip(CBlockIndex *pindexNew, const CChainParams& chainParams) {
         int nUpgraded = 0;
         const CBlockIndex* pindex = chainActive.Tip();
         for (int bit = 0; bit < VERSIONBITS_NUM_BITS; bit++) {
+		if (bit > 10 && bit < 15) continue; // Skip mining algo version bits
             WarningBitsConditionChecker checker(bit);
             ThresholdState state = checker.GetStateFor(pindex, chainParams.GetConsensus(), warningcache[bit]);
             if (state == THRESHOLD_ACTIVE || state == THRESHOLD_LOCKED_IN) {
@@ -2377,7 +2378,7 @@ void static UpdateTip(CBlockIndex *pindexNew, const CChainParams& chainParams) {
         // Check the version of the last 100 blocks to see if we need to upgrade:
         for (int i = 0; i < 100 && pindex != nullptr; i++)
         {
-            int32_t nExpectedVersion = ComputeBlockVersion(pindex->pprev, chainParams.GetConsensus(), pindex->GetAlgo());
+            int32_t nExpectedVersion = ComputeBlockVersion(pindex->pprev, chainParams.GetConsensus(), pindex->GetAlgo(), true);
             if (pindex->nVersion > VERSIONBITS_LAST_OLD_BLOCK_VERSION && (pindex->nVersion & ~nExpectedVersion) != 0)
                 ++nUpgraded;
             pindex = pindex->pprev;
@@ -3169,8 +3170,22 @@ static bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, 
 
 static bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
+
+   if (block.nVersion > 4) { 
+        switch (block.nVersion & BLOCK_VERSION_ALGO)
+        {
+            case BLOCK_VERSION_SCRYPT:
+            case BLOCK_VERSION_SHA256D:
+            case BLOCK_VERSION_LYRA2:
+            case BLOCK_VERSION_GHOSTRIDER:
+            case BLOCK_VERSION_YESPOWER:
+                break;
+            default:
+                return state.DoS(50, false, REJECT_INVALID, "unknown-algo", false, "unknown proof of work algorithm");
+        }
+   }
     // Check proof of work matches claimed amount
-    if (fCheckPOW && !CheckProofOfWork(block.GetPOWHash(), block.nBits, consensusParams))
+    if (fCheckPOW && !CheckProofOfWork(block.GetPOWHash(block.GetAlgo()), block.nBits, consensusParams))
         return state.DoS(50, false, REJECT_INVALID, "high-hash", false, "proof of work failed");
 
     // Check DevNet
@@ -3285,6 +3300,27 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationSta
 
     return true;
 }
+
+bool hasUsedValidMiningAlgorithm(const CBlock& block, const CBlockIndex* pindexPrev)
+{
+    unsigned checkedBlocks = 0;
+    unsigned sameAlgoBlocks = 0;
+
+    while (pindexPrev && checkedBlocks != 2 * SAME_ALGO_MAX_COUNT)
+    {
+        if (pindexPrev->GetBlockHeader().GetAlgo() == block.GetAlgo())
+            ++sameAlgoBlocks;
+
+        ++checkedBlocks;
+        pindexPrev = pindexPrev->pprev;
+    }
+
+    if (sameAlgoBlocks > SAME_ALGO_MAX_COUNT)
+        return false;
+
+    return true;
+}
+
 
 static bool ContextualCheckBlock(const CBlock& block, CValidationState& state, const Consensus::Params& consensusParams, const CBlockIndex* pindexPrev)
 {

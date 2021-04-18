@@ -112,14 +112,14 @@ UniValue getinfo(const JSONRPCRequest& request)
     if(g_connman)
         obj.push_back(Pair("connections",   (int)g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL)));
     obj.push_back(Pair("proxy",         (proxy.IsValid() ? proxy.proxy.ToStringIPPort() : std::string())));
-    obj.pushKV("pow_algo_id",        miningAlgo);
-    obj.pushKV("pow_algo",           GetAlgoName(miningAlgo));
-    obj.pushKV("difficulty",         (double)GetDifficulty(nullptr, miningAlgo));
-    obj.pushKV("difficulty_sha256d", (double)GetDifficulty(nullptr, ALGO_SHA256D));
-    obj.pushKV("difficulty_scrypt",  (double)GetDifficulty(nullptr, ALGO_SCRYPT));
-    obj.pushKV("difficulty_ghostrider",     (double)GetDifficulty(nullptr, ALGO_GHOSTRIDER));
-    obj.pushKV("difficulty_yespower",(double)GetDifficulty(nullptr, ALGO_YESPOWER));
-    obj.pushKV("difficulty_lyra2",   (double)GetDifficulty(nullptr, ALGO_LYRA2));
+    obj.pushKV("pow_algo_id",           ALGO);
+    obj.pushKV("pow_algo",              GetAlgoName(ALGO));
+    obj.pushKV("difficulty",            GetDifficulty(ALGO));
+    obj.pushKV("difficulty_sha256d",        GetDifficulty(ALGO_SHA256D));
+    obj.pushKV("difficulty_scrypt",     GetDifficulty(ALGO_SCRYPT));
+    obj.pushKV("difficulty_yespower",    GetDifficulty(ALGO_YESPOWER));
+    obj.pushKV("difficulty_lyra2",    GetDifficulty(ALGO_LYRA2));
+    obj.pushKV("difficulty_ghostrider",      GetDifficulty(ALGO_GHOSTRIDER));
 
     obj.push_back(Pair("testnet",       Params().NetworkIDString() == CBaseChainParams::TESTNET));
 #ifdef ENABLE_WALLET
@@ -175,6 +175,24 @@ UniValue debug(const JSONRPCRequest& request)
     }
 
     return "Debug mode: " + ListActiveLogCategoriesString();
+}
+
+UniValue setalgo(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() != 1)
+    throw std::runtime_error(
+        "setalgo \"algo\"\n"
+        "\nSets algo and returns current and previous algo\n"
+        "Uses the same input as commandline parameters or verge.conf\n"
+        "If it's invalid the ALGO will be set to scrypt"
+    );
+    UniValue obj(UniValue::VOBJ);
+    std::string strAlgo = request.params[0].get_str();
+    transform(strAlgo.begin(),strAlgo.end(),strAlgo.begin(),::tolower);
+    obj.pushKV("old_algo", GetAlgoName(ALGO));
+    ALGO = GetAlgoByName(strAlgo);
+    obj.pushKV("new_algo", GetAlgoName(ALGO));
+    return obj;
 }
 
 UniValue mnsync(const JSONRPCRequest& request)
@@ -1299,6 +1317,7 @@ static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
   //  --------------------- ------------------------  -----------------------  ----------
     { "control",            "debug",                  &debug,                  true,  {} },
+    { "control",            "setalgo",                &setalgo,                true,  {"algo"}},
     { "control",            "getinfo",                &getinfo,                true,  {} }, /* uses wallet if enabled */
     { "control",            "getmemoryinfo",          &getmemoryinfo,          true,  {"mode"} },
     { "util",               "validateaddress",        &validateaddress,        true,  {"address"} }, /* uses wallet if enabled */
@@ -1306,7 +1325,6 @@ static const CRPCCommand commands[] =
     { "util",               "verifymessage",          &verifymessage,          true,  {"address","signature","message"} },
     { "util",               "signmessagewithprivkey", &signmessagewithprivkey, true,  {"privkey","message"} },
     { "blockchain",         "getspentinfo",           &getspentinfo,           false, {"json"} },
-
     /* Address index */
     { "addressindex",       "getaddressmempool",      &getaddressmempool,      true,  {"addresses"}  },
     { "addressindex",       "getaddressutxos",        &getaddressutxos,        false, {"addresses"} },

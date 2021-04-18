@@ -148,7 +148,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     bool fDIP0003Active_context = chainparams.GetConsensus().DIP0003Enabled;
     bool fDIP0008Active_context = chainparams.GetConsensus().DIP0008Enabled;
 
-    pblock->nVersion = ComputeBlockVersion(pindexPrev, chainparams.GetConsensus(), algo, chainparams.BIP9CheckSmartnodesUpgraded());
+    pblock->nVersion = ComputeBlockVersion(pindexPrev, chainparams.GetConsensus(),algo, chainparams.BIP9CheckSmartnodesUpgraded());
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
     if (chainparams.MineBlocksOnDemand())
@@ -635,7 +635,7 @@ void static ButMiner(const CChainParams& chainparams)
                 uint256 hash;
                 while (true)
                 {
-                    hash = pblock->GetPOWHash();
+                    hash = pblock->GetPOWHash(pblock->GetAlgo());
                     if (UintToArith256(hash) <= hashTarget)
                     {
                         // Found a solution

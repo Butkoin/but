@@ -12,32 +12,68 @@
 
 enum
 {
-    ALGO_UNKNOWN  = -1,
-    ALGO_SHA256D  = 0,
-    ALGO_SCRYPT	  = 1,
-    ALGO_GHOSTRIDER      = 2,
-    ALGO_YESPOWER = 3,
-    ALGO_LYRA2    = 4,
+    ALGO_SCRYPT  = 0,
+    ALGO_SHA256D = 1,
+    ALGO_LYRA2 = 2,
+    ALGO_GHOSTRIDER   = 3,
+    ALGO_YESPOWER = 4
 };
 
 const int NUM_ALGOS = 3;
 const int NUM_ALGOSV2 = 4;
 const int NUM_ALGOSV3 = 5;
 
-enum {
+enum
+{
     // primary version
     BLOCK_VERSION_DEFAULT        = 2,
 
     // algo
-    BLOCK_VERSION_ALGO           = (7 << 9),
-    BLOCK_VERSION_SCRYPT         = (0 << 9),
-    BLOCK_VERSION_LYRA2          = (1 << 9),
-    BLOCK_VERSION_SHA256D        = (2 << 9),
-    BLOCK_VERSION_GHOSTRIDER            = (4 << 9),
-	BLOCK_VERSION_YESPOWER       = (6 << 9),
+    BLOCK_VERSION_ALGO_BROKEN    = (10 << 11), //'101000000000000' 10 (broken bitmask)
+    BLOCK_VERSION_ALGO           = (15 << 11), //'111100000000000' 15 (bitmask)
+    BLOCK_VERSION_SCRYPT         = (1  << 11), //'000100000000000' 1
+    BLOCK_VERSION_SHA256D        = (2  << 11), //'001000000000000' 2
+    BLOCK_VERSION_GHOSTRIDER     = (3  << 11), //'001100000000000' 3
+    BLOCK_VERSION_YESPOWER 	 = (4  << 11), //'010000000000000' 4
+    BLOCK_VERSION_LYRA2 	 = (10 << 11), //'101000000000000' 10
 };
 
-std::string GetAlgoName(int Algo);
+static inline int GetAlgoByName(std::string strAlgo){
+    if (strAlgo == "scrypt")
+        return ALGO_SCRYPT;
+    if (strAlgo == "sha" || strAlgo == "sha256" || strAlgo == "sha256d")
+        return ALGO_SHA256D;
+    if (strAlgo == "ghostrider")
+	    return ALGO_GHOSTRIDER;
+    if (strAlgo == "lyra" || strAlgo == "lyra2re" || strAlgo == "lyra2v2" || strAlgo == "lyra2" || strAlgo == "lyra2rev2")
+	    return ALGO_LYRA2;
+    if (strAlgo == "yespower")
+            return ALGO_YESPOWER;
+    return ALGO_SCRYPT;
+}
+
+static inline std::string GetAlgoName(int algo)
+{
+    switch (algo)
+    {
+        case ALGO_SCRYPT:
+            return std::string("scrypt");
+        case ALGO_SHA256D:
+            return std::string("sha256d");
+        case ALGO_LYRA2:
+            return std::string("lyra2");
+        case ALGO_YESPOWER:
+            return std::string("yespower");
+        case ALGO_GHOSTRIDER:
+            return std::string("ghostrider");
+    }
+    return std::string("unknown");
+}
+
+/**
+ * Current default algo to use from multi algo
+ */
+extern int ALGO;
 
 /** Nodes collect new transactions into a block, hash them into a hash tree,
  * and scan through nonce values to make the block's hash satisfy proof-of-work
@@ -56,6 +92,7 @@ public:
     uint32_t nTime;
     uint32_t nBits;
     uint32_t nNonce;
+    uint256 hash;
 
     CBlockHeader()
     {
@@ -72,6 +109,9 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
+        if(ser_action.ForRead()){
+            this->hash = GetPOWHash(ALGO_SCRYPT);
+        }
     }
 
     void SetNull()
@@ -88,10 +128,34 @@ public:
     {
         return (nBits == 0);
     }
-    int GetAlgo() const;
 
+    uint256 GetSerializedHash() const;
     uint256 GetHash() const;
-    uint256 GetPOWHash() const;
+    uint256 GetPOWHash(int algo) const;
+
+    int GetAlgo() const
+    {
+        switch (nVersion & BLOCK_VERSION_ALGO)
+        {
+            case BLOCK_VERSION_SCRYPT:
+                return ALGO_SCRYPT;
+            case BLOCK_VERSION_SHA256D:
+                return ALGO_SHA256D;
+            case BLOCK_VERSION_LYRA2:
+                return ALGO_LYRA2;
+            case BLOCK_VERSION_GHOSTRIDER:
+                return ALGO_GHOSTRIDER;
+            case BLOCK_VERSION_YESPOWER:
+                return ALGO_YESPOWER;
+        }
+
+        return ALGO_SCRYPT;
+    }
+
+    std::string GetAlgoName() const
+    {
+        return ::GetAlgoName(GetAlgo());
+    }
 
     int64_t GetBlockTime() const
     {

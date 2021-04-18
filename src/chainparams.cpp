@@ -161,7 +161,7 @@ static void FindMainNetGenesisBlock(uint32_t nTime, uint32_t nBits, const char* 
     for (uint32_t nNonce = 0; nNonce < UINT32_MAX; nNonce++) {
         block.nNonce = nNonce;
 
-        uint256 hash = block.GetPOWHash();
+        uint256 hash = block.GetPOWHash(block.GetAlgo());
         if (nNonce % 48 == 0) {
         	printf("\nrnonce=%d, pow is %s\n", nNonce, hash.GetHex().c_str());
         }
@@ -402,7 +402,7 @@ public:
         consensus.DIP0003Enabled = true;
         consensus.DIP0008Enabled = true;
        // consensus.DIP0003EnforcementHeight = 1047200;
-        consensus.powLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
+        consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.nPowTargetTimespan = 60; // But: 1 minutes
         consensus.nPowTargetSpacing =  60; // But: 1 minutes
         consensus.nAveragingInterval = 10; // 10 blocks
@@ -433,16 +433,16 @@ public:
         consensus.DGWBlocksAvg = 60;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
-        consensus.smartnodePaymentFixedBlock = 6800;
+        consensus.smartnodePaymentFixedBlock = 1800;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000009fbd280"); // 0
+        consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000000000018833bc00"); // 0
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x00000000cf2271b298a6f28dd3209c93949b32707f02845fcb3b6f3b3cf60ba2"); // 0
+        consensus.defaultAssumeValid = uint256S("0x000004144cd255a359014e690562310bebf1895bf9f7ec04c9996eae471b8af4"); // 0
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -455,11 +455,11 @@ public:
         pchMessageStart[3] = 0x2e;
         nDefaultPort = 24240;
         nPruneAfterHeight = 100000;
-//         FindMainNetGenesisBlock(1618361398, 0x20001fff, "main");
-        genesis = CreateGenesisBlock(1618361398, 43, 0x20001fff, 4, 5000 * COIN);
+       //FindMainNetGenesisBlock(1618361398, 0x1e0ffff0, "main");
+        genesis = CreateGenesisBlock(1618361398, 190941, 0x1e0ffff0, 4, 5000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("9c733e02aebf0e39a96d360402ce7e2cae629f6478b4488dacec9dcc5eeea79e"));
-        assert(genesis.hashMerkleRoot == uint256S("c083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000d6d4dbe65562523844035f02922c422411f61c2b1ee9dfec83707803977"));
+        assert(genesis.hashMerkleRoot == uint256S("0xc083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
         vSeeds.emplace_back("butnode.but.tech", true);
         vSeeds.emplace_back("node-01.but.tech", true);
 
@@ -482,7 +482,7 @@ public:
         consensus.nFounderPayment = FounderPayment(rewardStructures, 250);
         consensus.nCollaterals = SmartnodeCollaterals(
 			{
-				{88720, 600000 * COIN}, {132720, 800000 * COIN}, {176720, 1000000 * COIN}, {220720, 1250000 * COIN},
+				{88720, 60000 * COIN}, {132720, 800000 * COIN}, {176720, 1000000 * COIN}, {220720, 1250000 * COIN},
 				{264720, 1500000 * COIN}, {308720, 1800000 * COIN}
 			},
 			{
@@ -517,20 +517,18 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-                {0,   uint256S("0x9c733e02aebf0e39a96d360402ce7e2cae629f6478b4488dacec9dcc5eeea79e")},
-                {10,  uint256S("0x3135b1746e23dd813a802a3aa35bd15eb43d99919cb240d1568b747b6b28622e")},
-                {50,  uint256S("0xbe149e0e42f9f87b006e154b2432b046cec17aa05c9f7849a5f835d428eda0ed")},
-                {100, uint256S("0xef4e1c103039d13a862a9e6239ffb82437235d18d4da3d5bb03f49722f1a606b")},
-                {190, uint256S("0x000000464453f1874306c071e01f7d4591c3b2c00f3b9a7a9206dfe2920b2538")},
-                {200, uint256S("0xbcd4e62d711c62e7e6d0fec1209e92e6604f153a55c3127eef4a4b04ec9c9ba6")},
+                {0,   uint256S("0x00000d6d4dbe65562523844035f02922c422411f61c2b1ee9dfec83707803977")},
+                {10,   uint256S("0x119b2285d0b54f596ae89be941731cf3258ae982ad938f7bab47f71de05c9273")},
+                {40,   uint256S("0x49378b6579e8b8c0e9a19db6da3ef5f93257641503c1bfcf112d37267c990b6a")},
+
 	    }
         };
 
         chainTxData = ChainTxData{
-        	1618401663, // * UNIX timestamp of last known number of transactions (Block 0)
-                304,   // * total number of transactions between genesis and that timestamp
+        	1618776132, // * UNIX timestamp of last known number of transactions (Block 0)
+                105,   // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
-                0.008064300066979236         // * estimated number of transactions per second after that timestamp
+                0.1563517915309446         // * estimated number of transactions per second after that timestamp
         };
     }
 };

@@ -28,7 +28,7 @@
 #include "util.h"
 #include "utilstrencodings.h"
 #include "hash.h"
-#include "pow.h"
+
 #include "evo/specialtx.h"
 #include "evo/cbtx.h"
 
@@ -55,31 +55,33 @@ static std::mutex cs_blockchange;
 static std::condition_variable cond_blockchange;
 static CUpdatedBlock latestblock;
 
+CBlockIndex* GetLastBlockIndex4Algo(CBlockIndex* pindex, int algo)
+{
+    while (pindex && pindex->pprev && pindex->GetBlockHeader().GetAlgo() != algo)
+        pindex = pindex->pprev;
+    return pindex;
+}
+
+double GetDifficulty(int algo){
+    return GetDifficulty(GetLastBlockIndex4Algo(chainActive.Tip(), algo));
+}
+
 extern void TxToJSON(const CTransaction& tx, const uint256 hashBlock, UniValue& entry);
 
-double GetDifficulty(const CChain& chain, const CBlockIndex* blockindex, int algo)
+double GetDifficulty(const CBlockIndex* blockindex)
 {
-    unsigned int nBits;
-    unsigned int powLimit = UintToArith256(Params().GetConsensus().powLimit).GetCompact();
     if (blockindex == nullptr)
     {
-        if (chain.Tip() == nullptr)
-            nBits = powLimit;
+        if (chainActive.Tip() == nullptr)
+            return 1.0;
         else
-        {
-            blockindex = GetLastBlockIndexForAlgo(chain.Tip(), Params().GetConsensus(), algo);
-            if (blockindex == nullptr)
-                nBits = powLimit;
-            else
-                nBits = blockindex->nBits;
-        }
+            blockindex = chainActive.Tip();
     }
-    else
-        nBits = blockindex->nBits;
 
-    int nShift = (nBits >> 24) & 0xff;
+    int nShift = (blockindex->nBits >> 24) & 0xff;
+
     double dDiff =
-        (double)0x0000ffff / (double)(nBits & 0x00ffffff);
+        (double)0x0000ffff / (double)(blockindex->nBits & 0x00ffffff);
 
     while (nShift < 29)
     {
@@ -93,11 +95,6 @@ double GetDifficulty(const CChain& chain, const CBlockIndex* blockindex, int alg
     }
 
     return dDiff;
-}
-
-double GetDifficulty(const CBlockIndex* blockindex, int algo)
-{
-    return GetDifficulty(chainActive, blockindex, algo);
 }
 
 UniValue blockheaderToJSON(const CBlockIndex* blockindex)
@@ -117,12 +114,8 @@ UniValue blockheaderToJSON(const CBlockIndex* blockindex)
     result.push_back(Pair("mediantime", (int64_t)blockindex->GetMedianTimePast()));
     result.push_back(Pair("nonce", (uint64_t)blockindex->nNonce));
     result.push_back(Pair("bits", strprintf("%08x", blockindex->nBits)));
-    result.push_back(Pair("difficulty", GetDifficulty(blockindex, miningAlgo)));
+    result.push_back(Pair("difficulty", GetDifficulty(blockindex)));
     result.push_back(Pair("chainwork", blockindex->nChainWork.GetHex()));
-
-    int algo = blockindex->GetAlgo();
-    result.pushKV("pow_algo_id", algo);
-    result.pushKV("pow_algo", GetAlgoName(algo));
 
     if (blockindex->pprev)
         result.push_back(Pair("previousblockhash", blockindex->pprev->GetBlockHash().GetHex()));
@@ -139,6 +132,9 @@ UniValue blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool tx
 {
     UniValue result(UniValue::VOBJ);
     result.push_back(Pair("hash", blockindex->GetBlockHash().GetHex()));
+    result.pushKV("pow_hash", block.GetPOWHash(block.GetAlgo()).GetHex());
+    result.pushKV("algo", GetAlgoName(block.GetAlgo()));
+
     int confirmations = -1;
     // Only report confirmations if the block is on the main chain
     if (chainActive.Contains(blockindex))
@@ -148,10 +144,6 @@ UniValue blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool tx
     result.push_back(Pair("height", blockindex->nHeight));
     result.push_back(Pair("version", block.nVersion));
     result.push_back(Pair("versionHex", strprintf("%08x", block.nVersion)));
-    int algo = block.GetAlgo();
-    result.pushKV("pow_algo_id", algo);
-    result.pushKV("pow_algo", GetAlgoName(algo));
-    result.pushKV("pow_hash", block.GetPOWHash().GetHex());
     result.push_back(Pair("merkleroot", block.hashMerkleRoot.GetHex()));
     bool chainLock = llmq::chainLocksHandler->HasChainLock(blockindex->nHeight, blockindex->GetBlockHash());
     UniValue txs(UniValue::VARR);
@@ -182,7 +174,7 @@ UniValue blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool tx
     result.push_back(Pair("mediantime", (int64_t)blockindex->GetMedianTimePast()));
     result.push_back(Pair("nonce", (uint64_t)block.nNonce));
     result.push_back(Pair("bits", strprintf("%08x", block.nBits)));
-    result.push_back(Pair("difficulty", GetDifficulty(blockindex, miningAlgo)));
+    result.push_back(Pair("difficulty", GetDifficulty(blockindex)));
     result.push_back(Pair("chainwork", blockindex->nChainWork.GetHex()));
 
     if (blockindex->pprev)
@@ -404,7 +396,7 @@ UniValue getdifficulty(const JSONRPCRequest& request)
         );
 
     LOCK(cs_main);
-    return GetDifficulty(nullptr, miningAlgo);
+    return GetDifficulty(ALGO);
 }
 
 std::string EntryDescriptionString()
@@ -1249,8 +1241,8 @@ UniValue gettxout(const JSONRPCRequest& request)
             "     \"hex\" : \"hex\",        (string) \n"
             "     \"reqSigs\" : n,          (numeric) Number of required signatures\n"
             "     \"type\" : \"pubkeyhash\", (string) The type, eg pubkeyhash\n"
-            "     \"addresses\" : [          (array of string) array of but addresses\n"
-            "        \"address\"     (string) but address\n"
+            "     \"addresses\" : [          (array of string) array of But addresses\n"
+            "        \"address\"     (string) But address\n"
             "        ,...\n"
             "     ]\n"
             "  },\n"
@@ -1425,7 +1417,6 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
             "  \"chainwork\": \"xxxx\"     (string) total amount of work in active chain, in hexadecimal\n"
             "  \"pruned\": xx,             (boolean) if the blocks are subject to pruning\n"
             "  \"pruneheight\": xxxxxx,    (numeric) lowest-height complete block stored\n"
-	    "  \"toalamount\": xxxxxx,     (numeric) Total amount\n"
             "  \"softforks\": [            (array) status of softforks in progress\n"
             "     {\n"
             "        \"id\": \"xxxx\",        (string) name of softfork\n"
@@ -1464,25 +1455,24 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
     obj.push_back(Pair("blocks",                (int)chainActive.Height()));
     obj.push_back(Pair("headers",               pindexBestHeader ? pindexBestHeader->nHeight : -1));
     obj.push_back(Pair("bestblockhash",         chainActive.Tip()->GetBlockHash().GetHex()));
- //   obj.push_back(Pair("difficulty",            (double)GetDifficulty()));
+    obj.pushKV("pow_algo_id",           ALGO);
+    obj.pushKV("pow_algo",              GetAlgoName(ALGO));
+    obj.pushKV("difficulty",            GetDifficulty(ALGO));
+    obj.pushKV("difficulty_sha256d",        GetDifficulty(ALGO_SHA256D));
+    obj.pushKV("difficulty_scrypt",     GetDifficulty(ALGO_SCRYPT));
+    obj.pushKV("difficulty_yespower",    GetDifficulty(ALGO_YESPOWER));
+    obj.pushKV("difficulty_lyra2",    GetDifficulty(ALGO_LYRA2));
+    obj.pushKV("difficulty_ghostrider",      GetDifficulty(ALGO_GHOSTRIDER));
     obj.push_back(Pair("mediantime",            (int64_t)chainActive.Tip()->GetMedianTimePast()));
     obj.push_back(Pair("verificationprogress",  GuessVerificationProgress(Params().TxData(), chainActive.Tip())));
     obj.push_back(Pair("chainwork",             chainActive.Tip()->nChainWork.GetHex()));
-    obj.push_back(Pair("pruned",                fPruneMode));
-
     CCoinsStats stats;
     FlushStateToDisk();
     if (GetUTXOStats(pcoinsdbview, stats)) {
     obj.push_back(Pair("total_amount", ValueFromAmount(stats.nTotalAmount)));
     }
-    obj.pushKV("pow_algo_id",        miningAlgo);
-    obj.pushKV("pow_algo",           GetAlgoName(miningAlgo));
-    obj.pushKV("difficulty",         (double)GetDifficulty(nullptr, miningAlgo));
-    obj.pushKV("difficulty_sha256d", (double)GetDifficulty(nullptr, ALGO_SHA256D));
-    obj.pushKV("difficulty_scrypt",  (double)GetDifficulty(nullptr, ALGO_SCRYPT));
-    obj.pushKV("difficulty_ghostrider",     (double)GetDifficulty(nullptr, ALGO_GHOSTRIDER));
-    obj.pushKV("difficulty_yespower",(double)GetDifficulty(nullptr, ALGO_YESPOWER));
-    obj.pushKV("difficulty_lyra2",   (double)GetDifficulty(nullptr, ALGO_LYRA2));
+    obj.push_back(Pair("pruned",                fPruneMode));
+
     const Consensus::Params& consensusParams = Params().GetConsensus();
     CBlockIndex* tip = chainActive.Tip();
     UniValue softforks(UniValue::VARR);
@@ -1621,7 +1611,7 @@ UniValue getchaintips(const JSONRPCRequest& request)
         UniValue obj(UniValue::VOBJ);
         obj.push_back(Pair("height", block->nHeight));
         obj.push_back(Pair("hash", block->phashBlock->GetHex()));
-        obj.push_back(Pair("difficulty", GetDifficulty(block, block->GetAlgo())));
+        obj.push_back(Pair("difficulty", GetDifficulty(block)));
         obj.push_back(Pair("chainwork", block->nChainWork.GetHex()));
         obj.push_back(Pair("branchlen", branchLen));
         obj.push_back(Pair("forkpoint", pindexFork->phashBlock->GetHex()));
