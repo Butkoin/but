@@ -1467,7 +1467,6 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
     obj.push_back(Pair("verificationprogress",  GuessVerificationProgress(Params().TxData(), chainActive.Tip())));
     obj.push_back(Pair("chainwork",             chainActive.Tip()->nChainWork.GetHex()));
     CCoinsStats stats;
-    FlushStateToDisk();
     if (GetUTXOStats(pcoinsdbview, stats)) {
     obj.push_back(Pair("total_amount", ValueFromAmount(stats.nTotalAmount)));
     }

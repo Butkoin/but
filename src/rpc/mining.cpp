@@ -80,8 +80,16 @@ UniValue GetNetworkHashPS(int lookup, int height,int algo = ALGO) {
     CBlockIndex *pb0 = pb;
     int64_t minTime = pb0->GetBlockTime();
     int64_t maxTime = minTime;
+    arith_uint256 workDiff = GetBlockProof(*pb);
+
     for (int i = 0; i < lookup; i++) {
+//        pb0 = GetLastBlockIndex4Algo(pb0->pprev, algo);
+//        int64_t time = pb0->GetBlockTime();
+//        minTime = std::min(time, minTime);
+//        maxTime = std::max(time, maxTime);
         pb0 = GetLastBlockIndex4Algo(pb0->pprev, algo);
+        if (pb0 == nullptr) break;
+        workDiff += GetBlockProof(*pb0);
         int64_t time = pb0->GetBlockTime();
         minTime = std::min(time, minTime);
         maxTime = std::max(time, maxTime);
@@ -91,7 +99,7 @@ UniValue GetNetworkHashPS(int lookup, int height,int algo = ALGO) {
     if (minTime == maxTime)
         return 0;
 
-    arith_uint256 workDiff = pb->nChainWork - pb0->nChainWork;
+ //   arith_uint256 workDiff = pb->nChainWork - pb0->nChainWork;
     int64_t timeDiff = maxTime - minTime;
     workDiff /= GetAlgoWeight(algo);
     return workDiff.getdouble() / timeDiff;
