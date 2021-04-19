@@ -2,22 +2,7 @@
 What is But?
 -------------
 
-The name But is derived from the Victoria term for a bird of prey and ium/eum place for a pertaining to in this case birds of prey. The name comes from the team’s extensive experience in the security field with top level skills covering all aspects of it. This is a unique strength in the crypto community and will leverage well into a successful project.
-
-Introduction
-But began as the fairly simple idea, introducing smart contracts which would allow on chain, trustless transfers (goodbye centralized marketplaces) on the Ravencoin codebase, however with the automation of assets and BUT (But). 
-The project has quickly evolved, adding innovative features that not only further expand the asset layer, but also introduce features that could help other Blockchain projects. Ravencoin unfortunately suffered several serious breaches of its asset layer so that code base has been abandoned by us. We are currently working with and building on Dash code expending its capabilities significantly.
-
-But is now a code fork of Dash and inherits current and optionally future features such as chain locks, oracles etc. We are further expanding capabilities by adding the following features:
-A)	The deployment of a unique asset layer.
-B)	The option to lock X amount of coins or assets into a special transaction. Coins are unlocked at a block number of choice or timestamp.
-C)	Trustless on chain transfers of assets and native coins VIA Smart Contracts.
-D)	Integrating, developing and deploying a VM protocol that would allow for smart contracts in 4 major programming languages as opposed to the situation with Ethereum being limited to solidity.
-
-These additional features open up the power and ease of use of But’s features to a greater variety of industries under the Distributed Application umbrella. DAPP's are a critical part of driving widespread adoption as recently seen with DEFI and But hopes to help provide further alternatives and possibilities for DAPP developers particularly in the field of opening up new programming languages for DAPP and contract development.
-
-It is one of our goals to not only innovate ideas for But but to contribute back to the general crypto community with open-source features that anybody can use to help their Blockchain projects succeed.
-
+ButKoin is a decentralized secure cryptocurrency that is easy to mine devoid from 51% attack and it provide easy means of transactions between individuals. It is a Multi-algorithm coin. ButKoin uses a Smartnode collateral and reward system that prevent hyperinflation.
 
 License
 -------
