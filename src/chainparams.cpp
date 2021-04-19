@@ -402,7 +402,7 @@ public:
         consensus.DIP0003Enabled = true;
         consensus.DIP0008Enabled = true;
        // consensus.DIP0003EnforcementHeight = 1047200;
-        consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
+        consensus.powLimit = uint256S("00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.nPowTargetTimespan = 60; // But: 1 minutes
         consensus.nPowTargetSpacing =  60; // But: 1 minutes
         consensus.nAveragingInterval = 10; // 10 blocks
@@ -439,10 +439,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000000000018833bc00"); // 0
+        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000000000000000101ee600"); // 153
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x000004144cd255a359014e690562310bebf1895bf9f7ec04c9996eae471b8af4"); // 0
+        consensus.defaultAssumeValid = uint256S("0x0000000096dcc02a07101ceb83a673d8fafd10282f73e72442b902120ab29cb3"); // 153
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -455,10 +455,10 @@ public:
         pchMessageStart[3] = 0x2e;
         nDefaultPort = 24240;
         nPruneAfterHeight = 100000;
-       //FindMainNetGenesisBlock(1618361398, 0x1e0ffff0, "main");
-        genesis = CreateGenesisBlock(1618361398, 190941, 0x1e0ffff0, 4, 5000 * COIN);
+        //FindMainNetGenesisBlock(1618800784, 0x20001fff, "main");
+        genesis = CreateGenesisBlock(1618800784, 70, 0x20001fff, 4, 5000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x00000d6d4dbe65562523844035f02922c422411f61c2b1ee9dfec83707803977"));
+        assert(consensus.hashGenesisBlock == uint256S("0x001787e5f9c3cd249f84f0142071f6098d9e3b7ec8591ff73543ddc4900c1dc2"));
         assert(genesis.hashMerkleRoot == uint256S("0xc083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
         vSeeds.emplace_back("butnode.but.tech", true);
         vSeeds.emplace_back("node-01.but.tech", true);
@@ -517,18 +517,19 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-                {0,   uint256S("0x00000d6d4dbe65562523844035f02922c422411f61c2b1ee9dfec83707803977")},
-                {10,   uint256S("0x119b2285d0b54f596ae89be941731cf3258ae982ad938f7bab47f71de05c9273")},
-                {40,   uint256S("0x49378b6579e8b8c0e9a19db6da3ef5f93257641503c1bfcf112d37267c990b6a")},
-
+                {0,   uint256S("0x001787e5f9c3cd249f84f0142071f6098d9e3b7ec8591ff73543ddc4900c1dc2")},
+                {10,   uint256S("0x00f76639e2109c2210dfb59aa56b146e4be0281187b939e5be738297e4d51ad7")},
+                {50,   uint256S("0x009628b710b3695af2c34e9c0ed92e41b10cd813b45e3e8d5ef58b54506a1bb7")},
+                {100,   uint256S("0x000050f547035f5a5353cd0d8a182293460ffc4af02eaf2404cdc39d24d4c34b")},
+                {150,   uint256S("0x0000000395f58efdcfc08a55742588e0f046f58bd89c0dd5aec6d2b3e111e747")},
 	    }
         };
 
         chainTxData = ChainTxData{
-        	1618776132, // * UNIX timestamp of last known number of transactions (Block 0)
-                105,   // * total number of transactions between genesis and that timestamp
+        	1618807643, // * UNIX timestamp of last known number of transactions (Block 0)
+                237,   // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
-                0.1563517915309446         // * estimated number of transactions per second after that timestamp
+                0.04989293361884369        // * estimated number of transactions per second after that timestamp
         };
     }
 };

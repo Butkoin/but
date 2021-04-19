@@ -18,10 +18,7 @@ int ALGO = ALGO_SCRYPT;
 
 uint256 CBlockHeader::GetHash() const
 {
-    if(!this->hash.IsNull()){
-        return this->hash;
-    }
-    return GetPOWHash(ALGO_SCRYPT);
+ return SerializeHash(*this);
 }
 
 
@@ -60,7 +57,7 @@ uint256 CBlockHeader::GetPOWHash(int algo) const
             scrypt_1024_1_1_256(BEGIN(nVersion), BEGIN(thash));
 
     }
-    return thash;
+    return GetHash();
 }
 
 
