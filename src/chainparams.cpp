@@ -1,7 +1,6 @@
 // Copyright (c)      2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin Core developers
 // Copyright (c) 2014-2021 The Dash Core developers
-// Copyright (c)      2021 The Dash developers
 // Copyright (c)      2020 The Digibyte developers
 // Copyright (c)      2020 The Pyrk developers
 // Copyright (c)      2020 The Raptoreum developers
