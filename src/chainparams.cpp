@@ -77,10 +77,10 @@ static CBlock CreateDevNetGenesisBlock(const uint256 &prevBlockHash, const std::
  * transaction cannot be spent since it did not originally exist in the
  * database.
  *
- * CBlock(hash=9c733e02aebf0e39a96d360402ce7e2cae629f6478b4488dacec9dcc5eeea79e, ver=0x00000004, pow_algo=1, pow_hash=000a25b9f5903157895f240b54aa80cd27966c99299d4ad692cdf3c49fce9583, hashPrevBlock=0000000000000000000000000000000000000000000000000000000000000000, hashMerkleRoot=c083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4, nTime=1618361398, nBits=20001fff, nNonce=43, vtx=1)
+ * genesis is CBlock(hash=001787e5f9c3cd249f84f0142071f6098d9e3b7ec8591ff73543ddc4900c1dc2, ver=0x00000004, hashPrevBlock=0000000000000000000000000000000000000000000000000000000000000000, hashMerkleRoot=c083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4, nTime=1618800784, nBits=20001fff, nNonce=70, vtx=1)
  * CTransaction(hash=c083fb7c3b, ver=1, type=0, vin.size=1, vout.size=1, nLockTime=0, vExtraPayload.size=0)
  * CTxIn(COutPoint(0000000000000000000000000000000000000000000000000000000000000000, 4294967295), coinbase 04ffff001d01044030303030303030303030303030303030303030363739636465393666393039383563386232336632383830623436616630313735393666363763623463646665)
- * CTxOut(nValue=5000.00000000, scriptPubKey=4104678afdb0fe5548271967f1a671) 
+ * CTxOut(nValue=5000.00000000, scriptPubKey=4104678afdb0fe5548271967f1a671)
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
