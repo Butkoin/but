@@ -165,6 +165,10 @@ check-packages: check-sources
 
 install: check-packages $(host_prefix)/share/config.site
 
+clean-all: clean
+	@rm -rf $(SOURCES_PATH) x86_64* i686* mips* arm* aarch64* powerpc* riscv32* riscv64* s390x*
+clean:
+	@rm -rf $(WORK_PATH) $(BASE_CACHE) $(BUILD)
 
 download-one: check-sources $(all_sources)
 

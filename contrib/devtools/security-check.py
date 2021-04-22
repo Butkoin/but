@@ -11,6 +11,7 @@ Needs `readelf` (for ELF) and `objdump` (for PE).
 import subprocess
 import sys
 import os
+import re
 
 READELF_CMD = os.getenv('READELF', '/usr/bin/readelf')
 OBJDUMP_CMD = os.getenv('OBJDUMP', '/usr/bin/objdump')
@@ -21,16 +22,21 @@ def check_ELF_PIE(executable):
     Check for position independent executable (PIE), allowing for address space randomization.
     '''
     p = subprocess.Popen([READELF_CMD, '-h', '-W', executable], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, universal_newlines=True)
+    def get_ELF_header(executable):
+    stdout = run_command([READELF_CMD, '-h', '-W', executable])
+    out = {}
+    for line in stdout.splitlines():
+        m = re.match(r'^\s*([^:]+)\:\s*(.*?)(?:\s+\([^()]+\))?$', line)
+        if not m:
+            continue
+        key, val = m.groups()
+        out[key] = val
+    return out
     (stdout, stderr) = p.communicate()
     if p.returncode:
         raise IOError('Error opening file')
 
-    ok = False
-    for line in stdout.splitlines():
-        line = line.split()
-        if len(line)>=2 and line[0] == 'Type:' and line[1] == 'DYN':
-            ok = True
-    return ok
+   return get_ELF_header(executable).get('Type') == 'DYN'
 
 def get_ELF_program_headers(executable):
     '''Return type and flags for ELF program headers'''
@@ -114,6 +120,65 @@ def check_ELF_Canary(executable):
         if '__stack_chk_fail' in line:
             ok = True
     return ok
+
+def check_ELF_separate_code(executable):
+    '''
+    Check that sections are appropriately separated in virtual memory,
+    based on their permissions. This checks for missing -Wl,-z,separate-code
+    and potentially other problems.
+    '''
+    EXPECTED_FLAGS = {
+        # Read + execute
+        '.init': 'R E',
+        '.plt': 'R E',
+        '.plt.got': 'R E',
+        '.plt.sec': 'R E',
+        '.text': 'R E',
+        '.fini': 'R E',
+        # Read-only data
+        '.interp': 'R',
+        '.note.gnu.property': 'R',
+        '.note.gnu.build-id': 'R',
+        '.note.ABI-tag': 'R',
+        '.gnu.hash': 'R',
+        '.dynsym': 'R',
+        '.dynstr': 'R',
+        '.gnu.version': 'R',
+        '.gnu.version_r': 'R',
+        '.rela.dyn': 'R',
+        '.rela.plt': 'R',
+        '.rodata': 'R',
+        '.eh_frame_hdr': 'R',
+        '.eh_frame': 'R',
+        '.qtmetadata': 'R',
+        '.gcc_except_table': 'R',
+        '.stapsdt.base': 'R',
+        # Writable data
+        '.init_array': 'RW',
+        '.fini_array': 'RW',
+        '.dynamic': 'RW',
+        '.got': 'RW',
+        '.data': 'RW',
+        '.bss': 'RW',
+    }
+    if get_ELF_header(executable).get('Machine') == 'PowerPC64':
+        # .plt is RW on ppc64 even with separate-code
+        EXPECTED_FLAGS['.plt'] = 'RW'
+    # For all LOAD program headers get mapping to the list of sections,
+    # and for each section, remember the flags of the associated program header.
+    flags_per_section = {}
+    for (typ, flags, sections) in get_ELF_program_headers(executable):
+        if typ == 'LOAD':
+            for section in sections:
+                assert(section not in flags_per_section)
+                flags_per_section[section] = flags
+    # Spot-check ELF LOAD program header flags per section
+    # If these sections exist, check them against the expected R/W/E flags
+    for (section, flags) in flags_per_section.items():
+        if section in EXPECTED_FLAGS:
+            if EXPECTED_FLAGS[section] != flags:
+                return False
+    return True
 
 def get_PE_dll_characteristics(executable):
     '''

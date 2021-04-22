@@ -8,3 +8,6 @@ i686*
 mips*
 arm*
 aarch64*
+powerpc*
+s390x*
+
