@@ -459,8 +459,8 @@ public:
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x001787e5f9c3cd249f84f0142071f6098d9e3b7ec8591ff73543ddc4900c1dc2"));
         assert(genesis.hashMerkleRoot == uint256S("0xc083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
-        vSeeds.emplace_back("butnode.but.tech", true);
-        vSeeds.emplace_back("node-01.but.tech", true);
+        vSeeds.emplace_back("butnode.butcoin.tech", true);
+        vSeeds.emplace_back("node-01.butcoin.tech", true);
 
 
         // But addresses start with 'x'
