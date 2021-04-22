@@ -148,7 +148,7 @@ def main():
     # Skip PoSe banned MNs
     mns = [mn for mn in mns if mn['state']['PoSeBanHeight'] == -1]
     # Skip MNs with < 10000 confirmations
-    mns = [mn for mn in mns if mn['confirmations'] >= 10000]
+    mns = [mn for mn in mns if mn['confirmations'] >= 100]
     # Filter out MNs which are definitely from the same person/operator
     mns = filtermulticollateralhash(mns)
     mns = filtermulticollateraladdress(mns)
