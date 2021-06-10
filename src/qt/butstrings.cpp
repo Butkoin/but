@@ -9,7 +9,7 @@
 #define UNUSED
 #endif
 static const char UNUSED *but_strings[] = {
-QT_TRANSLATE_NOOP("but-core", "But Core"),
+QT_TRANSLATE_NOOP("but-core", "ButKoin Core Green"),
 QT_TRANSLATE_NOOP("but-core", "The %s developers"),
 QT_TRANSLATE_NOOP("but-core", ""
 "%s file contains all private keys from this wallet. Do not share it with "
