@@ -243,7 +243,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
 
             // This will usually succeed in the first round as we take the nonce from blockinfo
             // It's however usefull when adding new blocks with unknown nonces (you should add the found block to blockinfo)
-            while (!CheckProofOfWork(pblock->GetPOWHash(), pblock->nBits, chainparams.GetConsensus())) {
+            while (!CheckProofOfWork(pblock->GetPOWHash(pblock->GetAlgo()), pblock->nBits, chainparams.GetConsensus())) {
                 pblock->nNonce++;
             }
         }
