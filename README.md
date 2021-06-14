@@ -19,6 +19,8 @@ stable release versions of But Core.
 
 The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md).
 
+
+
 Testing
 -------
 
@@ -46,3 +48,5 @@ Changes should be tested by somebody other than the developer who wrote the
 code. This is especially important for large or high-risk changes. It is useful
 to add a test plan to the pull request description if testing the changes is
 not straightforward.
+
+[![Butkoin/but](https://gitee.com/Butkoin/but/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b)](https://gitee.com/Butkoin/but)
