@@ -613,7 +613,7 @@ public:
         nDefaultPort = 34340;
         nPruneAfterHeight = 1000;
     //    FindMainNetGenesisBlock(1618300101,  0x20001fff, "test");
-        genesis = CreateGenesisBlock(1618300101, 3217, 0x20001fff, 4, 5000 * COIN);
+        genesis = CreateGenesisBlock(1618300101, 1957, 0x20001fff, 4, 5000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x001efd3021f4414e897125d9e85ec42c3e0dc360d2b6ce7853e7a2900448c63a"));
         assert(genesis.hashMerkleRoot == uint256S("0xc083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
@@ -661,7 +661,7 @@ public:
         nPoolMaxParticipants = 5;
         nFulfilledRequestExpireTime = 5*60; // fulfilled requests expire in 5 minutes
 
-        vSporkAddresses = {"yjPtiKh2uwk3bDutTEA2q9mCtXyiZRWn55"};
+        vSporkAddresses = {"yVeVxPpzbebak4EZdASJdrnCSPZfAucLNv"};
         nMinSporkKeys = 1;
         fBIP9CheckSmartnodesUpgraded = true;
 
