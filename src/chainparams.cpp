@@ -612,10 +612,10 @@ public:
         pchMessageStart[3] = 0xff;
         nDefaultPort = 34340;
         nPruneAfterHeight = 1000;
-       // FindMainNetGenesisBlock(1618300101,  0x20001fff, "test");
+    //    FindMainNetGenesisBlock(1618300101,  0x20001fff, "test");
         genesis = CreateGenesisBlock(1618300101, 3217, 0x20001fff, 4, 5000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x93055579e7cf39aa6434f445dcf415f9fe7319127b5309a61813b9e775f62192"));
+        assert(consensus.hashGenesisBlock == uint256S("0x001efd3021f4414e897125d9e85ec42c3e0dc360d2b6ce7853e7a2900448c63a"));
         assert(genesis.hashMerkleRoot == uint256S("0xc083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
 
         vFixedSeeds.clear();
@@ -623,7 +623,7 @@ public:
 
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
-        vSeeds.emplace_back("testnet-seed.but.xyz", true);
+        vSeeds.emplace_back("testnet.butcoin.xyz", true);
 
         // Testnet But addresses start with 'y'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,140);
@@ -667,7 +667,7 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-                {0, uint256S("0x93055579e7cf39aa6434f445dcf415f9fe7319127b5309a61813b9e775f62192")},
+                {0, uint256S("0x001efd3021f4414e897125d9e85ec42c3e0dc360d2b6ce7853e7a2900448c63a")},
             }
         };
 
