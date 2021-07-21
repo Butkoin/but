@@ -58,9 +58,9 @@ public:
      */
     enum Unit
     {
-        BUT,
-        mBUT,
-        uBUT,
+        BUTK,
+        mBUTK,
+        uBUTK,
         ruffs
     };
 

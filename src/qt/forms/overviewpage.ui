@@ -70,7 +70,7 @@
             <item>
              <widget class="QLabel" name="labelWalletStatus">
               <property name="toolTip">
-               <string>The displayed information may be out of date. Your wallet automatically synchronizes with the But network after a connection is established, but this process has not completed yet.</string>
+               <string>The displayed information may be out of date. Your wallet automatically synchronizes with the BUTK network after a connection is established, BUTK this process has not completed yet.</string>
               </property>
               <property name="text">
                <string notr="true">(out of sync)</string>
@@ -422,7 +422,7 @@
             <item>
              <widget class="QLabel" name="labelPrivateSendSyncStatus">
               <property name="toolTip">
-               <string>The displayed information may be out of date. Your wallet automatically synchronizes with the But network after a connection is established, but this process has not completed yet.</string>
+               <string>The displayed information may be out of date. Your wallet automatically synchronizes with the BUTK network after a connection is established, but this process has not completed yet.</string>
               </property>
               <property name="text">
                <string notr="true">(out of sync)</string>
@@ -508,7 +508,7 @@
                </font>
               </property>
               <property name="text">
-               <string notr="true">0 BUT</string>
+               <string notr="true">0 BUTK</string>
               </property>
              </widget>
             </item>
@@ -522,7 +522,7 @@
             <item row="3" column="1">
              <widget class="QLabel" name="labelAmountRounds">
               <property name="text">
-               <string>0 BUT / 0 Rounds</string>
+               <string>0 BUTK / 0 Rounds</string>
               </property>
              </widget>
             </item>

@@ -172,7 +172,7 @@
         <translation>تأكيد تشفير المحفظة</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BUT&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BUTK&lt;/b&gt;!</source>
         <translation>تحذير: إذا قمت بتشفير محفظتك وفقدت كلمة المرور الخاص بك, ستفقد كل عملات داش الخاصة بك</translation>
     </message>
     <message>
@@ -1560,7 +1560,7 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>الكمية و الجولات</translation>
     </message>
     <message>
-        <source>0 BUT / 0 Rounds</source>
+        <source>0 BUTK / 0 Rounds</source>
         <translation>0 داش / 0 جولات</translation>
     </message>
     <message>

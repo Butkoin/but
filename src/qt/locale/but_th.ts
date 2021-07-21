@@ -188,7 +188,7 @@
         <translation>ยืนยันการเข้ารหัสกระเป๋าสตางค์</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BUT&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BUTK&lt;/b&gt;!</source>
         <translation>คำเตือน : ถ้าคุณเข้ารหัส Wallet ของคุณแล้วทำรหัสวลีหาย คุณจะ&lt;b&gt;สูญเสีย But ของคุณทั้งหมด&lt;/b&gt;!</translation>
     </message>
     <message>
@@ -1588,8 +1588,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>จำนวนและรอบ:</translation>
     </message>
     <message>
-        <source>0 BUT / 0 Rounds</source>
-        <translation>0 BUT / 0 รอบ</translation>
+        <source>0 BUTK / 0 Rounds</source>
+        <translation>0 BUTK / 0 รอบ</translation>
     </message>
     <message>
         <source>Submitted Denom:</source>

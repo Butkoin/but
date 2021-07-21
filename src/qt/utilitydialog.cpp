@@ -146,7 +146,7 @@ You retain control of your money at all times.<hr> \
 <b>The PrivateSend process works like this:</b>\
 <ol type=\"1\"> \
 <li>PrivateSend begins by breaking your transaction inputs down into standard denominations. \
-These denominations are 0.1 BUT, 1 BUT, 10 BUT, 100 BUT and 1000 BUT -- sort of like the paper money you use every day.</li> \
+These denominations are 0.1 BUTK, 1 BUTK, 10 BUTK, 100 BUTK and 1000 BUTK -- sort of like the paper money you use every day.</li> \
 <li>Your wallet then sends requests to specially configured software nodes on the network, called \"smartnodes.\" \
 These smartnodes are informed then that you are interested in mixing a certain denomination. \
 No identifiable information is sent to the smartnodes, so they never know \"who\" you are.</li> \
