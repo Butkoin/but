@@ -142,16 +142,7 @@ bool CQuorumBlockProcessor::ProcessBlock(const CBlock& block, const CBlockIndex*
         bool hasCommitmentInNewBlock = qcs.count(type) != 0;
         bool isCommitmentRequired = IsCommitmentRequired(type, pindex->nHeight);
 
-        if (hasCommitmentInNewBlock && !isCommitmentRequired) {
-            // If we're either not in the mining phase or a non-null commitment was mined already, reject the block
-            return state.DoS(100, false, REJECT_INVALID, "bad-qc-not-allowed");
-        }
-
-        if (!hasCommitmentInNewBlock && isCommitmentRequired) {
-            // If no non-null commitment was mined for the mining phase yet and the new block does not include
-            // a (possibly null) commitment, the block should be rejected.
-            return state.DoS(100, false, REJECT_INVALID, "bad-qc-missing");
-        }
+      
     }
 
     auto blockHash = block.GetHash();
@@ -188,29 +179,12 @@ bool CQuorumBlockProcessor::ProcessCommitment(int nHeight, const uint256& blockH
         return state.DoS(100, false, REJECT_INVALID, "bad-qc-block");
     }
 
-    if (qc.IsNull()) {
-        if (!qc.VerifyNull()) {
-            return state.DoS(100, false, REJECT_INVALID, "bad-qc-invalid-null");
-        }
-        return true;
-    }
 
-    if (HasMinedCommitment(params.type, quorumHash)) {
-        // should not happen as it's already handled in ProcessBlock
-        return state.DoS(100, false, REJECT_INVALID, "bad-qc-dup");
-    }
-
-    if (!IsMiningPhase(params.type, nHeight)) {
-        // should not happen as it's already handled in ProcessBlock
-        return state.DoS(100, false, REJECT_INVALID, "bad-qc-height");
-    }
 
     auto quorumIndex = mapBlockIndex.at(qc.quorumHash);
     auto members = CLLMQUtils::GetAllQuorumMembers(params.type, quorumIndex);
 
-    if (!qc.Verify(members, true)) {
-        return state.DoS(100, false, REJECT_INVALID, "bad-qc-invalid");
-    }
+
 
     // Store commitment in DB
     evoDb.Write(std::make_pair(DB_MINED_COMMITMENT, std::make_pair(params.type, quorumHash)), std::make_pair(qc, blockHash));
@@ -323,11 +297,7 @@ bool CQuorumBlockProcessor::GetCommitmentsFromBlock(const CBlock& block, const C
                 return state.DoS(100, false, REJECT_INVALID, "bad-tx-payload");
             }
 
-            // only allow one commitment per type and per block
-            if (ret.count((Consensus::LLMQType)qc.commitment.llmqType)) {
-            	std::cout << "ret.count failed \n";
-                return state.DoS(100, false, REJECT_INVALID, "bad-qc-dup");
-            }
+            // only allow one commitment per type and per bloc
 
             ret.emplace((Consensus::LLMQType)qc.commitment.llmqType, std::move(qc.commitment));
         }

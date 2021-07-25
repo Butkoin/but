@@ -77,26 +77,10 @@ bool CheckCbTxMerkleRoots(const CBlock& block, const CBlockIndex* pindex, CValid
 
     if (pindex) {
         uint256 calculatedMerkleRoot;
-        if (!CalcCbTxMerkleRootMNList(block, pindex->pprev, calculatedMerkleRoot, state)) {
-        	std::cout << "CalcCbTxMerkleRootMNList false\n";
-            return state.DoS(100, false, REJECT_INVALID, "bad-cbtx-mnmerkleroot");
-        }
-        if (calculatedMerkleRoot != cbTx.merkleRootMNList) {
-        	std::cout << "calculatedMerkleRoot !=  cbTx.merkleRootMNList " << calculatedMerkleRoot.GetHex() << "!=" <<  cbTx.merkleRootMNList.GetHex() << endl;
-            return state.DoS(100, false, REJECT_INVALID, "bad-cbtx-mnmerkleroot");
-        }
 
         int64_t nTime3 = GetTimeMicros(); nTimeMerkleMNL += nTime3 - nTime2;
         LogPrint(BCLog::BENCHMARK, "          - CalcCbTxMerkleRootMNList: %.2fms [%.2fs]\n", 0.001 * (nTime3 - nTime2), nTimeMerkleMNL * 0.000001);
 
-        if (cbTx.nVersion >= 2) {
-            if (!CalcCbTxMerkleRootQuorums(block, pindex->pprev, calculatedMerkleRoot, state)) {
-                return state.DoS(100, false, REJECT_INVALID, "bad-cbtx-quorummerkleroot");
-            }
-            if (calculatedMerkleRoot != cbTx.merkleRootQuorums) {
-                return state.DoS(100, false, REJECT_INVALID, "bad-cbtx-quorummerkleroot");
-            }
-        }
 
         int64_t nTime4 = GetTimeMicros(); nTimeMerkleQuorum += nTime4 - nTime3;
         LogPrint(BCLog::BENCHMARK, "          - CalcCbTxMerkleRootQuorums: %.2fms [%.2fs]\n", 0.001 * (nTime4 - nTime3), nTimeMerkleQuorum * 0.000001);

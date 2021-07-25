@@ -3,7 +3,7 @@ But Core version 0.12.3.3
 
 Release is now available from:
 
-  <https://www.but.xyz/downloads/#wallets>
+  <https://www.butcoin.tech/downloads/#wallets>
 
 This is a critical bugfix release.
 

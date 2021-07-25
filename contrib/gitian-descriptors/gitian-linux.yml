@@ -38,7 +38,7 @@ packages:
 - "libxkbcommon0"
 - "ccache"
 remotes:
-- "url": "https://github.com/but/but.git"
+- "url": "https://github.com/ButKoin/but.git"
   "dir": "but"
 files: []
 script: |

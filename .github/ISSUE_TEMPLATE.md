@@ -4,7 +4,7 @@ This issue tracker is only for technical issues related to But Core.
 
 General But questions and/or support requests and are best directed to the [But Reddit](https://www.reddit.com/r/but/).
 
-To report critical security issues, email infosec@but.xyz and/or see the BUT bug bounty program on [Bugcrowd](https://bugcrowd.com/butdigitalcash) instead of creating Github issues.
+To report critical security issues, email infosec@butcoin.tech and/or see the BUT bug bounty program on [Bugcrowd](https://bugcrowd.com/butdigitalcash) instead of creating Github issues.
 
 ### Describe the issue
 

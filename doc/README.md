@@ -1,7 +1,7 @@
 But Core
 ==========
 
-This is the official reference wallet for But digital currency and comprises the backbone of the But peer-to-peer network. You can [download But Core](https://www.but.xyz/downloads/) or [build it yourself](#building) using the guides below.
+This is the official reference wallet for But digital currency and comprises the backbone of the But peer-to-peer network. You can [download But Core](https://www.butcoin.tech/downloads/) or [build it yourself](#building) using the guides below.
 
 Running
 ---------------------
@@ -24,12 +24,12 @@ Drag But-Qt to your applications folder, and then run But-Qt.
 
 ### Need Help?
 
-* See the [But documentation](https://docs.but.xyz)
+* See the [But documentation](https://docs.butcoin.tech)
 for help and more information.
 * See the [But Developer Documentation](https://but-docs.github.io/) 
 for technical specifications and implementation details.
 * Ask for help on [But Nation Discord](http://butchat.org)
-* Ask for help on the [But Forum](https://but.xyz/forum)
+* Ask for help on the [But Forum](https://butcoin.tech/forum)
 
 Building
 ---------------------
@@ -59,7 +59,7 @@ The But Core repo's [root README](/README.md) contains relevant information on t
 - [Benchmarking](benchmarking.md)
 
 ### Resources
-* Discuss on the [But Forum](https://but.xyz/forum), in the Development & Technical Discussion board.
+* Discuss on the [But Forum](https://butcoin.tech/forum), in the Development & Technical Discussion board.
 * Discuss on [But Nation Discord](http://butchat.org)
 
 ### Miscellaneous

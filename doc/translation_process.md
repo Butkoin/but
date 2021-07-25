@@ -107,4 +107,4 @@ To create a new language template, you will need to edit the languages manifest 
 **Note:** that the language translation file **must end in `.qm`** (the compiled extension), and not `.ts`.
 
 ### Questions and general assistance
-Check official forum at [https://www.but.xyz/forum/topic/but-worldwide-collaboration.88/](https://www.but.xyz/forum/topic/but-worldwide-collaboration.88/).
+Check official forum at [https://www.butcoin.tech/forum/topic/but-worldwide-collaboration.88/](https://www.butcoin.tech/forum/topic/but-worldwide-collaboration.88/).

@@ -33,7 +33,7 @@
  *
  * \section intro_sec Introduction
  *
- * This is the developer documentation of the reference client for an experimental new digital currency called But (https://www.but.xyz/),
+ * This is the developer documentation of the reference client for an experimental new digital currency called But (https://www.butcoin.tech/),
  * which enables instant payments to anyone, anywhere in the world. But uses peer-to-peer technology to operate
  * with no central authority: managing transactions and issuing money are carried out collectively by the network.
  *

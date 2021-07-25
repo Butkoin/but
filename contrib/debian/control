@@ -1,8 +1,8 @@
 Source: but
 Section: utils
 Priority: optional
-Maintainer: Holger Schinzel <holger@but.xyz>
-Uploaders: Holger Schinzel <holger@but.xyz>
+Maintainer: Holger Schinzel <holger@butcoin.tech>
+Uploaders: Holger Schinzel <holger@butcoin.tech>
 Build-Depends: debhelper,
  devscripts,
  automake,
@@ -26,9 +26,9 @@ Build-Depends: debhelper,
  python,
  libzmq3-dev
 Standards-Version: 3.9.2
-Homepage: https://www.but.xyz/
-Vcs-Git: git://github.com/but/but.git
-Vcs-Browser: https://github.com/but/but
+Homepage: https://www.butcoin.tech/
+Vcs-Git: git://github.com/ButKoin/but.git
+Vcs-Browser: https://github.com/ButKoin/but
 
 Package: butd
 Architecture: any
