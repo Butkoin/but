@@ -207,9 +207,6 @@ bool IsBlockPayeeValid(const CTransaction& txNew, int nBlockHeight, CAmount bloc
         LogPrint(BCLog::MNPAYMENTS, "%s -- Valid smartnode payment at height %d: %s", __func__, nBlockHeight, txNew.ToString());
         return true;
     }
-
-    LogPrintf("%s -- ERROR: Invalid smartnode payment detected at height %d: %s", __func__, nBlockHeight, txNew.ToString());
-    return false;
 }
 
 void FillBlockPayments(CMutableTransaction& txNew, int nBlockHeight, CAmount blockReward, std::vector<CTxOut>& voutSmartnodePaymentsRet, std::vector<CTxOut>& voutSuperblockPaymentsRet)
