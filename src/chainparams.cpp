@@ -461,7 +461,14 @@ public:
         assert(genesis.hashMerkleRoot == uint256S("0xc083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
         vSeeds.emplace_back("butnode.butcoin.tech", true);
         vSeeds.emplace_back("node-01.butcoin.tech", true);
-
+        vSeeds.emplace_back("39.98.125.170:24240","39.98.125.170:24240");
+        vSeeds.emplace_back("39.98.125.170","39.98.125.170");
+        vSeeds.emplace_back("39.98.123.66:24240","39.98.123.66:24240");
+        vSeeds.emplace_back("39.98.123.66","39.98.123.66");
+        vSeeds.emplace_back("51.161.32.104:24240","51.161.32.104:24240");
+        vSeeds.emplace_back("51.161.32.104","51.161.32.104");
+        vSeeds.emplace_back("51.161.35.170","51.161.35.170");
+        vSeeds.emplace_back("51.161.35.170:24240","51.161.35.170:24240");
 
         // But addresses start with 'x'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,76);
@@ -1047,25 +1054,28 @@ void CChainParams::UpdateLLMQParams(size_t totalMnCount, int height, bool lowLLM
 		lastCheckedLowLLMQParams = lowLLMQParams;
 		lastCheckHeight = height;
 		if(totalMnCount < 5) {
+                        consensus.llmqs[Consensus::LLMQ_50_60] = llmq200_2;
 			consensus.llmqs[Consensus::LLMQ_50_60] = llmq3_60;
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq20_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq20_85;
 		} else if(totalMnCount < 100) {
-			consensus.llmqs[Consensus::LLMQ_50_60] = llmq10_60;
+                        consensus.llmqs[Consensus::LLMQ_50_60] = llmq200_2;
+                       consensus.llmqs[Consensus::LLMQ_50_60] = llmq3_60;
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq20_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq20_85;
 		}  else if(totalMnCount < 600) {
+                        consensus.llmqs[Consensus::LLMQ_50_60] = llmq200_2;
+                       consensus.llmqs[Consensus::LLMQ_50_60] = llmq3_60;
 			consensus.llmqs[Consensus::LLMQ_50_60] = llmq50_60;
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq40_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq40_85;
 		} else {
+                        consensus.llmqs[Consensus::LLMQ_50_60] = llmq200_2;
 			consensus.llmqs[Consensus::LLMQ_50_60] = llmq50_60;
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq400_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq400_85;
 		}
-		if(lowLLMQParams) {
-			consensus.llmqs[Consensus::LLMQ_50_60] = llmq200_2;
-		}
+
 	}
 
 }
