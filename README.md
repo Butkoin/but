@@ -1,5 +1,6 @@
 <h1 align="center">Butkoin Core
-
+<a href="https://discord.gg/9x7gKH899g"><img src="https://img.shields.io/discord/733027681184251937.svg?style=flat&label=Join%20Community&color=7289DA" alt="Join Community Badge"/></a>
+  
 What is But?
 ------------
 
