@@ -1,5 +1,5 @@
 <h1 align="center">Butkoin Core
-				   ------------
+
 What is But?
 ------------
 
