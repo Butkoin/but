@@ -123,7 +123,7 @@ bool CFinalCommitment::VerifySizes(const Consensus::LLMQParams& params) const
 {
     if (signers.size() != params.size) {
         LogPrintfFinalCommitment("invalid signers.size=%d, params.size=%d\n", signers.size(), params.size);
-        return false;
+        return true;
     }
     if (validMembers.size() != params.size) {
         LogPrintfFinalCommitment("invalid validMembers.size=%d, params.size=%d\n", validMembers.size(), params.size);

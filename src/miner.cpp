@@ -218,7 +218,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
                 throw std::runtime_error(strprintf("%s: CalcCbTxMerkleRootQuorums failed: %s", __func__, FormatStateMessage(state)));
             }
         }
-
+        LogPrintf("cbTx.merkleRootQuorums %s\n", cbTx.merkleRootQuorums.GetHex().c_str());
         SetTxPayload(coinbaseTx, cbTx);
     }
 

@@ -33,7 +33,7 @@ static const int MAX_URI_LENGTH = 255;
 #define SPINNER_FRAMES 36
 
 #define QAPP_ORG_NAME "But"
-#define QAPP_ORG_DOMAIN "but.xyz"
+#define QAPP_ORG_DOMAIN "butcoin.tech"
 #define QAPP_APP_NAME_DEFAULT "But-Qt"
 #define QAPP_APP_NAME_TESTNET "But-Qt-testnet"
 #define QAPP_APP_NAME_DEVNET "But-Qt-%s"

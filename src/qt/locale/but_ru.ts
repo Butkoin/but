@@ -70,12 +70,12 @@
         <translation>Адреса получения</translation>
     </message>
     <message>
-        <source>These are your But addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Это ваши адреса But для отправки платежей. Всегда проверяйте количество и адрес получателя перед отправкой перевода.</translation>
+        <source>These are your ButK addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Это ваши адреса ButK для отправки платежей. Всегда проверяйте количество и адрес получателя перед отправкой перевода.</translation>
     </message>
     <message>
-        <source>These are your But addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Это ваши адреса But для приёма платежей. Рекомендуется использовать новый адрес получения для каждой транзакции.</translation>
+        <source>These are your ButK addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Это ваши адреса ButK для приёма платежей. Рекомендуется использовать новый адрес получения для каждой транзакции.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -188,8 +188,8 @@
         <translation>Подтвердите шифрование кошелька</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BUT&lt;/b&gt;!</source>
-        <translation>Внимание: если Вы зашифруете кошелёк и потеряете пароль, вы &lt;b&gt;ПОТЕРЯЕТЕ ВСЕ ВАШИ BUT&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BUTK&lt;/b&gt;!</source>
+        <translation>Внимание: если Вы зашифруете кошелёк и потеряете пароль, вы &lt;b&gt;ПОТЕРЯЕТЕ ВСЕ ВАШИ BUTK&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -258,12 +258,12 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <source>A fatal error occurred. But Core can no longer continue safely and will quit.</source>
-        <translation>Произошла критическая ошибка. Дальнейшая безопасная работа But Core невозможна, программа будет закрыта.</translation>
+        <source>A fatal error occurred. ButK Core can no longer continue safely and will quit.</source>
+        <translation>Произошла критическая ошибка. Дальнейшая безопасная работа ButK Core невозможна, программа будет закрыта.</translation>
     </message>
     <message>
-        <source>But Core</source>
-        <translation>But Core</translation>
+        <source>ButK Core</source>
+        <translation>ButK Core</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -286,16 +286,16 @@
         <translation>&amp;Отправить</translation>
     </message>
     <message>
-        <source>Send coins to a But address</source>
-        <translation>Отправить монеты на указанный адрес But</translation>
+        <source>Send coins to a ButK address</source>
+        <translation>Отправить монеты на указанный адрес ButK</translation>
     </message>
     <message>
         <source>&amp;Receive</source>
         <translation>&amp;Получить</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and but: URIs)</source>
-        <translation>Запросить платежи (создать QR-коды и but: URI)</translation>
+        <source>Request payments (generates QR codes and butk: URIs)</source>
+        <translation>Запросить платежи (создать QR-коды и butk: URI)</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -322,8 +322,8 @@
         <translation>Закрыть приложение</translation>
     </message>
     <message>
-        <source>Show information about But Core</source>
-        <translation>Показать информацию о But Core</translation>
+        <source>Show information about ButK Core</source>
+        <translation>Показать информацию о ButK Core</translation>
     </message>
     <message>
         <source>About &amp;Qt</source>
@@ -394,16 +394,16 @@
         <translation>П&amp;одписать сообщение...</translation>
     </message>
     <message>
-        <source>Sign messages with your But addresses to prove you own them</source>
-        <translation>Подписать сообщения вашими адресами But, чтобы доказать, что вы ими владеете</translation>
+        <source>Sign messages with your ButK addresses to prove you own them</source>
+        <translation>Подписать сообщения вашими адресами ButK, чтобы доказать, что вы ими владеете</translation>
     </message>
     <message>
         <source>&amp;Verify message...</source>
         <translation>&amp;Проверить сообщение...</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified But addresses</source>
-        <translation>Проверить сообщения, чтобы удостовериться, что они были подписаны определёнными адресами But</translation>
+        <source>Verify messages to ensure they were signed with specified ButK addresses</source>
+        <translation>Проверить сообщения, чтобы удостовериться, что они были подписаны определёнными адресами ButK</translation>
     </message>
     <message>
         <source>&amp;Information</source>
@@ -482,15 +482,15 @@
         <translation>Открыть &amp;URI...</translation>
     </message>
     <message>
-        <source>Open a but: URI or payment request</source>
-        <translation>Открыть but: URI или запрос платежа</translation>
+        <source>Open a butk: URI or payment request</source>
+        <translation>Открыть butk: URI или запрос платежа</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>&amp;Параметры командной строки</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible But command-line options</source>
+        <source>Show the %1 help message to get a list with possible ButK command-line options</source>
         <translation>Показать справку по %1 со списком возможных параметров командной строки</translation>
     </message>
     <message>
@@ -526,8 +526,8 @@
         <translation>Панель вкладок</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to But network</source>
-        <translation><numerusform>%n активное соединение с сетью But</numerusform><numerusform>%n активных соединения с сетью But</numerusform><numerusform>%n активных соединений с сетью But</numerusform><numerusform>%n активных соединений с сетью But</numerusform></translation>
+        <source>%n active connection(s) to ButK network</source>
+        <translation><numerusform>%n активное соединение с сетью ButK</numerusform><numerusform>%n активных соединения с сетью ButK</numerusform><numerusform>%n активных соединений с сетью ButK</numerusform><numerusform>%n активных соединений с сетью ButK</numerusform></translation>
     </message>
     <message>
         <source>Network activity disabled</source>
@@ -894,8 +894,8 @@
         <translation>Изменение адреса для отправки</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid But address.</source>
-        <translation>Введённый адрес "%1" не является правильным адресом But.</translation>
+        <source>The entered address "%1" is not a valid ButK address.</source>
+        <translation>Введённый адрес "%1" не является правильным адресом ButK.</translation>
     </message>
     <message>
         <source>The entered address "%1" is already in the address book.</source>
@@ -992,8 +992,8 @@
         <translation>Информация о PrivateSend</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;PrivateSend Basics&lt;/h3&gt; PrivateSend gives you true financial privacy by obscuring the origins of your funds. All the But in your wallet is comprised of different "inputs" which you can think of as separate, discrete coins.&lt;br&gt; PrivateSend uses an innovative process to mix your inputs with the inputs of two other people, without having your coins ever leave your wallet. You retain control of your money at all times.&lt;hr&gt; &lt;b&gt;The PrivateSend process works like this:&lt;/b&gt;&lt;ol type="1"&gt; &lt;li&gt;PrivateSend begins by breaking your transaction inputs down into standard denominations. These denominations are 0.001 BUT, 0.01 BUT, 0.1 BUT, 1 BUT and 10 BUT -- sort of like the paper money you use every day.&lt;/li&gt; &lt;li&gt;Your wallet then sends requests to specially configured software nodes on the network, called "smartnodes." These smartnodes are informed then that you are interested in mixing a certain denomination. No identifiable information is sent to the smartnodes, so they never know "who" you are.&lt;/li&gt; &lt;li&gt;When two other people send similar messages, indicating that they wish to mix the same denomination, a mixing session begins. The smartnode mixes up the inputs and instructs all three users' wallets to pay the now-transformed input back to themselves. Your wallet pays that denomination directly to itself, but in a different address (called a change address).&lt;/li&gt; &lt;li&gt;In order to fully obscure your funds, your wallet must repeat this process a number of times with each denomination. Each time the process is completed, it's called a "round." Each round of PrivateSend makes it exponentially more difficult to determine where your funds originated.&lt;/li&gt; &lt;li&gt;This mixing process happens in the background without any intervention on your part. When you wish to make a transaction, your funds will already be mixed. No additional waiting is required.&lt;/li&gt; &lt;/ol&gt; &lt;hr&gt;&lt;b&gt;IMPORTANT:&lt;/b&gt; Your wallet only contains 1000 of these "change addresses." Every time a mixing event happens, up to 9 of your addresses are used up. This means those 1000 addresses last for about 100 mixing events. When 900 of them are used, your wallet must create more addresses. It can only do this, however, if you have automatic backups enabled.&lt;br&gt; Consequently, users who have backups disabled will also have PrivateSend disabled. &lt;hr&gt;For more information, see the &lt;a href="https://docs.but.xyz/en/stable/wallets/but/privatesend-instantsend.html"&gt;PrivateSend documentation&lt;/a&gt;.</source>
-        <translation>&lt;h3&gt;Основы PrivateSend&lt;/h3&gt;PrivateSend позволяет Вам получить настоящую финансовую конфиденциальность за счет скрытия источников Ваших средств. Все But в  Вашем кошельке состоят из различных "входов", Вы можете думать о них как об отдельных монетах.&lt;br&gt;PrivateSend использует инновационный процесс для перемешивания Ваших входов со входами еще двоих человек, но при этом Ваши монеты никогда не покидают Ваш кошелек. Вы сохраняете контроль над Вашими деньгами на протяжении всего времени.&lt;hr&gt; &lt;b&gt;PrivateSend работает так:&lt;/b&gt;&lt;ol type="1"&gt; &lt;li&gt;PrivateSend начинается с разбиения Ваших входов транзакций на стандартные номиналы. Такими номиналами являются 0.001 BUT, 0.01 BUT, 0.1 BUT, 1 BUT и 10 BUT -- что-то вроде купюр, которыми вы пользуетесь каждый день.&lt;/li&gt; &lt;li&gt;Ваш кошелек затем отправляет запросы к особым образом настроенным сетевым узлам, называемым "мастернодами". Эти мастерноды знают только то, что Вы хотите перемешать определенные номиналы. Никакой идентифицирующей информации мастернодам не отправляется, так что они не знают "кто" Вы конкретно.&lt;/li&gt; &lt;li&gt;Сессия перемешивания начинается тогда, когда еще двое человек отправляют схожее сообщение, подтверждающее, что они хотят перемешать точно такой же номинал. Мастернода перемешивает входы и просит кошельки всех пользователей осуществить платежи по ним. Ваш кошелек осуществляет выплату самому себе, но на другой адрес (тоже из вашего кошелька).&lt;/li&gt; &lt;li&gt;Для скрытия Ваших средств кошелек должен повторить этот процесс несколько раз с каждым номиналом. Каждый раз, когда такой процесс завершается, называется "раундом". С каждым раундом PrivateSend становится экспоненциально сложнее определить откуда поступили средства.&lt;/li&gt; &lt;li&gt;Процесс перемешивания выполняется в фоне, без участия пользователя. Когда Вы захотите провести транзакцию, средства уже будут перемешаны. Дополнительно ждать не требуется.&lt;/li&gt; &lt;/ol&gt; &lt;hr&gt;&lt;b&gt;ВАЖНО:&lt;/b&gt; Ваш кошелек содержит 1000 адресов. Каждое перемешивание использует до 9 из этих адресов. Это означает, что 1000 адресов хватит примерно на 100 перемешиваний. Когда 900 адресов будут уже использованы, Ваш кошелек должен создать новые адреса. Однако, он может сделать это, только если у Вас включены автоматические резервные копии.&lt;br&gt;Соответственно, пользователям с отключенным резервным копированием PrivateSend не доступен. &lt;hr&gt;Дополнительная информация доступна в &lt;a href="https://docs.but.xyz/en/stable/wallets/but/privatesend-instantsend.html"&gt;документации по PrivateSend&lt;/a&gt;</translation>
+        <source>&lt;h3&gt;PrivateSend Basics&lt;/h3&gt; PrivateSend gives you true financial privacy by obscuring the origins of your funds. All the ButK in your wallet is comprised of different "inputs" which you can think of as separate, discrete coins.&lt;br&gt; PrivateSend uses an innovative process to mix your inputs with the inputs of two other people, without having your coins ever leave your wallet. You retain control of your money at all times.&lt;hr&gt; &lt;b&gt;The PrivateSend process works like this:&lt;/b&gt;&lt;ol type="1"&gt; &lt;li&gt;PrivateSend begins by breaking your transaction inputs down into standard denominations. These denominations are 0.001 BUTK, 0.01 BUTK, 0.1 BUTK, 1 BUTK and 10 BUTK -- sort of like the paper money you use every day.&lt;/li&gt; &lt;li&gt;Your wallet then sends requests to specially configured software nodes on the network, called "smartnodes." These smartnodes are informed then that you are interested in mixing a certain denomination. No identifiable information is sent to the smartnodes, so they never know "who" you are.&lt;/li&gt; &lt;li&gt;When two other people send similar messages, indicating that they wish to mix the same denomination, a mixing session begins. The smartnode mixes up the inputs and instructs all three users' wallets to pay the now-transformed input back to themselves. Your wallet pays that denomination directly to itself, but in a different address (called a change address).&lt;/li&gt; &lt;li&gt;In order to fully obscure your funds, your wallet must repeat this process a number of times with each denomination. Each time the process is completed, it's called a "round." Each round of PrivateSend makes it exponentially more difficult to determine where your funds originated.&lt;/li&gt; &lt;li&gt;This mixing process happens in the background without any intervention on your part. When you wish to make a transaction, your funds will already be mixed. No additional waiting is required.&lt;/li&gt; &lt;/ol&gt; &lt;hr&gt;&lt;b&gt;IMPORTANT:&lt;/b&gt; Your wallet only contains 1000 of these "change addresses." Every time a mixing event happens, up to 9 of your addresses are used up. This means those 1000 addresses last for about 100 mixing events. When 900 of them are used, your wallet must create more addresses. It can only do this, however, if you have automatic backups enabled.&lt;br&gt; Consequently, users who have backups disabled will also have PrivateSend disabled. &lt;hr&gt;For more information, see the &lt;a href="https://docs.butcoin.tech/en/stable/wallets/but/privatesend-instantsend.html"&gt;PrivateSend documentation&lt;/a&gt;.</source>
+        <translation>&lt;h3&gt;Основы PrivateSend&lt;/h3&gt;PrivateSend позволяет Вам получить настоящую финансовую конфиденциальность за счет скрытия источников Ваших средств. Все ButK в  Вашем кошельке состоят из различных "входов", Вы можете думать о них как об отдельных монетах.&lt;br&gt;PrivateSend использует инновационный процесс для перемешивания Ваших входов со входами еще двоих человек, но при этом Ваши монеты никогда не покидают Ваш кошелек. Вы сохраняете контроль над Вашими деньгами на протяжении всего времени.&lt;hr&gt; &lt;b&gt;PrivateSend работает так:&lt;/b&gt;&lt;ol type="1"&gt; &lt;li&gt;PrivateSend начинается с разбиения Ваших входов транзакций на стандартные номиналы. Такими номиналами являются 0.001 BUTK, 0.01 BUTK, 0.1 BUTK, 1 BUTK и 10 BUTK -- что-то вроде купюр, которыми вы пользуетесь каждый день.&lt;/li&gt; &lt;li&gt;Ваш кошелек затем отправляет запросы к особым образом настроенным сетевым узлам, называемым "мастернодами". Эти мастерноды знают только то, что Вы хотите перемешать определенные номиналы. Никакой идентифицирующей информации мастернодам не отправляется, так что они не знают "кто" Вы конкретно.&lt;/li&gt; &lt;li&gt;Сессия перемешивания начинается тогда, когда еще двое человек отправляют схожее сообщение, подтверждающее, что они хотят перемешать точно такой же номинал. Мастернода перемешивает входы и просит кошельки всех пользователей осуществить платежи по ним. Ваш кошелек осуществляет выплату самому себе, но на другой адрес (тоже из вашего кошелька).&lt;/li&gt; &lt;li&gt;Для скрытия Ваших средств кошелек должен повторить этот процесс несколько раз с каждым номиналом. Каждый раз, когда такой процесс завершается, называется "раундом". С каждым раундом PrivateSend становится экспоненциально сложнее определить откуда поступили средства.&lt;/li&gt; &lt;li&gt;Процесс перемешивания выполняется в фоне, без участия пользователя. Когда Вы захотите провести транзакцию, средства уже будут перемешаны. Дополнительно ждать не требуется.&lt;/li&gt; &lt;/ol&gt; &lt;hr&gt;&lt;b&gt;ВАЖНО:&lt;/b&gt; Ваш кошелек содержит 1000 адресов. Каждое перемешивание использует до 9 из этих адресов. Это означает, что 1000 адресов хватит примерно на 100 перемешиваний. Когда 900 адресов будут уже использованы, Ваш кошелек должен создать новые адреса. Однако, он может сделать это, только если у Вас включены автоматические резервные копии.&lt;br&gt;Соответственно, пользователям с отключенным резервным копированием PrivateSend не доступен. &lt;hr&gt;Дополнительная информация доступна в &lt;a href="https://docs.butcoin.tech/en/stable/wallets/but/privatesend-instantsend.html"&gt;документации по PrivateSend&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -1039,8 +1039,8 @@
         <translation>Приблизительно %1 GB данных будет сохранено в этой папке.</translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the But block chain.</source>
-        <translation>%1 скачает и сохранит копию цепочки блоков But.</translation>
+        <source>%1 will download and store a copy of the ButK block chain.</source>
+        <translation>%1 скачает и сохранит копию цепочки блоков ButK.</translation>
     </message>
     <message>
         <source>The wallet will also be stored in this directory.</source>
@@ -1185,11 +1185,11 @@
         <translation>Форма</translation>
     </message>
     <message>
-        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the But network, as detailed below.</source>
-        <translation>Последние транзакции пока что могут быть не видны и поэтому ваш баланс может отображаться некорректно. Информация будет корректироваться по мере синхронизации с сетью But, подробности о ходе синхронизации представлены ниже.</translation>
+        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the ButK network, as detailed below.</source>
+        <translation>Последние транзакции пока что могут быть не видны и поэтому ваш баланс может отображаться некорректно. Информация будет корректироваться по мере синхронизации с сетью ButK, подробности о ходе синхронизации представлены ниже.</translation>
     </message>
     <message>
-        <source>Attempting to spend But that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <source>Attempting to spend ButK that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
         <translation>Попытка потратить средства из ещё не отображённых транзакций будет отвергнута сетью.</translation>
     </message>
     <message>
@@ -1331,12 +1331,12 @@
         <translation>Целевой баланс PrivateSend</translation>
     </message>
     <message>
-        <source>Automatically open the But Core client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Автоматически открыть порт для But Core на роутере. Работает только в том случае, если Ваш роутер поддерживает UPnP и данная функция включена.</translation>
+        <source>Automatically open the ButK Core client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Автоматически открыть порт для ButK Core на роутере. Работает только в том случае, если Ваш роутер поддерживает UPnP и данная функция включена.</translation>
     </message>
     <message>
-        <source>Connect to the But network through a SOCKS5 proxy.</source>
-        <translation>Подключаться к сети But через прокси SOCKS5.</translation>
+        <source>Connect to the ButK network through a SOCKS5 proxy.</source>
+        <translation>Подключаться к сети ButK через прокси SOCKS5.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1439,8 +1439,8 @@
         <translation>Tor</translation>
     </message>
     <message>
-        <source>Connect to the But network through a separate SOCKS5 proxy for Tor hidden services.</source>
-        <translation>Подключаться к сети But через отдельный прокси SOCKS5 для скрытых сервисов Tor.</translation>
+        <source>Connect to the ButK network through a separate SOCKS5 proxy for Tor hidden services.</source>
+        <translation>Подключаться к сети ButK через отдельный прокси SOCKS5 для скрытых сервисов Tor.</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services:</source>
@@ -1564,8 +1564,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Форма</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the But network after a connection is established, but this process has not completed yet.</source>
-        <translation>Отображаемая информация может быть устаревшей. Ваш кошелёк автоматически синхронизируется с сетью But после подключения, но этот процесс пока не завершён.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the ButK network after a connection is established, but this process has not completed yet.</source>
+        <translation>Отображаемая информация может быть устаревшей. Ваш кошелёк автоматически синхронизируется с сетью ButK после подключения, но этот процесс пока не завершён.</translation>
     </message>
     <message>
         <source>Available:</source>
@@ -1648,8 +1648,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Сумма и раунды:</translation>
     </message>
     <message>
-        <source>0 BUT / 0 Rounds</source>
-        <translation>0 BUT / 0 раундов</translation>
+        <source>0 BUTK / 0 Rounds</source>
+        <translation>0 BUTK / 0 раундов</translation>
     </message>
     <message>
         <source>Submitted Denom:</source>
@@ -1801,8 +1801,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Ошибка запроса платежа</translation>
     </message>
     <message>
-        <source>Cannot start but: click-to-pay handler</source>
-        <translation>Не удаётся запустить обработчик but: click-to-pay</translation>
+        <source>Cannot start butk: click-to-pay handler</source>
+        <translation>Не удаётся запустить обработчик butk: click-to-pay</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1817,8 +1817,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Неверный адрес платежа %1</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid But address or malformed URI parameters.</source>
-        <translation>Не удалось разобрать URI! Возможно указан некорректный адрес But либо параметры URI сформированы неверно.</translation>
+        <source>URI cannot be parsed! This can be caused by an invalid ButK address or malformed URI parameters.</source>
+        <translation>Не удалось разобрать URI! Возможно указан некорректный адрес ButK либо параметры URI сформированы неверно.</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
@@ -1915,8 +1915,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Сумма</translation>
     </message>
     <message>
-        <source>Enter a But address (e.g. %1)</source>
-        <translation>Введите адрес But (например, %1)</translation>
+        <source>Enter a ButK address (e.g. %1)</source>
+        <translation>Введите адрес ButK (например, %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -2441,8 +2441,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>&amp;Повторно использовать существующий адрес получения (не рекомендуется)</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the But network.</source>
-        <translation>Необязательное сообщение для запроса платежа, которое будет показано при открытии запроса. Обратите внимание: сообщение не будет отправлено вместе с платежом через сеть But.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the ButK network.</source>
+        <translation>Необязательное сообщение для запроса платежа, которое будет показано при открытии запроса. Обратите внимание: сообщение не будет отправлено вместе с платежом через сеть ButK.</translation>
     </message>
     <message>
         <source>&amp;Message:</source>
@@ -2453,8 +2453,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Необязательная метка для нового адреса получения.</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened.&lt;br&gt;Note: The message will not be sent with the payment over the But network.</source>
-        <translation>Необязательное сообщение для запроса платежа, которое будет показано при открытии запроса.&lt;br&gt;Обратите внимание: сообщение не будет отправлено вместе с платежом через сеть But.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened.&lt;br&gt;Note: The message will not be sent with the payment over the ButK network.</source>
+        <translation>Необязательное сообщение для запроса платежа, которое будет показано при открытии запроса.&lt;br&gt;Обратите внимание: сообщение не будет отправлено вместе с платежом через сеть ButK.</translation>
     </message>
     <message>
         <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
@@ -2690,7 +2690,7 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Если ручная комиссия  установлена в 1000 duff, а транзакция по размеру только 250 байт, то плата "за килобайт" составит лишь 250 duff,&lt;br&gt;в то время как "минимум" будет равна 1000 duff. Для транзакций больше килобайта в любом случае идет расчет "за килобайт".</translation>
     </message>
     <message>
-        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks.&lt;br /&gt;But be aware that this can end up in a never confirming transaction once there is more demand for but transactions than the network can process.</source>
+        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks.&lt;br /&gt;ButK be aware that this can end up in a never confirming transaction once there is more demand for but transactions than the network can process.</source>
         <translation>Оплаты только минимальной комиссии должно быть достаточно во всех случаях, пока в блоках достаточно места.&lt;br&gt;Однако, будьте готовы к тому, что транзакция может вовсе не получить подтверждения,&lt;br&gt;если количество транзакций будет стабильно больше, чем сеть способна обработать.</translation>
     </message>
     <message>
@@ -2886,8 +2886,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation><numerusform>Будет подтверждено приблизительно в течение %n блока.</numerusform><numerusform>Будет подтверждено приблизительно в течение %n блоков.</numerusform><numerusform>Будет подтверждено приблизительно в течение %n блоков.</numerusform><numerusform>Будет подтверждено приблизительно в течение %n блоков.</numerusform></translation>
     </message>
     <message>
-        <source>Warning: Invalid But address</source>
-        <translation>Внимание: неверный адрес But</translation>
+        <source>Warning: Invalid ButK address</source>
+        <translation>Внимание: неверный адрес ButK</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -2917,8 +2917,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Полу&amp;чатель:</translation>
     </message>
     <message>
-        <source>The But address to send the payment to</source>
-        <translation>Адрес But для отправки на него монет</translation>
+        <source>The ButK address to send the payment to</source>
+        <translation>Адрес ButK для отправки на него монет</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2953,8 +2953,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Ко&amp;личество:</translation>
     </message>
     <message>
-        <source>The fee will be deducted from the amount being sent. The recipient will receive a lower amount of But than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>Комиссия будет вычтена из отправляемой суммы. Получателю придет меньше But, сем указано в поле "Сумма". Если указано несколько получателей, то комиссия будет разделена между ними поровну.</translation>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive a lower amount of ButK than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <translation>Комиссия будет вычтена из отправляемой суммы. Получателю придет меньше ButK, сем указано в поле "Сумма". Если указано несколько получателей, то комиссия будет разделена между ними поровну.</translation>
     </message>
     <message>
         <source>S&amp;ubtract fee from amount</source>
@@ -2965,8 +2965,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Сообщение:</translation>
     </message>
     <message>
-        <source>A message that was attached to the but: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the But network.</source>
-        <translation>К but: URI было прикреплено сообщение, которое будет сохранено вместе с транзакцией для вашего сведения. Обратите внимание: сообщение не будет отправлено через сеть But.</translation>
+        <source>A message that was attached to the butk: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the ButK network.</source>
+        <translation>К butk: URI было прикреплено сообщение, которое будет сохранено вместе с транзакцией для вашего сведения. Обратите внимание: сообщение не будет отправлено через сеть ButK.</translation>
     </message>
     <message>
         <source>This is an unauthenticated payment request.</source>
@@ -3018,12 +3018,12 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>&amp;Подписать сообщение</translation>
     </message>
     <message>
-        <source>You can sign messages/agreements with your addresses to prove you can receive But sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>Вы можете подписывать сообщения своими адресами, чтобы доказать, что Вы можете получать But на них. Будьте осторожны, не подписывайте что-то неопределённое, так как фишинговые атаки могут обманным путём заставить вас подписать нежелательные сообщения. Подписывайте только те сообщения, с которыми вы согласны вплоть до мелочей.</translation>
+        <source>You can sign messages/agreements with your addresses to prove you can receive ButK sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation>Вы можете подписывать сообщения своими адресами, чтобы доказать, что Вы можете получать ButK на них. Будьте осторожны, не подписывайте что-то неопределённое, так как фишинговые атаки могут обманным путём заставить вас подписать нежелательные сообщения. Подписывайте только те сообщения, с которыми вы согласны вплоть до мелочей.</translation>
     </message>
     <message>
-        <source>The But address to sign the message with</source>
-        <translation>Адрес But, которым Вы хотите подписать сообщение</translation>
+        <source>The ButK address to sign the message with</source>
+        <translation>Адрес ButK, которым Вы хотите подписать сообщение</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -3054,8 +3054,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Скопировать текущую подпись в системный буфер обмена</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this But address</source>
-        <translation>Подписать сообщение, чтобы доказать владение этим адресом But</translation>
+        <source>Sign the message to prove you own this ButK address</source>
+        <translation>Подписать сообщение, чтобы доказать владение этим адресом ButK</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -3078,12 +3078,12 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Введите ниже адрес для подписи, сообщение (убедитесь, что переводы строк, пробелы, табы и т.п. в точности скопированы) и подпись, чтобы проверить сообщение. Убедитесь, что не скопировали лишнего в подпись, кроме самого подписываемого сообщения, чтобы не стать жертвой атаки "man-in-the-middle". Обратите внимание, что это лишь подтверждает, что подписывающий может получить средства на этот адрес, это не подтверждает, что он является отправителем какой-либо транзакции!</translation>
     </message>
     <message>
-        <source>The But address the message was signed with</source>
-        <translation>Адрес But, которым было подписано сообщение</translation>
+        <source>The ButK address the message was signed with</source>
+        <translation>Адрес ButK, которым было подписано сообщение</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified But address</source>
-        <translation>Проверить сообщение, чтобы убедиться, что оно было подписано указанным адресом But</translation>
+        <source>Verify the message to ensure it was signed with the specified ButK address</source>
+        <translation>Проверить сообщение, чтобы убедиться, что оно было подписано указанным адресом ButK</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -4095,8 +4095,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Некорректное минимальное количество подписантов спорков, указанное в -minsporkkeys</translation>
     </message>
     <message>
-        <source>Keep N BUT mixed (%u-%u, default: %u)</source>
-        <translation>Держать N BUT перемешанными (%u-%u, по умолчанию: %u)</translation>
+        <source>Keep N BUTK mixed (%u-%u, default: %u)</source>
+        <translation>Держать N BUTK перемешанными (%u-%u, по умолчанию: %u)</translation>
     </message>
     <message>
         <source>Keep at most &lt;n&gt; unconnectable transactions in memory (default: %u)</source>
@@ -4315,8 +4315,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Ключ KeePassHttp для зашифрованной коммуникации с KeePass</translation>
     </message>
     <message>
-        <source>Disable all But specific functionality (Smartnodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)</source>
-        <translation>Отключить всю функциональность, относящуюся к But (Мастерноды, PrivateSend, InstantSend, Governance) (0-1, по умолчанию: %u)</translation>
+        <source>Disable all ButK specific functionality (Smartnodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)</source>
+        <translation>Отключить всю функциональность, относящуюся к ButK (Мастерноды, PrivateSend, InstantSend, Governance) (0-1, по умолчанию: %u)</translation>
     </message>
     <message>
         <source>%s file contains all private keys from this wallet. Do not share it with anyone!</source>
@@ -4823,8 +4823,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Параметры сервера RPC:</translation>
     </message>
     <message>
-        <source>But Core</source>
-        <translation>But Core</translation>
+        <source>ButK Core</source>
+        <translation>ButK Core</translation>
     </message>
     <message>
         <source>The %s developers</source>
@@ -4951,8 +4951,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Внести пиров, соединяющихся с IP адреса (например, 1.2.3.4) или с адресов, подходящих по маске в CIDR нотации (например, 1.2.3.0/24), в белый список. Опция может быть указана несколько раз.</translation>
     </message>
     <message>
-        <source>You are starting in lite mode, most But-specific functionality is disabled.</source>
-        <translation>Вы запускаете кошелек в облегченном режиме, большая часть специфичных для But функций отключена.</translation>
+        <source>You are starting in lite mode, most ButK-specific functionality is disabled.</source>
+        <translation>Вы запускаете кошелек в облегченном режиме, большая часть специфичных для ButK функций отключена.</translation>
     </message>
     <message>
         <source>%d of last 100 blocks have unexpected version</source>

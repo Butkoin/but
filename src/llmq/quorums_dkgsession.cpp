@@ -92,6 +92,7 @@ CDKGMember::CDKGMember(CDeterministicMNCPtr _dmn, size_t _idx) :
 bool CDKGSession::Init(const CBlockIndex* _pindexQuorum, const std::vector<CDeterministicMNCPtr>& mns, const uint256& _myProTxHash)
 {
     if (mns.size() < params.minSize) {
+    std::cout << "mns.size() < params.minSize " << mns.size() << "-" << params.minSize << endl;
         return false;
     }
 

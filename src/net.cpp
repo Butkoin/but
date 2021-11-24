@@ -1208,6 +1208,15 @@ void CConnman::ThreadSocketHandler()
         // Disconnect nodes
         //
         {
+            if (!fNetworkActive) {
+				// Disconnect any connected nodes
+				for (CNode* pnode : vNodes) {
+					if (!pnode->fDisconnect) {
+						LogPrint(BCLog::NET, "Network not active, dropping peer=%d\n", pnode->GetId());
+						pnode->fDisconnect = true;
+					}
+				}
+			}
             LOCK(cs_vNodes);
             // Disconnect unused nodes
             std::vector<CNode*> vNodesCopy = vNodes;
@@ -1903,6 +1912,15 @@ void CConnman::ThreadOpenConnections()
             }
         }
 
+        std::set<uint256> setConnectedSmartnodes;
+        {
+            LOCK(cs_vNodes);
+            for (CNode* pnode : vNodes) {
+                if (!pnode->verifiedProRegTxHash.IsNull()) {
+                	setConnectedSmartnodes.emplace(pnode->verifiedProRegTxHash);
+                }
+            }
+        }
         // Feeler Connections
         //
         // Design goals:
@@ -1934,12 +1952,15 @@ void CConnman::ThreadOpenConnections()
         {
             CAddrInfo addr = addrman.Select(fFeeler);
 
-            bool isSmartnode = mnList.GetMNByService(addr) != nullptr;
+            auto dmn = mnList.GetMNByService(addr);
+            bool isSmartnode = dmn != nullptr;
 
             // if we selected an invalid address, restart
             if (!addr.IsValid() || setConnected.count(addr.GetGroup()))
                 break;
 
+            if (isSmartnode && setConnectedSmartnodes.count(dmn->proTxHash))
+                break;
             // if we selected a local address, restart (local addresses are allowed in regtest and devnet)
             bool fAllowLocal = Params().AllowMultiplePorts() && addrConnect.GetPort() != GetListenPort();
             if (!fAllowLocal && IsLocal(addrConnect))
@@ -2420,14 +2441,6 @@ void CConnman::SetNetworkActive(bool active)
     }
 
     fNetworkActive = active;
-
-    if (!fNetworkActive) {
-        LOCK(cs_vNodes);
-        // Close sockets to all nodes
-        for (CNode* pnode : vNodes) {
-            pnode->CloseSocketDisconnect();
-        }
-    }
 
     uiInterface.NotifyNetworkActiveChanged(fNetworkActive);
 }

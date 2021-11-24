@@ -70,12 +70,12 @@
         <translation>受取アドレス</translation>
     </message>
     <message>
-        <source>These are your But addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>これらは送金するためのあなたの But アドレスです。送金する前に常に金額と受取アドレスを確認してください。</translation>
+        <source>These are your ButK addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>これらは送金するためのあなたの ButK アドレスです。送金する前に常に金額と受取アドレスを確認してください。</translation>
     </message>
     <message>
-        <source>These are your But addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>これらは送金を受取用のあなたのButアドレスです。トランザクションごとに新しい受け取り用アドレスの作成を推奨します。</translation>
+        <source>These are your ButK addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>これらは送金を受取用のあなたのButKアドレスです。トランザクションごとに新しい受け取り用アドレスの作成を推奨します。</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -188,8 +188,8 @@
         <translation>ウォレットの暗号化を確認</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BUT&lt;/b&gt;!</source>
-        <translation>警告: ウォレットを暗号化しパスフレーズを紛失した場合、あなたは &lt;b&gt;すべてのBut&lt;/b&gt;を失います!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BUTK&lt;/b&gt;!</source>
+        <translation>警告: ウォレットを暗号化しパスフレーズを紛失した場合、あなたは &lt;b&gt;すべてのButK&lt;/b&gt;を失います!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -258,12 +258,12 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <source>A fatal error occurred. But Core can no longer continue safely and will quit.</source>
-        <translation>重大なエラーが発生しました。 But Coreは安全に続行できなくなり終了します。</translation>
+        <source>A fatal error occurred. ButK Core can no longer continue safely and will quit.</source>
+        <translation>重大なエラーが発生しました。 ButK Coreは安全に続行できなくなり終了します。</translation>
     </message>
     <message>
-        <source>But Core</source>
-        <translation>But Core</translation>
+        <source>ButK Core</source>
+        <translation>ButK Core</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -286,16 +286,16 @@
         <translation>送金 (&amp;S)</translation>
     </message>
     <message>
-        <source>Send coins to a But address</source>
-        <translation>But アドレスに送金</translation>
+        <source>Send coins to a ButK address</source>
+        <translation>ButK アドレスに送金</translation>
     </message>
     <message>
         <source>&amp;Receive</source>
         <translation>受取 (&amp;R)</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and but: URIs)</source>
-        <translation>送金を要求 (QRコードとbut:URIを生成)</translation>
+        <source>Request payments (generates QR codes and butk: URIs)</source>
+        <translation>送金を要求 (QRコードとbutk:URIを生成)</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -322,8 +322,8 @@
         <translation>アプリケーションを終了</translation>
     </message>
     <message>
-        <source>Show information about But Core</source>
-        <translation>But Coreについての情報を表示</translation>
+        <source>Show information about ButK Core</source>
+        <translation>ButK Coreについての情報を表示</translation>
     </message>
     <message>
         <source>About &amp;Qt</source>
@@ -394,16 +394,16 @@
         <translation>メッセージの署名… (&amp;M)</translation>
     </message>
     <message>
-        <source>Sign messages with your But addresses to prove you own them</source>
-        <translation>あなたがBut アドレスを所有していることを証明するために、あなたのButアドレスでメッセージに署名してください。</translation>
+        <source>Sign messages with your ButK addresses to prove you own them</source>
+        <translation>あなたがButK アドレスを所有していることを証明するために、あなたのButKアドレスでメッセージに署名してください。</translation>
     </message>
     <message>
         <source>&amp;Verify message...</source>
         <translation>メッセージの検証… (&amp;V)</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified But addresses</source>
-        <translation>指定されたButアドレスで署名されたことを確認するためにメッセージを検証してください。</translation>
+        <source>Verify messages to ensure they were signed with specified ButK addresses</source>
+        <translation>指定されたButKアドレスで署名されたことを確認するためにメッセージを検証してください。</translation>
     </message>
     <message>
         <source>&amp;Information</source>
@@ -482,16 +482,16 @@
         <translation>URIを開く… (&amp;U)</translation>
     </message>
     <message>
-        <source>Open a but: URI or payment request</source>
-        <translation>but: URIまたは送金リクエストを開く</translation>
+        <source>Open a butk: URI or payment request</source>
+        <translation>butk: URIまたは送金リクエストを開く</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>コマンドラインオプション (&amp;C)</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible But command-line options</source>
-        <translation>有効なButのコマンドラインオプションのリストを見るために %1 のヘルプメッセージを表示</translation>
+        <source>Show the %1 help message to get a list with possible ButK command-line options</source>
+        <translation>有効なButKのコマンドラインオプションのリストを見るために %1 のヘルプメッセージを表示</translation>
     </message>
     <message>
         <source>%1 client</source>
@@ -526,7 +526,7 @@
         <translation>タブツールバー</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to But network</source>
+        <source>%n active connection(s) to ButK network</source>
         <translation><numerusform>%n アクティブコネクション</numerusform></translation>
     </message>
     <message>
@@ -866,8 +866,8 @@
         <translation>送金アドレスを編集</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid But address.</source>
-        <translation>入力されたアドレス "%1" は有効なButアドレスではありません。</translation>
+        <source>The entered address "%1" is not a valid ButK address.</source>
+        <translation>入力されたアドレス "%1" は有効なButKアドレスではありません。</translation>
     </message>
     <message>
         <source>The entered address "%1" is already in the address book.</source>
@@ -1008,8 +1008,8 @@
         <translation>おおむね%1GBのデータがこのディレクトリに保存されます。</translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the But block chain.</source>
-        <translation>%1はButのブロックチェーンの複製をダウンロードし保存します。</translation>
+        <source>%1 will download and store a copy of the ButK block chain.</source>
+        <translation>%1はButKのブロックチェーンの複製をダウンロードし保存します。</translation>
     </message>
     <message>
         <source>The wallet will also be stored in this directory.</source>
@@ -1134,12 +1134,12 @@
         <translation>フォーム</translation>
     </message>
     <message>
-        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the But network, as detailed below.</source>
-        <translation>確認できない最新のトランザクションがあるかもしれません。これによりウォレットの残高は不正確なものである可能性があります。この情報はウォレットが一度Butのネットワークへの同期が完了すると正確なものとなります。詳細は下記を参照してください。</translation>
+        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the ButK network, as detailed below.</source>
+        <translation>確認できない最新のトランザクションがあるかもしれません。これによりウォレットの残高は不正確なものである可能性があります。この情報はウォレットが一度ButKのネットワークへの同期が完了すると正確なものとなります。詳細は下記を参照してください。</translation>
     </message>
     <message>
-        <source>Attempting to spend But that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation>表示されてないトランザクションに影響を受けたButを使用しようとするとネットワークに承認されません。</translation>
+        <source>Attempting to spend ButK that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <translation>表示されてないトランザクションに影響を受けたButKを使用しようとするとネットワークに承認されません。</translation>
     </message>
     <message>
         <source>Number of blocks left</source>
@@ -1276,12 +1276,12 @@
         <translation>この設定は閾値として機能し、この量に達するとプライベートセンドが無効になります。</translation>
     </message>
     <message>
-        <source>Automatically open the But Core client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>自動的にルーターのBut Core クライアントポートを開放します。これはルーターがUPnP機能をサポートしておりUPnP機能が有効な場合にのみ機能します。</translation>
+        <source>Automatically open the ButK Core client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>自動的にルーターのButK Core クライアントポートを開放します。これはルーターがUPnP機能をサポートしておりUPnP機能が有効な場合にのみ機能します。</translation>
     </message>
     <message>
-        <source>Connect to the But network through a SOCKS5 proxy.</source>
-        <translation>SOCKS5プロキシ経由でButネットワークに接続</translation>
+        <source>Connect to the ButK network through a SOCKS5 proxy.</source>
+        <translation>SOCKS5プロキシ経由でButKネットワークに接続</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1380,8 +1380,8 @@
         <translation>Tor</translation>
     </message>
     <message>
-        <source>Connect to the But network through a separate SOCKS5 proxy for Tor hidden services.</source>
-        <translation>Tor秘匿サービスを利用するため独立なSOCKS5プロキシ経由でButネットワークに接続</translation>
+        <source>Connect to the ButK network through a separate SOCKS5 proxy for Tor hidden services.</source>
+        <translation>Tor秘匿サービスを利用するため独立なSOCKS5プロキシ経由でButKネットワークに接続</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services:</source>
@@ -1505,8 +1505,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>フォーム</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the But network after a connection is established, but this process has not completed yet.</source>
-        <translation>表示された情報は古いかもしれません。接続が確立されればあなたのウォレットは Butネットワークと自動的に同期しますが、このプロセスはまだ完了していません。</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the ButK network after a connection is established, but this process has not completed yet.</source>
+        <translation>表示された情報は古いかもしれません。接続が確立されればあなたのウォレットは ButKネットワークと自動的に同期しますが、このプロセスはまだ完了していません。</translation>
     </message>
     <message>
         <source>Available:</source>
@@ -1589,8 +1589,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>金額とラウンド</translation>
     </message>
     <message>
-        <source>0 BUT / 0 Rounds</source>
-        <translation>0 BUT / 0 ラウンド</translation>
+        <source>0 BUTK / 0 Rounds</source>
+        <translation>0 BUTK / 0 ラウンド</translation>
     </message>
     <message>
         <source>Submitted Denom:</source>
@@ -1738,8 +1738,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>支払いリクエストのエラー</translation>
     </message>
     <message>
-        <source>Cannot start but: click-to-pay handler</source>
-        <translation>But を起動できません: click-to-pay ハンドラー</translation>
+        <source>Cannot start butk: click-to-pay handler</source>
+        <translation>ButK を起動できません: click-to-pay ハンドラー</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1754,8 +1754,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>支払いのアドレス　%1　は無効です</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid But address or malformed URI parameters.</source>
-        <translation>URI を解析できません! これは無効な But アドレスあるいは不正な形式の URI パラメーターによって引き起こされた可能性があります。</translation>
+        <source>URI cannot be parsed! This can be caused by an invalid ButK address or malformed URI parameters.</source>
+        <translation>URI を解析できません! これは無効な ButK アドレスあるいは不正な形式の URI パラメーターによって引き起こされた可能性があります。</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
@@ -1852,8 +1852,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>総額</translation>
     </message>
     <message>
-        <source>Enter a But address (e.g. %1)</source>
-        <translation>Butアドレスを入力してください (例 %1)</translation>
+        <source>Enter a ButK address (e.g. %1)</source>
+        <translation>ButKアドレスを入力してください (例 %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -2378,8 +2378,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>既存の受け取り用アドレスを再使用する (非推奨) (&amp;E)</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the But network.</source>
-        <translation>支払いリクエストが開始された時に表示される、支払いリクエストに添付される任意のメッセージです。注意：このメッセージはButネットワークを通じて支払いと共に送信されるわけではありません。</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the ButK network.</source>
+        <translation>支払いリクエストが開始された時に表示される、支払いリクエストに添付される任意のメッセージです。注意：このメッセージはButKネットワークを通じて支払いと共に送信されるわけではありません。</translation>
     </message>
     <message>
         <source>&amp;Message:</source>
@@ -2390,8 +2390,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>新しい受け取り用アドレスに紐づく任意のラベル。</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened.&lt;br&gt;Note: The message will not be sent with the payment over the But network.</source>
-        <translation>支払いリクエストが開始された時に表示される、支払いリクエストに添付される任意のメッセージです。注意：このメッセージはButネットワークを通じて支払いと共に送信されるわけではありません。</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened.&lt;br&gt;Note: The message will not be sent with the payment over the ButK network.</source>
+        <translation>支払いリクエストが開始された時に表示される、支払いリクエストに添付される任意のメッセージです。注意：このメッセージはButKネットワークを通じて支払いと共に送信されるわけではありません。</translation>
     </message>
     <message>
         <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
@@ -2627,8 +2627,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>カスタマイズされた手数料が1000duffsに設定され、トランザクションが250 bytesしかなかった場合、キロバイトあたりでは250 duffsしか手数料を支払いませんが&lt;br /&gt;最低でも1000 duffs支払います。1キロバイト以上のトランザクションに対しては、1キロバイトあたり1000duffs支払います。</translation>
     </message>
     <message>
-        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks.&lt;br /&gt;But be aware that this can end up in a never confirming transaction once there is more demand for but transactions than the network can process.</source>
-        <translation>最低限の手数料しか支払わなくても、トランザクション量以上のスペースが対象ブロックにあれば問題ありません。&lt;br /&gt;しかし、ネットワークが処理できる以上のButのトランザクション需要があれば、処理されないトランザクションになり得ることに注意してください。</translation>
+        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks.&lt;br /&gt;ButK be aware that this can end up in a never confirming transaction once there is more demand for but transactions than the network can process.</source>
+        <translation>最低限の手数料しか支払わなくても、トランザクション量以上のスペースが対象ブロックにあれば問題ありません。&lt;br /&gt;しかし、ネットワークが処理できる以上のButKのトランザクション需要があれば、処理されないトランザクションになり得ることに注意してください。</translation>
     </message>
     <message>
         <source>per kilobyte</source>
@@ -2799,8 +2799,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation><numerusform>%n ブロック以内に検証が開始されると予想されます</numerusform></translation>
     </message>
     <message>
-        <source>Warning: Invalid But address</source>
-        <translation>警告：Butアドレスが無効です</translation>
+        <source>Warning: Invalid ButK address</source>
+        <translation>警告：ButKアドレスが無効です</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -2830,8 +2830,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>送り先: (&amp;T)</translation>
     </message>
     <message>
-        <source>The But address to send the payment to</source>
-        <translation>送金先Butアドレス</translation>
+        <source>The ButK address to send the payment to</source>
+        <translation>送金先ButKアドレス</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2866,8 +2866,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>金額： (&amp;M)</translation>
     </message>
     <message>
-        <source>The fee will be deducted from the amount being sent. The recipient will receive a lower amount of But than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>手数料は総額から差し引かれます。受取人は入力した金額より少ないButを受け取ります。複数の受取人を選択した場合、手数料は等しく分割されます。</translation>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive a lower amount of ButK than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <translation>手数料は総額から差し引かれます。受取人は入力した金額より少ないButKを受け取ります。複数の受取人を選択した場合、手数料は等しく分割されます。</translation>
     </message>
     <message>
         <source>S&amp;ubtract fee from amount</source>
@@ -2878,8 +2878,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>メッセージ：</translation>
     </message>
     <message>
-        <source>A message that was attached to the but: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the But network.</source>
-        <translation>But: URIに添付されていたメッセージです。これは参照用としてトランザクションとともに保存されます。注意：このメッセージはButネットワークを経由して送信されるわけではありません。</translation>
+        <source>A message that was attached to the butk: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the ButK network.</source>
+        <translation>ButK: URIに添付されていたメッセージです。これは参照用としてトランザクションとともに保存されます。注意：このメッセージはButKネットワークを経由して送信されるわけではありません。</translation>
     </message>
     <message>
         <source>This is an unauthenticated payment request.</source>
@@ -2931,12 +2931,12 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>メッセージの署名 (&amp;S)</translation>
     </message>
     <message>
-        <source>You can sign messages/agreements with your addresses to prove you can receive But sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>あなたのアドレスを使用してあなたがButを受け取ることができるようにメッセージやアグリーメントに署名できます。充分に詳細が判明していてあなたが確認しているものだけに署名してください。フィッシングによってあなたの署名を読み取られないように注意してください。</translation>
+        <source>You can sign messages/agreements with your addresses to prove you can receive ButK sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation>あなたのアドレスを使用してあなたがButKを受け取ることができるようにメッセージやアグリーメントに署名できます。充分に詳細が判明していてあなたが確認しているものだけに署名してください。フィッシングによってあなたの署名を読み取られないように注意してください。</translation>
     </message>
     <message>
-        <source>The But address to sign the message with</source>
-        <translation>メッセージを署名する際に使用するButアドレス</translation>
+        <source>The ButK address to sign the message with</source>
+        <translation>メッセージを署名する際に使用するButKアドレス</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2967,8 +2967,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>現在の署名をシステムのクリップボードにコピー</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this But address</source>
-        <translation>この But アドレスを所有していることを証明するためにメッセージに署名</translation>
+        <source>Sign the message to prove you own this ButK address</source>
+        <translation>この ButK アドレスを所有していることを証明するためにメッセージに署名</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -2991,12 +2991,12 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>受取人のアドレスとメッセージ（改行やスペース、タブなども完全に一致するよう注意してください）および署名を以下に入力し、メッセージを検証してください。中間者攻撃により騙されるのを防ぐため、署名対象のメッセージに書かれていること以上の意味を署名から読み取ろうとしないよう注意してください。これは署名作成者がこのアドレスで受け取ることを証明するだけであり、トランザクションの送信者を証明するものではないことに注意してください！</translation>
     </message>
     <message>
-        <source>The But address the message was signed with</source>
-        <translation>メッセージの署名に使用されたButアドレス</translation>
+        <source>The ButK address the message was signed with</source>
+        <translation>メッセージの署名に使用されたButKアドレス</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified But address</source>
-        <translation>指定されたButアドレスで署名されたことを確認するためメッセージを検証</translation>
+        <source>Verify the message to ensure it was signed with the specified ButK address</source>
+        <translation>指定されたButKアドレスで署名されたことを確認するためメッセージを検証</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -4212,8 +4212,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>KeePassとの AES 暗号化接続用のKeePassHttp キー </translation>
     </message>
     <message>
-        <source>Disable all But specific functionality (Smartnodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)</source>
-        <translation>Butに固有の機能(マスターノード, プライベートセンド, インスタントセンド, ガバナンス) を無効化(0-1, 初期設定: %u)</translation>
+        <source>Disable all ButK specific functionality (Smartnodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)</source>
+        <translation>ButKに固有の機能(マスターノード, プライベートセンド, インスタントセンド, ガバナンス) を無効化(0-1, 初期設定: %u)</translation>
     </message>
     <message>
         <source>%s file contains all private keys from this wallet. Do not share it with anyone!</source>
@@ -4684,8 +4684,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>RPCサーバのオプション：</translation>
     </message>
     <message>
-        <source>But Core</source>
-        <translation>Butコア</translation>
+        <source>ButK Core</source>
+        <translation>ButKコア</translation>
     </message>
     <message>
         <source>The %s developers</source>
@@ -4812,8 +4812,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>ホワイトリストとして登録するピア、接続元の IP アドレス (例: 1.2.3.4) または CIDR 表現のネットワーク (例: 1.2.3.0/24)。複数回指定することも可能。</translation>
     </message>
     <message>
-        <source>You are starting in lite mode, most But-specific functionality is disabled.</source>
-        <translation>ライトモードで起動すると、ほとんどのBut特有の機能が無効になります。</translation>
+        <source>You are starting in lite mode, most ButK-specific functionality is disabled.</source>
+        <translation>ライトモードで起動すると、ほとんどのButK特有の機能が無効になります。</translation>
     </message>
     <message>
         <source>%d of last 100 blocks have unexpected version</source>

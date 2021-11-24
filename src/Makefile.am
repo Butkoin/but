@@ -426,6 +426,7 @@ crypto_libbut_crypto_base_a_SOURCES = \
   crypto/sph_sha512.c \
   crypto/ripemd160.h \
   crypto/scrypt.cpp \
+  crypto/scrypt-sse2.cpp \
   crypto/scrypt.h \
   crypto/sha1.cpp \
   crypto/sha1.h \
@@ -703,7 +704,7 @@ endif
 
 libbutconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
 libbutconsensus_la_LIBADD = $(LIBSECP256K1) $(BLS_LIBS) $(CRYPTO_LIBS)
-libbutconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
+libbutconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL $(SSL_CFLAGS)
 libbutconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
 endif

@@ -180,12 +180,13 @@ static void FindMainNetGenesisBlock(uint32_t nTime, uint32_t nBits, const char* 
     error("%sNetGenesisBlock: could not find %s genesis block",network, network);
     assert(false);
 }
+
 static Consensus::LLMQParams llmq200_2 = {
         .type = Consensus::LLMQ_50_60,
         .name = "llmq_3_200",
-        .size = 200,
-        .minSize = 2,
-        .threshold = 2,
+        .size = 3,
+        .minSize = 200,
+        .threshold = 200,
 
         .dkgInterval = 30, // one DKG per hour
         .dkgPhaseBlocks = 2,
@@ -201,9 +202,9 @@ static Consensus::LLMQParams llmq200_2 = {
 static Consensus::LLMQParams llmq3_60 = {
         .type = Consensus::LLMQ_50_60,
         .name = "llmq_3_60",
-        .size = 3,
-        .minSize = 2,
-        .threshold = 2,
+        .size = 10,
+        .minSize = 200,
+        .threshold = 200,
 
         .dkgInterval = 30, // one DKG per hour
         .dkgPhaseBlocks = 2,
@@ -238,8 +239,8 @@ static Consensus::LLMQParams llmq20_85 = {
         .type = Consensus::LLMQ_400_85,
         .name = "llmq_20_85",
         .size = 20,
-        .minSize = 18,
-        .threshold = 17,
+        .minSize = 200,
+        .threshold = 200,
 
         .dkgInterval = 30 * 24, // one DKG every 24 hours
         .dkgPhaseBlocks = 4,
@@ -249,7 +250,7 @@ static Consensus::LLMQParams llmq20_85 = {
 
         .signingActiveQuorumCount = 4, // four days worth of LLMQs
 
-        .keepOldConnections = 5,
+        .keepOldConnections = 1,
 };
 
 static Consensus::LLMQParams llmq10_60 = {
@@ -438,10 +439,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000000000000000101ee600"); // 153
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000fade80"); // 153
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x0000000096dcc02a07101ceb83a673d8fafd10282f73e72442b902120ab29cb3"); // 153
+        consensus.defaultAssumeValid = uint256S("0x0000012eb451fbdf5e8b5c588c0912b3e70e2ea5a37ac88e4ca8c1ad27279509"); // 153
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -459,8 +460,13 @@ public:
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x001787e5f9c3cd249f84f0142071f6098d9e3b7ec8591ff73543ddc4900c1dc2"));
         assert(genesis.hashMerkleRoot == uint256S("0xc083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
-        vSeeds.emplace_back("butnode.butcoin.tech", true);
-        vSeeds.emplace_back("node-01.butcoin.tech", true);
+
+        vSeeds.emplace_back("107.161.24.34","107.161.24.34");
+        vSeeds.emplace_back("74.74.76.149","74.74.76.149");
+        vSeeds.emplace_back("135.181.169.222","135.181.169.222");
+        vSeeds.emplace_back("161.97.105.255","161.97.105.255");
+        vSeeds.emplace_back("125.168.95.217","125.168.95.217");
+        vSeeds.emplace_back("81.68.112.118","81.68.112.118");
 
 
         // But addresses start with 'x'
@@ -516,19 +522,20 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-                {0,   uint256S("0x001787e5f9c3cd249f84f0142071f6098d9e3b7ec8591ff73543ddc4900c1dc2")},
-                {10,   uint256S("0x00f76639e2109c2210dfb59aa56b146e4be0281187b939e5be738297e4d51ad7")},
                 {50,   uint256S("0x009628b710b3695af2c34e9c0ed92e41b10cd813b45e3e8d5ef58b54506a1bb7")},
-                {100,   uint256S("0x000050f547035f5a5353cd0d8a182293460ffc4af02eaf2404cdc39d24d4c34b")},
-                {150,   uint256S("0x0000000395f58efdcfc08a55742588e0f046f58bd89c0dd5aec6d2b3e111e747")},
+                {60,   uint256S("0x0000100a0103a8847ddd5d756a2c3d3a4ef2328dee99f2acf6b1edfa57fcafaf")},
+                {70,   uint256S("0x00005209b34202f6e8167ab7091541f6e31f9f04f0be43012798dacb65ffdcae")},
+                {80,   uint256S("0x000014c02c91ad21e2b750142b83c36e481a59235e74dcda2edaaadf645149c3")},
+                {90,   uint256S("0x000000cb90e8b11f5a0ba1a784dd0ca3ddc2e4079c28bd905fb135f8d45e5659")},
+
 	    }
         };
 
         chainTxData = ChainTxData{
-        	1618807643, // * UNIX timestamp of last known number of transactions (Block 0)
-                237,   // * total number of transactions between genesis and that timestamp
+        	1618802694, // * UNIX timestamp of last known number of transactions (Block 0)
+                159,   // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
-                0.04989293361884369        // * estimated number of transactions per second after that timestamp
+                0.5528169014084507        // * estimated number of transactions per second after that timestamp
         };
     }
 };
@@ -1063,7 +1070,7 @@ void CChainParams::UpdateLLMQParams(size_t totalMnCount, int height, bool lowLLM
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq400_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq400_85;
 		}
-		if(lowLLMQParams) {
+		if(lowLLMQParams || totalMnCount < 1) {
 			consensus.llmqs[Consensus::LLMQ_50_60] = llmq200_2;
 		}
 	}

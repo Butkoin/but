@@ -2969,7 +2969,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
         nTotalLower = 0;
         for (const COutput &output : vCoins)
         {
-            if (!output.fSpendable)
+          if (!output.fSpendable)
                 continue;
 
             const CWalletTx *pcoin = output.tx;

@@ -70,12 +70,12 @@
         <translation>ที่อยู่ผู้รับ</translation>
     </message>
     <message>
-        <source>These are your But addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>นี่คือที่อยู่ But ของคุณสำหรับการส่งการชำระเงิน โปรดตรวจสอบจำนวนเงินและที่อยู่ผู้รับก่อนที่จะส่งเหรียญ</translation>
+        <source>These are your ButK addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>นี่คือที่อยู่ ButK ของคุณสำหรับการส่งการชำระเงิน โปรดตรวจสอบจำนวนเงินและที่อยู่ผู้รับก่อนที่จะส่งเหรียญ</translation>
     </message>
     <message>
-        <source>These are your But addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>นี่เป็นที่อยู่ But ของคุณสำหรับการรับการชำระเงิน แนะนำให้ใช้ที่อยู่รับใหม่สำหรับแต่ละธุรกรรม</translation>
+        <source>These are your ButK addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>นี่เป็นที่อยู่ ButK ของคุณสำหรับการรับการชำระเงิน แนะนำให้ใช้ที่อยู่รับใหม่สำหรับแต่ละธุรกรรม</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -188,8 +188,8 @@
         <translation>ยืนยันการเข้ารหัสกระเป๋าสตางค์</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BUT&lt;/b&gt;!</source>
-        <translation>คำเตือน : ถ้าคุณเข้ารหัส Wallet ของคุณแล้วทำรหัสวลีหาย คุณจะ&lt;b&gt;สูญเสีย But ของคุณทั้งหมด&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BUTK&lt;/b&gt;!</source>
+        <translation>คำเตือน : ถ้าคุณเข้ารหัส Wallet ของคุณแล้วทำรหัสวลีหาย คุณจะ&lt;b&gt;สูญเสีย ButK ของคุณทั้งหมด&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -258,12 +258,12 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <source>A fatal error occurred. But Core can no longer continue safely and will quit.</source>
-        <translation>เกิดข้อผิดพลาดร้ายแรงขึ้น But Core ไม่สามารถดำเนินการต่อได้อย่างปลอดภัยและจะออกจากระบบ</translation>
+        <source>A fatal error occurred. ButK Core can no longer continue safely and will quit.</source>
+        <translation>เกิดข้อผิดพลาดร้ายแรงขึ้น ButK Core ไม่สามารถดำเนินการต่อได้อย่างปลอดภัยและจะออกจากระบบ</translation>
     </message>
     <message>
-        <source>But Core</source>
-        <translation>But Core</translation>
+        <source>ButK Core</source>
+        <translation>ButK Core</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -286,16 +286,16 @@
         <translation>&amp;ส่ง</translation>
     </message>
     <message>
-        <source>Send coins to a But address</source>
-        <translation>ส่ง เหรียญ ไปยัง ที่อยู่ But</translation>
+        <source>Send coins to a ButK address</source>
+        <translation>ส่ง เหรียญ ไปยัง ที่อยู่ ButK</translation>
     </message>
     <message>
         <source>&amp;Receive</source>
         <translation>&amp;รับ</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and but: URIs)</source>
-        <translation>เรียกเก็บ การชำระเงิน (สร้าง QR codes และ But: URIs)</translation>
+        <source>Request payments (generates QR codes and butk: URIs)</source>
+        <translation>เรียกเก็บ การชำระเงิน (สร้าง QR codes และ ButK: URIs)</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -322,8 +322,8 @@
         <translation>ออกจากโปรแกรม</translation>
     </message>
     <message>
-        <source>Show information about But Core</source>
-        <translation>แสดงข้อมูลเกี่ยวกับ But Core</translation>
+        <source>Show information about ButK Core</source>
+        <translation>แสดงข้อมูลเกี่ยวกับ ButK Core</translation>
     </message>
     <message>
         <source>About &amp;Qt</source>
@@ -394,16 +394,16 @@
         <translation>เซ็นต์ชื่อด้วย &amp;ข้อความ...</translation>
     </message>
     <message>
-        <source>Sign messages with your But addresses to prove you own them</source>
-        <translation>เซ็นชื่อด้วยข้อความ ที่เก็บ But เพื่อแสดงว่าท่านเป็นเจ้าของ But นี้จริง</translation>
+        <source>Sign messages with your ButK addresses to prove you own them</source>
+        <translation>เซ็นชื่อด้วยข้อความ ที่เก็บ ButK เพื่อแสดงว่าท่านเป็นเจ้าของ ButK นี้จริง</translation>
     </message>
     <message>
         <source>&amp;Verify message...</source>
         <translation>&amp;ยืนยันข้อความ...</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified But addresses</source>
-        <translation>ตรวจสอบ ข้อความ เพื่อให้แน่ใจว่า การเซ็นต์ชื่อ ด้วยที่เก็บ But แล้ว</translation>
+        <source>Verify messages to ensure they were signed with specified ButK addresses</source>
+        <translation>ตรวจสอบ ข้อความ เพื่อให้แน่ใจว่า การเซ็นต์ชื่อ ด้วยที่เก็บ ButK แล้ว</translation>
     </message>
     <message>
         <source>&amp;Information</source>
@@ -482,16 +482,16 @@
         <translation>เปิด URI</translation>
     </message>
     <message>
-        <source>Open a but: URI or payment request</source>
-        <translation>เปิด But: URI หรือคำขอการชำระเงิน</translation>
+        <source>Open a butk: URI or payment request</source>
+        <translation>เปิด ButK: URI หรือคำขอการชำระเงิน</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>ตัวเลือก Command-line</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible But command-line options</source>
-        <translation>แสดง %1 ข้อความช่วยเหลือ เพื่อแสดงรายการ ตัวเลือกที่เป็นไปได้สำหรับ But command-line</translation>
+        <source>Show the %1 help message to get a list with possible ButK command-line options</source>
+        <translation>แสดง %1 ข้อความช่วยเหลือ เพื่อแสดงรายการ ตัวเลือกที่เป็นไปได้สำหรับ ButK command-line</translation>
     </message>
     <message>
         <source>%1 client</source>
@@ -526,8 +526,8 @@
         <translation>แถบเครื่องมือ</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to But network</source>
-        <translation><numerusform>%n เชื่อมต่อใช้งานกับเครือข่าย But</numerusform></translation>
+        <source>%n active connection(s) to ButK network</source>
+        <translation><numerusform>%n เชื่อมต่อใช้งานกับเครือข่าย ButK</numerusform></translation>
     </message>
     <message>
         <source>Network activity disabled</source>
@@ -866,8 +866,8 @@
         <translation>แก้ไขที่อยู่ผู้ส่ง</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid But address.</source>
-        <translation>ที่อยู่ที่ป้อน "%1" ไม่ใช่ที่อยู่ But ที่ถูกต้อง</translation>
+        <source>The entered address "%1" is not a valid ButK address.</source>
+        <translation>ที่อยู่ที่ป้อน "%1" ไม่ใช่ที่อยู่ ButK ที่ถูกต้อง</translation>
     </message>
     <message>
         <source>The entered address "%1" is already in the address book.</source>
@@ -1007,8 +1007,8 @@
         <translation>ประมาณ %1 GB ของข้อมูลจะถูกเก็บอยู่ในแฟ้มเอกสารนี้</translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the But block chain.</source>
-        <translation>%1 จะกดาวน์โหลดและเก็บสำเนาของ But block chain</translation>
+        <source>%1 will download and store a copy of the ButK block chain.</source>
+        <translation>%1 จะกดาวน์โหลดและเก็บสำเนาของ ButK block chain</translation>
     </message>
     <message>
         <source>The wallet will also be stored in this directory.</source>
@@ -1133,12 +1133,12 @@
         <translation>รูป</translation>
     </message>
     <message>
-        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the But network, as detailed below.</source>
-        <translation>การทำธุรกรรมล่าสุดอาจยังไม่สามารถเห็นได้และทำให้ยอดคงเหลือของ wallet ของคุณไม่ถูกต้อง ข้อมูลนี้จะถูกต้องก่อนที่ Wallet ของคุณจะเสร็จสิ้นการซิงค์กับเครือข่าย But ตามรายละเอียดด้านล่างนี้</translation>
+        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the ButK network, as detailed below.</source>
+        <translation>การทำธุรกรรมล่าสุดอาจยังไม่สามารถเห็นได้และทำให้ยอดคงเหลือของ wallet ของคุณไม่ถูกต้อง ข้อมูลนี้จะถูกต้องก่อนที่ Wallet ของคุณจะเสร็จสิ้นการซิงค์กับเครือข่าย ButK ตามรายละเอียดด้านล่างนี้</translation>
     </message>
     <message>
-        <source>Attempting to spend But that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation>เครือข่ายจะไม่ยอมรับความพยายามที่จะใช้ But ที่ได้รับผลกระทบจากการทำธุรกรรมที่ยังไม่ได้แสดงผล</translation>
+        <source>Attempting to spend ButK that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <translation>เครือข่ายจะไม่ยอมรับความพยายามที่จะใช้ ButK ที่ได้รับผลกระทบจากการทำธุรกรรมที่ยังไม่ได้แสดงผล</translation>
     </message>
     <message>
         <source>Number of blocks left</source>
@@ -1275,12 +1275,12 @@
         <translation>จำนวนนี้ทำหน้าที่เป็นเกณฑ์เพื่อปิดการใช้งาน PrivateSend เมื่อถึงขีดจำกัดแล้ว</translation>
     </message>
     <message>
-        <source>Automatically open the But Core client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>เปิดพอร์ต But Core client บนเราเตอร์โดยอัตโนมัติ การทำงานนี้ใช้ได้เฉพาะเมื่อเราเตอร์ของคุณรองรับ UPnP และเปิดใช้งานแล้ว</translation>
+        <source>Automatically open the ButK Core client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>เปิดพอร์ต ButK Core client บนเราเตอร์โดยอัตโนมัติ การทำงานนี้ใช้ได้เฉพาะเมื่อเราเตอร์ของคุณรองรับ UPnP และเปิดใช้งานแล้ว</translation>
     </message>
     <message>
-        <source>Connect to the But network through a SOCKS5 proxy.</source>
-        <translation>เชื่อมต่อกับเครือข่าย But ผ่านพร็อกซี่แบบ SOCKS5</translation>
+        <source>Connect to the ButK network through a SOCKS5 proxy.</source>
+        <translation>เชื่อมต่อกับเครือข่าย ButK ผ่านพร็อกซี่แบบ SOCKS5</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1379,8 +1379,8 @@
         <translation>Tor</translation>
     </message>
     <message>
-        <source>Connect to the But network through a separate SOCKS5 proxy for Tor hidden services.</source>
-        <translation>เชื่อมต่อกับ เครือข่าย But ผ่านทาง พร้อกซี่ SOCKS5 แยกต่างหาก สำหรับ Tor เซอร์วิส</translation>
+        <source>Connect to the ButK network through a separate SOCKS5 proxy for Tor hidden services.</source>
+        <translation>เชื่อมต่อกับ เครือข่าย ButK ผ่านทาง พร้อกซี่ SOCKS5 แยกต่างหาก สำหรับ Tor เซอร์วิส</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services:</source>
@@ -1504,8 +1504,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>รูป</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the But network after a connection is established, but this process has not completed yet.</source>
-        <translation>ข้อมูลที่แสดงอาจล้าสมัย  Wallet ของคุณจะทำข้อมูลให้ตรงกับเครือข่าย But โดยอัตโนมัติหลังจากที่มีการเชื่อมต่อแล้ว แต่กระบวนการนี้ยังไม่เสร็จสมบูรณ์</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the ButK network after a connection is established, but this process has not completed yet.</source>
+        <translation>ข้อมูลที่แสดงอาจล้าสมัย  Wallet ของคุณจะทำข้อมูลให้ตรงกับเครือข่าย ButK โดยอัตโนมัติหลังจากที่มีการเชื่อมต่อแล้ว แต่กระบวนการนี้ยังไม่เสร็จสมบูรณ์</translation>
     </message>
     <message>
         <source>Available:</source>
@@ -1588,8 +1588,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>จำนวนและรอบ:</translation>
     </message>
     <message>
-        <source>0 BUT / 0 Rounds</source>
-        <translation>0 BUT / 0 รอบ</translation>
+        <source>0 BUTK / 0 Rounds</source>
+        <translation>0 BUTK / 0 รอบ</translation>
     </message>
     <message>
         <source>Submitted Denom:</source>
@@ -1737,8 +1737,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>คำขอการชำระเงินผิดพลาด</translation>
     </message>
     <message>
-        <source>Cannot start but: click-to-pay handler</source>
-        <translation>ไม่สามารถเริ่มต้น But: คลิกเพื่อจ่ายเงิน</translation>
+        <source>Cannot start butk: click-to-pay handler</source>
+        <translation>ไม่สามารถเริ่มต้น ButK: คลิกเพื่อจ่ายเงิน</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1753,8 +1753,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>ที่อยู่การชำระเงินไม่ถูกต้อง %1</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid But address or malformed URI parameters.</source>
-        <translation>ไม่สามารถประมวลผล URI ได้สำเร็จ ! ซึ่งอาจเกิดจากที่อยู่ But ไม่ถูกต้องหรือพารามิเตอร์ URI ที่มีรูปแบบไม่ถูกต้อง</translation>
+        <source>URI cannot be parsed! This can be caused by an invalid ButK address or malformed URI parameters.</source>
+        <translation>ไม่สามารถประมวลผล URI ได้สำเร็จ ! ซึ่งอาจเกิดจากที่อยู่ ButK ไม่ถูกต้องหรือพารามิเตอร์ URI ที่มีรูปแบบไม่ถูกต้อง</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
@@ -1851,8 +1851,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>จำนวน</translation>
     </message>
     <message>
-        <source>Enter a But address (e.g. %1)</source>
-        <translation>ป้อนที่อยู่ But (เช่น %1)</translation>
+        <source>Enter a ButK address (e.g. %1)</source>
+        <translation>ป้อนที่อยู่ ButK (เช่น %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -2377,8 +2377,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>ใช้ที่อยู่รับที่มีอยู่ (ไม่แนะนำ)</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the But network.</source>
-        <translation>ข้อความเสริมที่จะแนบไปกับคำขอการชำระเงินซึ่งจะแสดงขึ้นเมื่อมีการเปิดคำขอ หมายเหตุ: ข้อความจะไม่ถูกส่งพร้อมกับการชำระเงินผ่านเครือข่าย But</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the ButK network.</source>
+        <translation>ข้อความเสริมที่จะแนบไปกับคำขอการชำระเงินซึ่งจะแสดงขึ้นเมื่อมีการเปิดคำขอ หมายเหตุ: ข้อความจะไม่ถูกส่งพร้อมกับการชำระเงินผ่านเครือข่าย ButK</translation>
     </message>
     <message>
         <source>&amp;Message:</source>
@@ -2389,8 +2389,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>ป้ายกำกับเพิ่มเติมสำหรับเชื่อมโยงกับที่อยู่รับใหม่</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened.&lt;br&gt;Note: The message will not be sent with the payment over the But network.</source>
-        <translation>ข้อความเสริมที่จะแนบไปกับคำขอการชำระเงินซึ่งจะแสดงขึ้นเมื่อมีการเปิดคำขอ&lt;br&gt; หมายเหตุ: ข้อความจะไม่ถูกส่งพร้อมกับการชำระเงินผ่านเครือข่าย But</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened.&lt;br&gt;Note: The message will not be sent with the payment over the ButK network.</source>
+        <translation>ข้อความเสริมที่จะแนบไปกับคำขอการชำระเงินซึ่งจะแสดงขึ้นเมื่อมีการเปิดคำขอ&lt;br&gt; หมายเหตุ: ข้อความจะไม่ถูกส่งพร้อมกับการชำระเงินผ่านเครือข่าย ButK</translation>
     </message>
     <message>
         <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
@@ -2626,8 +2626,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>หากค่าธรรมเนียมที่กำหนดเองถูกตั้งค่าเป็น 1000 duffs และการทำธุรกรรมนี้มีเพียง 250 ไบต์   ซึ่ง "ต่อกิโลไบต์" จะจ่ายเพียง 250 duffs ในขณะที่ "อย่างน้อย" จ่าย 1000 duffs สำหรับธุรกรรมที่มีขนาดใหญ่กว่ากิโลไบต์จะต้องจ่ายเป็นกิโลไบต์</translation>
     </message>
     <message>
-        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks.&lt;br /&gt;But be aware that this can end up in a never confirming transaction once there is more demand for but transactions than the network can process.</source>
-        <translation>การจ่ายเงินเพียงค่าขั้นต่ำก็ทำได้ดีตราบเท่าที่ปริมาณธุรกรรมมีน้อยกว่าพื้นที่ในบล็อก&lt;br /&gt; แต่โปรดทราบว่าการจ่ายนี้จะสิ้นสุดลงในธุรกรรมที่ไม่เคยมีการยืนยัน ความต้องการใช้การทำธุรกรรมแบบ But มีมากกว่าที่เครือข่ายสามารถดำเนินการได้</translation>
+        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks.&lt;br /&gt;ButK be aware that this can end up in a never confirming transaction once there is more demand for but transactions than the network can process.</source>
+        <translation>การจ่ายเงินเพียงค่าขั้นต่ำก็ทำได้ดีตราบเท่าที่ปริมาณธุรกรรมมีน้อยกว่าพื้นที่ในบล็อก&lt;br /&gt; แต่โปรดทราบว่าการจ่ายนี้จะสิ้นสุดลงในธุรกรรมที่ไม่เคยมีการยืนยัน ความต้องการใช้การทำธุรกรรมแบบ ButK มีมากกว่าที่เครือข่ายสามารถดำเนินการได้</translation>
     </message>
     <message>
         <source>per kilobyte</source>
@@ -2798,8 +2798,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation><numerusform>คาดว่าจะเริ่มการยืนยันภายใน %n บล็อค</numerusform></translation>
     </message>
     <message>
-        <source>Warning: Invalid But address</source>
-        <translation>คำเตือน: ที่อยู่ But ไม่ถูกต้อง</translation>
+        <source>Warning: Invalid ButK address</source>
+        <translation>คำเตือน: ที่อยู่ ButK ไม่ถูกต้อง</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -2829,8 +2829,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>จ่ายไปยัง:</translation>
     </message>
     <message>
-        <source>The But address to send the payment to</source>
-        <translation>ที่อยู่ But เพื่อส่งการชำระเงินไปที่</translation>
+        <source>The ButK address to send the payment to</source>
+        <translation>ที่อยู่ ButK เพื่อส่งการชำระเงินไปที่</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2865,8 +2865,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>จำนวน:</translation>
     </message>
     <message>
-        <source>The fee will be deducted from the amount being sent. The recipient will receive a lower amount of But than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>ค่าธรรมเนียมจะถูกหักออกจากจำนวนเงินที่ส่ง ผู้รับจะได้รับ But น้อยกว่าที่คุณป้อนในฟิลด์ หากมีการเลือกผู้รับหลายรายค่าธรรมเนียมจะแบ่งเท่า ๆ กัน</translation>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive a lower amount of ButK than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <translation>ค่าธรรมเนียมจะถูกหักออกจากจำนวนเงินที่ส่ง ผู้รับจะได้รับ ButK น้อยกว่าที่คุณป้อนในฟิลด์ หากมีการเลือกผู้รับหลายรายค่าธรรมเนียมจะแบ่งเท่า ๆ กัน</translation>
     </message>
     <message>
         <source>S&amp;ubtract fee from amount</source>
@@ -2877,8 +2877,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>ข้อความ: </translation>
     </message>
     <message>
-        <source>A message that was attached to the but: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the But network.</source>
-        <translation>ข้อความที่แนบมาไปยัง But: URI ซึ่งจะถูกเก็บไว้กับธุรกรรมเพื่อเป็นข้อมูลอ้างอิงของคุณ  หมายเหตุ: ข้อความนี้จะถูกส่งไปยังเครือข่าย But </translation>
+        <source>A message that was attached to the butk: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the ButK network.</source>
+        <translation>ข้อความที่แนบมาไปยัง ButK: URI ซึ่งจะถูกเก็บไว้กับธุรกรรมเพื่อเป็นข้อมูลอ้างอิงของคุณ  หมายเหตุ: ข้อความนี้จะถูกส่งไปยังเครือข่าย ButK </translation>
     </message>
     <message>
         <source>This is an unauthenticated payment request.</source>
@@ -2930,12 +2930,12 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>ลงนามข้อความ</translation>
     </message>
     <message>
-        <source>You can sign messages/agreements with your addresses to prove you can receive But sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>คุณสามารถลงนามในข้อความ / ข้อตกลงกับที่อยู่ของคุณเพื่อพิสูจน์ว่าคุณสามารถรับ But ส่งถึงพวกเขาได้  ระวังอย่าเซ็นชื่ออะไรที่กำกวม เนื่องจากการโจมตีแบบฟิชชิ่งอาจพยายามหลอกล่อให้คุณเซ็นชื่อตัวคุณเอง เพียงลงนามในคำชี้แจงอย่างละเอียดที่คุณเห็นด้วยเท่านั้น</translation>
+        <source>You can sign messages/agreements with your addresses to prove you can receive ButK sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation>คุณสามารถลงนามในข้อความ / ข้อตกลงกับที่อยู่ของคุณเพื่อพิสูจน์ว่าคุณสามารถรับ ButK ส่งถึงพวกเขาได้  ระวังอย่าเซ็นชื่ออะไรที่กำกวม เนื่องจากการโจมตีแบบฟิชชิ่งอาจพยายามหลอกล่อให้คุณเซ็นชื่อตัวคุณเอง เพียงลงนามในคำชี้แจงอย่างละเอียดที่คุณเห็นด้วยเท่านั้น</translation>
     </message>
     <message>
-        <source>The But address to sign the message with</source>
-        <translation>ที่อยู่ But เพื่อเซ็นชื่อ</translation>
+        <source>The ButK address to sign the message with</source>
+        <translation>ที่อยู่ ButK เพื่อเซ็นชื่อ</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2966,8 +2966,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>คัดลอกลายเซ็นปัจจุบันไปยังคลิปบอร์ดของระบบ</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this But address</source>
-        <translation>ลงนามข้อความเพื่อพิสูจน์ว่าคุณเป็นเจ้าของที่อยู่ But นี้</translation>
+        <source>Sign the message to prove you own this ButK address</source>
+        <translation>ลงนามข้อความเพื่อพิสูจน์ว่าคุณเป็นเจ้าของที่อยู่ ButK นี้</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -2990,12 +2990,12 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>ป้อนที่อยู่ของผู้รับข้อความ (ตรวจสอบให้แน่ใจว่าคุณได้คัดลอกเว้นวรรค ช่องว่าง ย่อหน้า ฯลฯ ) และลายเซ็นด้านล่างเพื่อยืนยันข้อความ โปรดระวังอย่าใช้ข้อมูลมากกว่าข้อความที่เซ็นชื่อไว้เพื่อหลีกเลี่ยงการฉ้อโกงโดยอาศัยการโจมตีแบบ man-in-the-middle โปรดทราบว่าสิ่งนี้พิสูจน์ให้เห็นว่าบุคคลที่ลงนามได้รับพร้อมกับที่อยู่แล้วไม่สามารถพิสูจน์ว่ามีผู้ส่งรายการใด ๆ !</translation>
     </message>
     <message>
-        <source>The But address the message was signed with</source>
-        <translation>ข้อความที่อยู่ But ถูกเซ็นชื่อด้วย</translation>
+        <source>The ButK address the message was signed with</source>
+        <translation>ข้อความที่อยู่ ButK ถูกเซ็นชื่อด้วย</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified But address</source>
-        <translation>ยืนยันข้อความเพื่อให้แน่ใจว่าข้อความถูกเซ็นชื่อด้วยที่อยู่ But ที่ระบุ</translation>
+        <source>Verify the message to ensure it was signed with the specified ButK address</source>
+        <translation>ยืนยันข้อความเพื่อให้แน่ใจว่าข้อความถูกเซ็นชื่อด้วยที่อยู่ ButK ที่ระบุ</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -4211,8 +4211,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>คีย์ KeePassHttp สำหรับการสื่อสารที่เข้ารหัสด้วย AES กับ KeePass</translation>
     </message>
     <message>
-        <source>Disable all But specific functionality (Smartnodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)</source>
-        <translation>ปิดใช้ฟังก์ชันการทำงานเฉพาะ But ทั้งหมด  (Smartnodes, PrivateSend, InstantSend, Governance) (0-1, ค่าดีฟอลต์: %u)</translation>
+        <source>Disable all ButK specific functionality (Smartnodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)</source>
+        <translation>ปิดใช้ฟังก์ชันการทำงานเฉพาะ ButK ทั้งหมด  (Smartnodes, PrivateSend, InstantSend, Governance) (0-1, ค่าดีฟอลต์: %u)</translation>
     </message>
     <message>
         <source>%s file contains all private keys from this wallet. Do not share it with anyone!</source>
@@ -4683,8 +4683,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>ตัวเลือกเซิร์ฟเวอร์ RPC:</translation>
     </message>
     <message>
-        <source>But Core</source>
-        <translation>But Core</translation>
+        <source>ButK Core</source>
+        <translation>ButK Core</translation>
     </message>
     <message>
         <source>The %s developers</source>
@@ -4811,8 +4811,8 @@ https://www.transifex.com/projects/p/but/</translation>
         <translation>Whitelist peers กำลังเชื่อมต่อจากที่อยู่ IP ที่ระบุ (เช่น 1.2.3.4) หรือเครือข่ายที่ได้รับการจดบันทึก CIDR (เช่น 1.2.3.0/24) สามารถระบุได้หลายครั้ง</translation>
     </message>
     <message>
-        <source>You are starting in lite mode, most But-specific functionality is disabled.</source>
-        <translation>คุณกำลังเริ่มต้นใน Lite Mode ฟังก์ชันการทำงานเฉพาะ But ส่วนใหญ่จะถูกปิดใช้งาน</translation>
+        <source>You are starting in lite mode, most ButK-specific functionality is disabled.</source>
+        <translation>คุณกำลังเริ่มต้นใน Lite Mode ฟังก์ชันการทำงานเฉพาะ ButK ส่วนใหญ่จะถูกปิดใช้งาน</translation>
     </message>
     <message>
         <source>%d of last 100 blocks have unexpected version</source>

@@ -424,8 +424,8 @@ bool CBlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, 
                 pindexNew->nStatus        = diskindex.nStatus;
                 pindexNew->nTx            = diskindex.nTx;
                 // TODO: replace this check with something faster
-               if  (!CheckProofOfWork(diskindex.hashPOWShared, pindexNew->nBits, consensusParams))
-                   return error("%s: CheckProofOfWork failed: %s", __func__, pindexNew->ToString());
+             //  if  (!CheckProofOfWork(diskindex.hashPOWShared, pindexNew->nBits, consensusParams))
+            //       return error("%s: CheckProofOfWork failed: %s", __func__, pindexNew->ToString());
 
                 pcursor->Next();
             } else {

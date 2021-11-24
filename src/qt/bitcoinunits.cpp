@@ -20,9 +20,9 @@ BitcoinUnits::BitcoinUnits(QObject *parent):
 QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnits::Unit> unitlist;
-    unitlist.append(BUT);
-    unitlist.append(mBUT);
-    unitlist.append(uBUT);
+    unitlist.append(BUTK);
+    unitlist.append(mBUTK);
+    unitlist.append(uBUTK);
     unitlist.append(ruffs);
     return unitlist;
 }
@@ -31,9 +31,9 @@ bool BitcoinUnits::valid(int unit)
 {
     switch(unit)
     {
-    case BUT:
-    case mBUT:
-    case uBUT:
+    case BUTK:
+    case mBUTK:
+    case uBUTK:
     case ruffs:
         return true;
     default:
@@ -47,9 +47,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case BUT: return QString("BUT");
-            case mBUT: return QString("mBUT");
-            case uBUT: return QString::fromUtf8("μBUT");
+            case BUTK: return QString("BUTK");
+            case mBUTK: return QString("mBUTK");
+            case uBUTK: return QString::fromUtf8("μBUTK");
             case ruffs: return QString("ruffs");
             default: return QString("???");
         }
@@ -58,9 +58,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case BUT: return QString("tBUT");
-            case mBUT: return QString("mtBUT");
-            case uBUT: return QString::fromUtf8("μtBUT");
+            case BUTK: return QString("tBUTK");
+            case mBUTK: return QString("mtBUTK");
+            case uBUTK: return QString::fromUtf8("μtBUTK");
             case ruffs: return QString("tduffs");
             default: return QString("???");
         }
@@ -73,10 +73,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case BUT: return QString("But");
-            case mBUT: return QString("Milli-But (1 / 1" THIN_SP_UTF8 "000)");
-            case uBUT: return QString("Micro-But (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case ruffs: return QString("Ten Nano-But (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case BUTK: return QString("Butk");
+            case mBUTK: return QString("Milli-Butk (1 / 1" THIN_SP_UTF8 "000)");
+            case uBUTK: return QString("Micro-Butk (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case ruffs: return QString("Ten Nano-Butk (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -84,10 +84,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case BUT: return QString("TestButs");
-            case mBUT: return QString("Milli-TestBut (1 / 1" THIN_SP_UTF8 "000)");
-            case uBUT: return QString("Micro-TestBut (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case ruffs: return QString("Ten Nano-TestBut (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case BUTK: return QString("TestButs");
+            case mBUTK: return QString("Milli-TestButk (1 / 1" THIN_SP_UTF8 "000)");
+            case uBUTK: return QString("Micro-TestButk (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case ruffs: return QString("Ten Nano-TestButk (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -97,9 +97,9 @@ qint64 BitcoinUnits::factor(int unit)
 {
     switch(unit)
     {
-    case BUT:  return 100000000;
-    case mBUT: return 100000;
-    case uBUT: return 100;
+    case BUTK:  return 100000000;
+    case mBUTK: return 100000;
+    case uBUTK: return 100;
     case ruffs: return 1;
     default:   return 100000000;
     }
@@ -109,9 +109,9 @@ int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
     {
-    case BUT: return 8;
-    case mBUT: return 5;
-    case uBUT: return 2;
+    case BUTK: return 8;
+    case mBUTK: return 5;
+    case uBUTK: return 2;
     case ruffs: return 0;
     default: return 0;
     }

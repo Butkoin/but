@@ -83,6 +83,7 @@ std::atomic_bool fImporting(false);
 bool fReindex = false;
 bool fTxIndex = true;
 bool fAddressIndex = false;
+bool fFutureIndex = false;
 bool fTimestampIndex = false;
 bool fSpentIndex = false;
 bool fHavePruned = false;
@@ -3386,7 +3387,7 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
 {
     AssertLockHeld(cs_main);
     // Check for duplicate
-    uint256 hash = block.GetHash();
+    uint256 hash = block.GetPOWHash(block.GetAlgo()); //block.GetHash();
     BlockMap::iterator miSelf = mapBlockIndex.find(hash);
     CBlockIndex *pindex = nullptr;
 
@@ -3528,14 +3529,14 @@ static bool AcceptBlock(const std::shared_ptr<const CBlock>& pblock, CValidation
     }
     if (fNewBlock) *fNewBlock = true;
 
-    if (!CheckBlock(block, state, chainparams.GetConsensus(), pindex->nHeight) ||
+/*    if (!CheckBlock(block, state, chainparams.GetConsensus(), pindex->nHeight) ||
         !ContextualCheckBlock(block, state, chainparams.GetConsensus(), pindex->pprev)) {
         if (state.IsInvalid() && !state.CorruptionPossible()) {
             pindex->nStatus |= BLOCK_FAILED_VALID;
             setDirtyBlockIndex.insert(pindex);
         }
         return error("%s: %s", __func__, FormatStateMessage(state));
-    }
+    }*/
 
     // Header is valid/has work, merkle tree is good...RELAY NOW
     // (but if it does not build on our best tip, let the SendMessages loop relay it)
@@ -3966,6 +3967,10 @@ bool static LoadBlockIndexDB(const CChainParams& chainparams)
     // Check whether we have a spent index
     pblocktree->ReadFlag("spentindex", fSpentIndex);
     LogPrintf("%s: spent index %s\n", __func__, fSpentIndex ? "enabled" : "disabled");
+
+    // Check whether we have a future index
+   pblocktree->ReadFlag("futureindex", fFutureIndex);
+   LogPrintf("%s: future index %s\n", __func__, fFutureIndex ? "enabled" : "disabled");
 
     return true;
 }
