@@ -1072,6 +1072,8 @@ void CChainParams::UpdateLLMQParams(size_t totalMnCount, int height, bool lowLLM
 		}
 		if(lowLLMQParams || totalMnCount < 1) {
 			consensus.llmqs[Consensus::LLMQ_50_60] = llmq200_2;
+                        consensus.llmqs[Consensus::LLMQ_400_60] = llmq20_60;
+                        consensus.llmqs[Consensus::LLMQ_400_85] = llmq20_85;
 		}
 	}
 
