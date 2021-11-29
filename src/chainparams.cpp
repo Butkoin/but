@@ -185,8 +185,8 @@ static Consensus::LLMQParams llmq200_2 = {
         .type = Consensus::LLMQ_50_60,
         .name = "llmq_3_200",
         .size = 3,
-        .minSize = 200,
-        .threshold = 200,
+        .minSize = 10,
+        .threshold = 10,
 
         .dkgInterval = 30, // one DKG per hour
         .dkgPhaseBlocks = 2,
@@ -199,6 +199,24 @@ static Consensus::LLMQParams llmq200_2 = {
         .keepOldConnections = 3,
 };
 
+static Consensus::LLMQParams llmq400_2 = {
+        .type = Consensus::LLMQ_50_60,
+        .name = "llmq_3_60",
+        .size = 3,
+        .minSize = 10,
+        .threshold = 10,
+
+        .dkgInterval = 30, // one DKG per hour
+        .dkgPhaseBlocks = 2,
+        .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization
+        .dkgMiningWindowEnd = 18,
+        .dkgBadVotesThreshold = 8,
+
+        .signingActiveQuorumCount = 2, // just a few ones to allow easier testing
+
+        .keepOldConnections = 3,
+};
+/*
 static Consensus::LLMQParams llmq3_60 = {
         .type = Consensus::LLMQ_50_60,
         .name = "llmq_3_60",
@@ -216,7 +234,24 @@ static Consensus::LLMQParams llmq3_60 = {
 
         .keepOldConnections = 3,
 };
+*/
+static Consensus::LLMQParams llmq3_60 = {
+        .type = Consensus::LLMQ_50_60,
+        .name = "llmq_3_60",
+        .size = 3,
+        .minSize = 10,
+        .threshold = 10,
 
+        .dkgInterval = 30, // one DKG per hour
+        .dkgPhaseBlocks = 2,
+        .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization
+        .dkgMiningWindowEnd = 18,
+        .dkgBadVotesThreshold = 8,
+
+        .signingActiveQuorumCount = 2, // just a few ones to allow easier testing
+
+        .keepOldConnections = 3,
+};
 static Consensus::LLMQParams llmq20_60 = {
         .type = Consensus::LLMQ_400_60,
         .name = "llmq_20_60",
@@ -293,8 +328,8 @@ static Consensus::LLMQParams llmq40_85 = {
         .type = Consensus::LLMQ_400_85,
         .name = "llmq_40_85",
         .size = 40,
-        .minSize = 35,
-        .threshold = 34,
+        .minSize = 20,
+        .threshold = 20,
 
         .dkgInterval = 30 * 24, // one DKG every 24 hours
         .dkgPhaseBlocks = 4,
@@ -1054,14 +1089,14 @@ void CChainParams::UpdateLLMQParams(size_t totalMnCount, int height, bool lowLLM
 		lastCheckedLowLLMQParams = lowLLMQParams;
 		lastCheckHeight = height;
 		if(totalMnCount < 5) {
-			consensus.llmqs[Consensus::LLMQ_50_60] = llmq3_60;
+			consensus.llmqs[Consensus::LLMQ_50_60] = llmq3_60;//llmq3_60;
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq20_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq20_85;
 		} else if(totalMnCount < 100) {
 			consensus.llmqs[Consensus::LLMQ_50_60] = llmq10_60;
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq20_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq20_85;
-		}  else if(totalMnCount < 600) {
+		}  else if(totalMnCount < 1000) {
 			consensus.llmqs[Consensus::LLMQ_50_60] = llmq50_60;
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq40_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq40_85;
@@ -1070,8 +1105,8 @@ void CChainParams::UpdateLLMQParams(size_t totalMnCount, int height, bool lowLLM
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq400_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq400_85;
 		}
-		if(lowLLMQParams || totalMnCount < 1) {
-			consensus.llmqs[Consensus::LLMQ_50_60] = llmq200_2;
+		if(lowLLMQParams) {
+			consensus.llmqs[Consensus::LLMQ_50_60] = llmq400_2;
                         consensus.llmqs[Consensus::LLMQ_400_60] = llmq20_60;
                         consensus.llmqs[Consensus::LLMQ_400_85] = llmq20_85;
 		}
