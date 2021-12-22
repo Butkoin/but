@@ -8,7 +8,11 @@ ButKoin is a decentralized secure cryptocurrency that is easy to mine devoid fro
 
 Supported algorithms
 -------------------------- 
-Ghostrider Lyra2 Scrypt Sha256d Yespower
+Ghostrider 
+Lyra2 
+Scrypt
+Sha256d 
+Yespower
 
 License
 -------
