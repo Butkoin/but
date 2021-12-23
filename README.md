@@ -1,8 +1,21 @@
+<a href="https://discord.gg/9x7gKH899g"><img src="https://img.shields.io/discord/733027681184251937.svg?style=flat&label=Join%20Community&color=7289DA" alt="Join Community Badge"/></a>
 
-What is But?
--------------
+  
+# What is But?
 
 ButKoin is a decentralized secure cryptocurrency that is easy to mine devoid from 51% attack and it provide easy means of transactions between individuals. It is a Multi-algorithm coin. ButKoin uses a Smartnode collateral and reward system that prevent hyperinflation.
+
+# Supported Algorithms
+
+
+
+| Algorithm   | GPU CPU Asic|
+| ----------- | ----------- |
+| Ghostrider  | CPU         |
+| Yespower    | CPU         |
+| Lyra2z330   | GPU         |
+| Sha256      | Asic        |
+| Scrypt      | Asic        |
 
 License
 -------
