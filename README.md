@@ -2,7 +2,7 @@
 
   
 # What is But?
-
+<img src="https://coinpaprika.com/coin/butk-butkoin/logo.png" width="150">
 ButKoin is a decentralized secure cryptocurrency that is easy to mine devoid from 51% attack and it provide easy means of transactions between individuals. It is a Multi-algorithm coin. ButKoin uses a Smartnode collateral and reward system that prevent hyperinflation.
 
 # Supported Algorithms
