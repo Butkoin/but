@@ -486,7 +486,7 @@ public:
         consensus.nCollaterals = SmartnodeCollaterals(
 			{
 				{88720, 60000 * COIN}, {132720, 800000 * COIN}, {176720, 1000000 * COIN}, {220720, 1250000 * COIN},
-				{264720, 1500000 * COIN}, {308720, 1800000 * COIN}
+				{264720, 1500000 * COIN}, {INT_MAX, 1800000 * COIN}
 			},
 			{
 				{5761, 0}, {INT_MAX, 20}
