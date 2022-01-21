@@ -96,7 +96,7 @@
 // Application startup time (used for uptime calculation)
 const int64_t nStartupTime = GetTime();
 
-//But only features
+//ButK only features
 bool fSmartnodeMode = false;
 bool fLiteMode = false;
 /**
@@ -619,13 +619,13 @@ void PrintExceptionContinue(const std::exception_ptr pex, const char* pszThread)
 
 fs::path GetDefaultDataDir()
 {
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\ButCore-2
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\ButCore-2
-    // Mac: ~/Library/Application Support/ButCore-2
-    // Unix: ~/.but
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\ButK
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\ButK
+    // Mac: ~/Library/Application Support/ButK
+    // Unix: ~/.butkoin
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "ButCore-2";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "ButK";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -635,10 +635,10 @@ fs::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/ButCore-2";
+    return pathRet / "Library/Application Support/ButK";
 #else
     // Unix
-    return pathRet / ".but";
+    return pathRet / ".butkoin";
 #endif
 #endif
 }

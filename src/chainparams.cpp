@@ -184,9 +184,9 @@ static void FindMainNetGenesisBlock(uint32_t nTime, uint32_t nBits, const char* 
 static Consensus::LLMQParams llmq200_2 = {
         .type = Consensus::LLMQ_50_60,
         .name = "llmq_3_200",
-        .size = 3,
-        .minSize = 10,
-        .threshold = 10,
+        .size = 200,
+        .minSize = 2,
+        .threshold = 2,
 
         .dkgInterval = 30, // one DKG per hour
         .dkgPhaseBlocks = 2,
@@ -199,48 +199,12 @@ static Consensus::LLMQParams llmq200_2 = {
         .keepOldConnections = 3,
 };
 
-static Consensus::LLMQParams llmq400_2 = {
-        .type = Consensus::LLMQ_50_60,
-        .name = "llmq_3_60",
-        .size = 3,
-        .minSize = 10,
-        .threshold = 10,
-
-        .dkgInterval = 30, // one DKG per hour
-        .dkgPhaseBlocks = 2,
-        .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization
-        .dkgMiningWindowEnd = 18,
-        .dkgBadVotesThreshold = 8,
-
-        .signingActiveQuorumCount = 2, // just a few ones to allow easier testing
-
-        .keepOldConnections = 3,
-};
-/*
-static Consensus::LLMQParams llmq3_60 = {
-        .type = Consensus::LLMQ_50_60,
-        .name = "llmq_3_60",
-        .size = 10,
-        .minSize = 200,
-        .threshold = 200,
-
-        .dkgInterval = 30, // one DKG per hour
-        .dkgPhaseBlocks = 2,
-        .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization
-        .dkgMiningWindowEnd = 18,
-        .dkgBadVotesThreshold = 8,
-
-        .signingActiveQuorumCount = 2, // just a few ones to allow easier testing
-
-        .keepOldConnections = 3,
-};
-*/
 static Consensus::LLMQParams llmq3_60 = {
         .type = Consensus::LLMQ_50_60,
         .name = "llmq_3_60",
         .size = 3,
-        .minSize = 10,
-        .threshold = 10,
+        .minSize = 2,
+        .threshold = 2,
 
         .dkgInterval = 30, // one DKG per hour
         .dkgPhaseBlocks = 2,
@@ -252,6 +216,43 @@ static Consensus::LLMQParams llmq3_60 = {
 
         .keepOldConnections = 3,
 };
+
+static Consensus::LLMQParams llmq5_60 = {
+        .type = Consensus::LLMQ_400_60,
+        .name = "llmq_20_60",
+        .size = 5,
+        .minSize = 4,
+        .threshold = 3,
+
+        .dkgInterval = 30 * 12, // one DKG every 12 hours
+        .dkgPhaseBlocks = 4,
+        .dkgMiningWindowStart = 20, // dkgPhaseBlocks * 5 = after finalization
+        .dkgMiningWindowEnd = 28,
+        .dkgBadVotesThreshold = 30,
+
+        .signingActiveQuorumCount = 4, // two days worth of LLMQs
+
+        .keepOldConnections = 5,
+};
+
+static Consensus::LLMQParams llmq5_85 = {
+        .type = Consensus::LLMQ_400_85,
+        .name = "llmq_20_85",
+        .size = 5,
+        .minSize = 4,
+        .threshold = 3,
+
+        .dkgInterval = 30 * 24, // one DKG every 24 hours
+        .dkgPhaseBlocks = 4,
+        .dkgMiningWindowStart = 20, // dkgPhaseBlocks * 5 = after finalization
+        .dkgMiningWindowEnd = 48, // give it a larger mining window to make sure it is mined
+        .dkgBadVotesThreshold = 30,
+
+        .signingActiveQuorumCount = 4, // four days worth of LLMQs
+
+        .keepOldConnections = 5,
+};
+
 static Consensus::LLMQParams llmq20_60 = {
         .type = Consensus::LLMQ_400_60,
         .name = "llmq_20_60",
@@ -274,8 +275,8 @@ static Consensus::LLMQParams llmq20_85 = {
         .type = Consensus::LLMQ_400_85,
         .name = "llmq_20_85",
         .size = 20,
-        .minSize = 200,
-        .threshold = 200,
+        .minSize = 18,
+        .threshold = 17,
 
         .dkgInterval = 30 * 24, // one DKG every 24 hours
         .dkgPhaseBlocks = 4,
@@ -285,7 +286,7 @@ static Consensus::LLMQParams llmq20_85 = {
 
         .signingActiveQuorumCount = 4, // four days worth of LLMQs
 
-        .keepOldConnections = 1,
+        .keepOldConnections = 5,
 };
 
 static Consensus::LLMQParams llmq10_60 = {
@@ -328,8 +329,8 @@ static Consensus::LLMQParams llmq40_85 = {
         .type = Consensus::LLMQ_400_85,
         .name = "llmq_40_85",
         .size = 40,
-        .minSize = 20,
-        .threshold = 20,
+        .minSize = 35,
+        .threshold = 34,
 
         .dkgInterval = 30 * 24, // one DKG every 24 hours
         .dkgPhaseBlocks = 4,
@@ -396,6 +397,7 @@ static Consensus::LLMQParams llmq400_85 = {
 
         .keepOldConnections = 5,
 };
+
 
 /**
  * Main network
@@ -484,11 +486,11 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = 0x52;
-        pchMessageStart[1] = 0x34;
-        pchMessageStart[2] = 0x66;
+        pchMessageStart[0] = 0x22;
+        pchMessageStart[1] = 0x84;
+        pchMessageStart[2] = 0x56;
         pchMessageStart[3] = 0x2e;
-        nDefaultPort = 24240;
+        nDefaultPort = 14240;
         nPruneAfterHeight = 100000;
         //FindMainNetGenesisBlock(1618800784, 0x20001fff, "main");
         genesis = CreateGenesisBlock(1618800784, 70, 0x20001fff, 4, 5000 * COIN);
@@ -502,7 +504,8 @@ public:
         vSeeds.emplace_back("161.97.105.255","161.97.105.255");
         vSeeds.emplace_back("125.168.95.217","125.168.95.217");
         vSeeds.emplace_back("81.68.112.118","81.68.112.118");
-
+        vSeeds.emplace_back("31.40.251.11","31.40.251.11");
+        vSeeds.emplace_back("nod.butcoin.tech","nod.butcoin.tech");
 
         // But addresses start with 'x'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,76);
@@ -522,8 +525,7 @@ public:
         consensus.nFounderPayment = FounderPayment(rewardStructures, 250);
         consensus.nCollaterals = SmartnodeCollaterals(
 			{
-				{88720, 60000 * COIN}, {132720, 800000 * COIN}, {176720, 1000000 * COIN}, {220720, 1250000 * COIN},
-				{264720, 1500000 * COIN}, {308720, 1800000 * COIN}
+				{400000, 6000000 * COIN}, {INT_MAX, 8000000 * COIN}
 			},
 			{
 				{5761, 0}, {INT_MAX, 20}
@@ -557,20 +559,20 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-                {50,   uint256S("0x009628b710b3695af2c34e9c0ed92e41b10cd813b45e3e8d5ef58b54506a1bb7")},
-                {60,   uint256S("0x0000100a0103a8847ddd5d756a2c3d3a4ef2328dee99f2acf6b1edfa57fcafaf")},
-                {70,   uint256S("0x00005209b34202f6e8167ab7091541f6e31f9f04f0be43012798dacb65ffdcae")},
-                {80,   uint256S("0x000014c02c91ad21e2b750142b83c36e481a59235e74dcda2edaaadf645149c3")},
-                {90,   uint256S("0x000000cb90e8b11f5a0ba1a784dd0ca3ddc2e4079c28bd905fb135f8d45e5659")},
-
+                {0,     uint256S("0x001787e5f9c3cd249f84f0142071f6098d9e3b7ec8591ff73543ddc4900c1dc2")},
+                {10,    uint256S("0x005cab51de3bef6840c7866dbc1d2f69738cff67155a975fa3f1800aa4bbfcf9")},
+                {50,    uint256S("0x0037fcf4a01c6c445f2ca1201aa67bca5c3a769cd9225199764c5d2b20e10e9f")},
+                {100,   uint256S("0x00008474034c9e03197c723b565b14cfdbedefbac17b6f25fb0a37214be66062")},
+                {150,   uint256S("0x000000798139866f2c22142c3d56d2ee93e3be06cf50f4324d1ba3251d4c39ab")},
+                {327,   uint256S("0x000005e002d34da1dd1cf56401f3035ae31a8d16541d65f6b0f30099298fc8cc")},
 	    }
         };
 
         chainTxData = ChainTxData{
-        	1618802694, // * UNIX timestamp of last known number of transactions (Block 0)
-                159,   // * total number of transactions between genesis and that timestamp
-                        //   (the tx=... number in the SetBestChain debug.log lines)
-                0.5528169014084507        // * estimated number of transactions per second after that timestamp
+            // Data from RPC: getchaintxstats 4096 00000000000000000008a89e854d57e5667df88f1cdef6fde2fbca1de5b639ad
+            /* nTime    */ 1642793439,
+            /* nTxCount */ 465,
+            /* dTxRate  */ 0.003272177305365523,
         };
     }
 };
@@ -1089,14 +1091,14 @@ void CChainParams::UpdateLLMQParams(size_t totalMnCount, int height, bool lowLLM
 		lastCheckedLowLLMQParams = lowLLMQParams;
 		lastCheckHeight = height;
 		if(totalMnCount < 5) {
-			consensus.llmqs[Consensus::LLMQ_50_60] = llmq3_60;//llmq3_60;
+			consensus.llmqs[Consensus::LLMQ_50_60] = llmq3_60;
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq20_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq20_85;
 		} else if(totalMnCount < 100) {
 			consensus.llmqs[Consensus::LLMQ_50_60] = llmq10_60;
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq20_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq20_85;
-		}  else if(totalMnCount < 1000) {
+		}  else if(totalMnCount < 600) {
 			consensus.llmqs[Consensus::LLMQ_50_60] = llmq50_60;
 			consensus.llmqs[Consensus::LLMQ_400_60] = llmq40_60;
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq40_85;
@@ -1106,9 +1108,7 @@ void CChainParams::UpdateLLMQParams(size_t totalMnCount, int height, bool lowLLM
 			consensus.llmqs[Consensus::LLMQ_400_85] = llmq400_85;
 		}
 		if(lowLLMQParams) {
-			consensus.llmqs[Consensus::LLMQ_50_60] = llmq400_2;
-                        consensus.llmqs[Consensus::LLMQ_400_60] = llmq20_60;
-                        consensus.llmqs[Consensus::LLMQ_400_85] = llmq20_85;
+			consensus.llmqs[Consensus::LLMQ_50_60] = llmq200_2;
 		}
 	}
 
