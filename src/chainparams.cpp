@@ -506,6 +506,7 @@ public:
         vSeeds.emplace_back("81.68.112.118","81.68.112.118");
         vSeeds.emplace_back("31.40.251.11","31.40.251.11");
         vSeeds.emplace_back("nod.butcoin.tech","nod.butcoin.tech");
+        vSeeds.emplace_back("51.79.220.19","51.79.220.19");
 
         // But addresses start with 'x'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,76);
@@ -563,8 +564,6 @@ public:
                 {10,    uint256S("0x005cab51de3bef6840c7866dbc1d2f69738cff67155a975fa3f1800aa4bbfcf9")},
                 {50,    uint256S("0x0037fcf4a01c6c445f2ca1201aa67bca5c3a769cd9225199764c5d2b20e10e9f")},
                 {100,   uint256S("0x00008474034c9e03197c723b565b14cfdbedefbac17b6f25fb0a37214be66062")},
-                {150,   uint256S("0x000000798139866f2c22142c3d56d2ee93e3be06cf50f4324d1ba3251d4c39ab")},
-                {327,   uint256S("0x000005e002d34da1dd1cf56401f3035ae31a8d16541d65f6b0f30099298fc8cc")},
 	    }
         };
 
