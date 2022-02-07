@@ -55,6 +55,7 @@ uint256 CBlockHeader::GetPOWHash(int algo) const
         case ALGO_SCRYPT:
         default:
             scrypt_1024_1_1_256(BEGIN(nVersion), BEGIN(thash));
+            return thash;
 
     }
     return GetHash();
