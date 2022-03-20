@@ -5,7 +5,7 @@
 
 #include "spork.h"
 
-#include "base58.h"
+#include <key_io.h>
 #include "chainparams.h"
 #include "validation.h"
 #include "messagesigner.h"

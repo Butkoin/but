@@ -9,6 +9,8 @@
 
 #include "paymentrequestplus.h"
 
+#include <script/script.h>
+
 #include "util.h"
 
 #include <stdexcept>

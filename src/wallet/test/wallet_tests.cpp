@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <utility>
 #include <vector>
-
+#include <key_io.h>
 #include "consensus/validation.h"
 #include "rpc/server.h"
 #include "test/test_but.h"

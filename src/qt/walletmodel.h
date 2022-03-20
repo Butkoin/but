@@ -5,6 +5,11 @@
 #ifndef BITCOIN_QT_WALLETMODEL_H
 #define BITCOIN_QT_WALLETMODEL_H
 
+#include <amount.h>
+#include <key.h>
+#include <serialize.h>
+#include <script/standard.h>
+
 #include "paymentrequestplus.h"
 #include "walletmodeltransaction.h"
 

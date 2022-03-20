@@ -12,12 +12,12 @@
 #include "clientmodel.h"
 #include "coincontroldialog.h"
 #include "guiutil.h"
+#include <key_io.h>
 #include "optionsmodel.h"
 #include "platformstyle.h"
 #include "sendcoinsentry.h"
 #include "walletmodel.h"
 
-#include "base58.h"
 #include "wallet/coincontrol.h"
 #include "validation.h" // mempool and minRelayTxFee
 #include "ui_interface.h"

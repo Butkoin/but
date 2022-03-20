@@ -6,7 +6,7 @@
 
 #include "bitcoinaddressvalidator.h"
 
-#include "base58.h"
+#include <key_io.h>
 
 /* Base58 characters are:
      "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
@@ -69,7 +69,7 @@ QValidator::State BitcoinAddressEntryValidator::validate(QString &input, int &po
         if (((ch >= '0' && ch<='9') ||
             (ch >= 'a' && ch<='z') ||
             (ch >= 'A' && ch<='Z')) &&
-            ch != 'l' && ch != 'I' && ch != '0' && ch != 'O')
+             ch != 'I' && ch != 'O') // Characters invalid in both Base58 and Bech32
         {
             // Alphanumeric and not a 'forbidden' character
         }

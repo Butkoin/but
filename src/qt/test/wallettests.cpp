@@ -3,6 +3,7 @@
 #include "qt/bitcoinamountfield.h"
 #include "qt/callback.h"
 #include "qt/optionsmodel.h"
+#include <key_io.h>
 #include "qt/platformstyle.h"
 #include "qt/qvalidatedlineedit.h"
 #include "qt/sendcoinsdialog.h"

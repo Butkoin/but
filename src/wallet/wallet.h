@@ -9,7 +9,6 @@
 #define BITCOIN_WALLET_WALLET_H
 
 #include "amount.h"
-#include "base58.h"
 #include "policy/feerate.h"
 #include "saltedhasher.h"
 #include "streams.h"
@@ -82,6 +81,7 @@ bool AutoBackupWallet (CWallet* wallet, const std::string& strWalletFile_, std::
 
 class CBlockIndex;
 class CCoinControl;
+class CKey;
 class COutput;
 class CReserveKey;
 class CScript;

@@ -12,7 +12,10 @@
 #include "walletmodel.h"
 
 #include "fs.h"
+#include <base58.h>
+#include <chainparams.h>
 #include "primitives/transaction.h"
+#include <key_io.h>
 #include "init.h"
 #include "policy/policy.h"
 #include "protocol.h"
