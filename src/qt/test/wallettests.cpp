@@ -1,17 +1,17 @@
-#include "wallettests.h"
+#include <qt/test/wallettests.h>
 
-#include "qt/bitcoinamountfield.h"
-#include "qt/callback.h"
-#include "qt/optionsmodel.h"
-#include "qt/platformstyle.h"
-#include "qt/qvalidatedlineedit.h"
-#include "qt/sendcoinsdialog.h"
-#include "qt/sendcoinsentry.h"
-#include "qt/transactiontablemodel.h"
-#include "qt/walletmodel.h"
-#include "test/test_but.h"
-#include "validation.h"
-#include "wallet/wallet.h"
+#include <qt/bitcoinamountfield.h>
+#include <qt/callback.h>
+#include <qt/optionsmodel.h>
+#include <qt/platformstyle.h>
+#include <qt/qvalidatedlineedit.h>
+#include <qt/sendcoinsdialog.h>
+#include <qt/sendcoinsentry.h>
+#include <qt/transactiontablemodel.h>
+#include <qt/walletmodel.h>
+#include <test/test_but.h>
+#include <validation.h>
+#include <wallet/wallet.h>
 
 #include <QAbstractButton>
 #include <QApplication>
