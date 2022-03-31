@@ -6,7 +6,7 @@
 #ifndef BUT_BATCHEDLOGGER_H
 #define BUT_BATCHEDLOGGER_H
 
-#include "tinyformat.h"
+#include <tinyformat.h>
 
 class CBatchedLogger
 {

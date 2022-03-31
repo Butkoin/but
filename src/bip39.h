@@ -24,7 +24,7 @@
 #ifndef BUT_BIP39_H
 #define BUT_BIP39_H
 
-#include "support/allocators/secure.h"
+#include <support/allocators/secure.h>
 
 class CMnemonic
 {

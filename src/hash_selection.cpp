@@ -6,15 +6,15 @@
  *      Author: tri
  */
 
-#include "hash_selection.h"
-#include "cryptonote/cryptonight_dark.h"
-#include "cryptonote/cryptonight_dark_lite.h"
-#include "cryptonote/cryptonight_fast.h"
-#include "cryptonote/cryptonight.h"
-#include "cryptonote/cryptonight_lite.h"
-#include "cryptonote/cryptonight_soft_shell.h"
-#include "cryptonote/cryptonight_turtle.h"
-#include "cryptonote/cryptonight_turtle_lite.h"
+#include <hash_selection.h>
+#include <cryptonote/cryptonight_dark.h>
+#include <cryptonote/cryptonight_dark_lite.h>
+#include <cryptonote/cryptonight_fast.h>
+#include <cryptonote/cryptonight.h>
+#include <cryptonote/cryptonight_lite.h>
+#include <cryptonote/cryptonight_soft_shell.h>
+#include <cryptonote/cryptonight_turtle.h>
+#include <cryptonote/cryptonight_turtle_lite.h>
 
 std::vector<std::vector<int>> GR_GROUP = {
 		{0,1,2,3,4},

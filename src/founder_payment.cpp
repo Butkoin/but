@@ -9,12 +9,12 @@
  *      Author: Tri Nguyen
  */
 
-#include "founder_payment.h"
+#include <founder_payment.h>
 
-#include "util.h"
-#include "chainparams.h"
+#include <util.h>
+#include <chainparams.h>
 #include <boost/foreach.hpp>
-#include "base58.h"
+#include <base58.h>
 
 CAmount FounderPayment::getFounderPaymentAmount(int blockHeight, CAmount blockReward) {
 	 if (blockHeight <= startBlock){

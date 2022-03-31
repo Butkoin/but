@@ -3,12 +3,12 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "validation.h"
+#include <validation.h>
 #ifdef ENABLE_WALLET
-#include "privatesend/privatesend-client.h"
+#include <privatesend/privatesend-client.h>
 #endif // ENABLE_WALLET
-#include "privatesend/privatesend-server.h"
-#include "rpc/server.h"
+#include <privatesend/privatesend-server.h>
+#include <rpc/server.h>
 
 #include <univalue.h>
 

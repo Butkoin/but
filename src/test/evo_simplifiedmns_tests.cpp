@@ -3,11 +3,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "test/test_but.h"
+#include <test/test_but.h>
 
-#include "bls/bls.h"
-#include "evo/simplifiedmns.h"
-#include "netbase.h"
+#include <bls/bls.h>
+#include <evo/simplifiedmns.h>
+#include <netbase.h>
 
 #include <boost/test/unit_test.hpp>
 

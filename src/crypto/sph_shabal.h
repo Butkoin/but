@@ -37,7 +37,7 @@
 #define SPH_SHABAL_H__
 
 #include <stddef.h>
-#include "sph_types.h"
+#include <crypto/sph_types.h>
 #ifdef __cplusplus
 extern "C"{
 #endif
