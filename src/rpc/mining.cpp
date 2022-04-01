@@ -149,6 +149,7 @@ static UniValue getallnetworkhashps(const JSONRPCRequest& request)
     int blocks = !request.params[0].isNull() ? request.params[0].get_int() : 360;
     int height =  !request.params[1].isNull() ? request.params[1].get_int() : -1;
     UniValue obj(UniValue::VOBJ);
+    obj.pushKV("butkscrypt", GetNetworkHashPS(blocks, height, ALGO_BUTKSCRYPT));
     obj.pushKV("scrypt", GetNetworkHashPS(blocks, height, ALGO_SCRYPT));
     obj.pushKV("sha256d", GetNetworkHashPS(blocks, height, ALGO_SHA256D));
     obj.pushKV("lyra2", GetNetworkHashPS(blocks, height, ALGO_LYRA2));
@@ -365,7 +366,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
             "           ,...\n"
             "       ]\n"
             "     }\n"
-            "2. algorithm    (string, optional) The mining algorithm to use for this pow hash, 'sha256d', 'scrypt', 'ghostrider'\n"
+            "2. algorithm    (string, optional) The mining algorithm to use for this pow hash, 'sha256d', 'butkscrypt', 'ghostrider'\n"
             "\n"
             "\nResult:\n"
             "{\n"
@@ -507,6 +508,8 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
         transform(strAlgo.begin(),strAlgo.end(),strAlgo.begin(),::tolower);
         if (strAlgo == "sha" || strAlgo == "sha256" || strAlgo == "sha256d")
             algo = ALGO_SHA256D;
+        else if (strAlgo == "butkscrypt")
+            algo = ALGO_BUTKSCRYPT;
         else if (strAlgo == "scrypt")
             algo = ALGO_SCRYPT;
         else if (strAlgo == "ghostrider")

@@ -1705,20 +1705,22 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     }
 
     // Algo
-    std::string strAlgo = gArgs.GetArg("-algo", "scrypt");
+    std::string strAlgo = gArgs.GetArg("-algo", "butkscrypt");
     transform(strAlgo.begin(),strAlgo.end(),strAlgo.begin(),::tolower);
     if (strAlgo == "sha" || strAlgo == "sha256" || strAlgo == "sha256d")
         miningAlgo = ALGO_SHA256D;
-    else if (strAlgo == "scrypt")
-        miningAlgo = ALGO_SCRYPT;
+    else if (strAlgo == "butkscrypt")
+        miningAlgo = ALGO_BUTKSCRYPT;
     else if (strAlgo == "ghostrider")
         miningAlgo = ALGO_GHOSTRIDER;
     else if (strAlgo == "yespower")
         miningAlgo = ALGO_YESPOWER;
     else if (strAlgo == "lyra2" || strAlgo == "lyra2z330")
         miningAlgo = ALGO_LYRA2;
-    else
+    else if (strAlgo == "scrypt")
         miningAlgo = ALGO_SCRYPT;
+    else
+        miningAlgo = ALGO_BUTKSCRYPT;
 
     LogPrintf("Selected Algo: %s\n", strAlgo);
 

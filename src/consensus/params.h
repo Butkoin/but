@@ -192,6 +192,7 @@ struct Params {
     int v2DiffChangeHeight;
     int v3DiffChangeHeight;
     int AlgoChangeHeight;
+    int nSwitchHeight;
 
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;

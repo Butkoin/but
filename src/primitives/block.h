@@ -12,35 +12,37 @@
 
 enum
 {
-    ALGO_SCRYPT  = 0,
-    ALGO_SHA256D = 1,
-    ALGO_LYRA2 = 2,
-    ALGO_GHOSTRIDER   = 3,
-    ALGO_YESPOWER = 4
+    ALGO_BUTKSCRYPT  = 0,
+    ALGO_SHA256D     = 1,
+    ALGO_LYRA2       = 2,
+    ALGO_GHOSTRIDER  = 3,
+    ALGO_YESPOWER    = 4,
+    ALGO_SCRYPT      = 5
 };
 
-const int NUM_ALGOS = 3;
+const int NUM_ALGOS   = 3;
 const int NUM_ALGOSV2 = 4;
 const int NUM_ALGOSV3 = 5;
-
+const int NUM_ALGOSV4 = 6;
 enum
 {
     // primary version
-    BLOCK_VERSION_DEFAULT        = 2,
+BLOCK_VERSION_DEFAULT = 2,
 
     // algo
     BLOCK_VERSION_ALGO_BROKEN    = (10 << 11), //'101000000000000' 10 (broken bitmask)
     BLOCK_VERSION_ALGO           = (15 << 11), //'111100000000000' 15 (bitmask)
-    BLOCK_VERSION_SCRYPT         = (1  << 11), //'000100000000000' 1
+    BLOCK_VERSION_BUTKSCRYPT     = (1  << 11), //'000100000000000' 1
     BLOCK_VERSION_SHA256D        = (2  << 11), //'001000000000000' 2
     BLOCK_VERSION_GHOSTRIDER     = (3  << 11), //'001100000000000' 3
     BLOCK_VERSION_YESPOWER 	 = (4  << 11), //'010000000000000' 4
     BLOCK_VERSION_LYRA2 	 = (10 << 11), //'101000000000000' 10
+    BLOCK_VERSION_SCRYPT         = (5  << 11),
 };
 
 static inline int GetAlgoByName(std::string strAlgo){
-    if (strAlgo == "scrypt")
-        return ALGO_SCRYPT;
+    if (strAlgo == "butkscrypt")
+        return ALGO_BUTKSCRYPT;
     if (strAlgo == "sha" || strAlgo == "sha256" || strAlgo == "sha256d")
         return ALGO_SHA256D;
     if (strAlgo == "ghostrider")
@@ -49,7 +51,9 @@ static inline int GetAlgoByName(std::string strAlgo){
 	    return ALGO_LYRA2;
     if (strAlgo == "yespower")
             return ALGO_YESPOWER;
-    return ALGO_SCRYPT;
+    if (strAlgo == "scrypt")
+            return ALGO_SCRYPT;
+    return ALGO_BUTKSCRYPT;
 }
 
 static inline std::string GetAlgoName(int algo)
@@ -58,6 +62,8 @@ static inline std::string GetAlgoName(int algo)
     {
         case ALGO_SCRYPT:
             return std::string("scrypt");
+        case ALGO_BUTKSCRYPT:
+            return std::string("butkscrypt");
         case ALGO_SHA256D:
             return std::string("sha256d");
         case ALGO_LYRA2:
@@ -139,6 +145,8 @@ public:
         {
             case BLOCK_VERSION_SCRYPT:
                 return ALGO_SCRYPT;
+            case BLOCK_VERSION_BUTKSCRYPT:
+                return ALGO_BUTKSCRYPT;
             case BLOCK_VERSION_SHA256D:
                 return ALGO_SHA256D;
             case BLOCK_VERSION_LYRA2:
@@ -149,7 +157,7 @@ public:
                 return ALGO_YESPOWER;
         }
 
-        return ALGO_SCRYPT;
+        return ALGO_BUTKSCRYPT;
     }
 
     std::string GetAlgoName() const
