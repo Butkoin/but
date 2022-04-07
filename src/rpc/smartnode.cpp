@@ -464,6 +464,7 @@ UniValue smartnodelist(const JSONRPCRequest& request)
             std::ostringstream streamFull;
             streamFull << std::setw(18) <<
                            dmnToStatus(dmn) << " " <<
+                           dmn->pdmnState->nPoSePenalty << " " <<
                            payeeStr << " " << std::setw(10) <<
                            dmnToLastPaidTime(dmn) << " "  << std::setw(6) <<
                            dmn->pdmnState->nLastPaidHeight << " " <<
@@ -476,6 +477,7 @@ UniValue smartnodelist(const JSONRPCRequest& request)
             std::ostringstream streamInfo;
             streamInfo << std::setw(18) <<
                            dmnToStatus(dmn) << " " <<
+                           dmn->pdmnState->nPoSePenalty << " " <<
                            payeeStr << " " <<
                            dmn->pdmnState->addr.ToString();
             std::string strInfo = streamInfo.str();
@@ -488,6 +490,7 @@ UniValue smartnodelist(const JSONRPCRequest& request)
                            dmn->pdmnState->addr.ToString() << " " <<
                            payeeStr << " " <<
                            dmnToStatus(dmn) << " " <<
+                           dmn->pdmnState->nPoSePenalty << " " <<
                            dmnToLastPaidTime(dmn) << " " <<
                            dmn->pdmnState->nLastPaidHeight << " " <<
                            CBitcoinAddress(dmn->pdmnState->keyIDOwner).ToString() << " " <<
@@ -502,6 +505,7 @@ UniValue smartnodelist(const JSONRPCRequest& request)
             objMN.push_back(Pair("address", dmn->pdmnState->addr.ToString()));
             objMN.push_back(Pair("payee", payeeStr));
             objMN.push_back(Pair("status", dmnToStatus(dmn)));
+            objMN.push_back(Pair("pospenaltyscore", dmn->pdmnState->nPoSePenalty));
             objMN.push_back(Pair("lastpaidtime", dmnToLastPaidTime(dmn)));
             objMN.push_back(Pair("lastpaidblock", dmn->pdmnState->nLastPaidHeight));
             objMN.push_back(Pair("owneraddress", CBitcoinAddress(dmn->pdmnState->keyIDOwner).ToString()));
