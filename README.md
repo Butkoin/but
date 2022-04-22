@@ -62,8 +62,6 @@ code. This is especially important for large or high-risk changes. It is useful
 to add a test plan to the pull request description if testing the changes is
 not straightforward.
 
-[![Butkoin/but](https://gitee.com/Butkoin/but/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b)](https://gitee.com/Butkoin/but)
-
 
 ### Terms of Usage
 
