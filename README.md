@@ -63,3 +63,13 @@ to add a test plan to the pull request description if testing the changes is
 not straightforward.
 
 [![Butkoin/but](https://gitee.com/Butkoin/but/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b)](https://gitee.com/Butkoin/but)
+
+
+### Terms of Usage
+
+ * Usage of Butk for any illegal activities is not encouraged by both the ***butkoin developers*** or the ***butkoin teams*** and if you use it for any illegal activities you are liable for your own usage and the developers or the ***butk team*** would not be hold liable  for your illegal usage.
+
+ * Illegal activities include ***scamming people***, ***stealing***, ***terrorism*** and all illegal activities in your country according to your country laws.
+
+***signed by butkoin developers***
+
