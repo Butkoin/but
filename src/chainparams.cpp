@@ -461,7 +461,7 @@ public:
         consensus.v2DiffChangeHeight = 5;
         consensus.v3DiffChangeHeight = 10;
         consensus.AlgoChangeHeight = 28;
-        consensus.nSwitchHeight = 100000;
+        consensus.nSwitchHeight = 170000;
         consensus.nLocalTargetAdjustment = 4; //target adjustment per algo
         consensus.nLocalDifficultyAdjustment = 4; //difficulty adjustment per algo
 

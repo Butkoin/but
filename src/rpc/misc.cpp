@@ -224,8 +224,7 @@ UniValue mnsync(const JSONRPCRequest& request)
 
     if(strMode == "reset")
     {
-        smartnodeSync.Reset();
-        smartnodeSync.SwitchToNextAsset(*g_connman);
+        smartnodeSync.Reset(true);
         return "success";
     }
     return "failure";
