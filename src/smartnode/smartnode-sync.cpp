@@ -213,7 +213,7 @@ void CSmartnodeSync::ProcessTick(CConnman& connman)
                     LogPrintf("CSmartnodeSync::ProcessTick -- nTick %d nCurrentAsset %d -- syncing mempool from peer=%d\n", nTick, nCurrentAsset, pnode->GetId());
                 }
 
-                int64_t nTimeSyncTimeout = vNodesCopy.size() > 3 ? SMARTNODE_SYNC_TICK_SECONDS : MASTERNODE_SYNC_TIMEOUT_SECONDS;
+                int64_t nTimeSyncTimeout = vNodesCopy.size() > 3 ? SMARTNODE_SYNC_TICK_SECONDS : SMARTNODE_SYNC_TIMEOUT_SECONDS;
                 if (fReachedBestHeader && (GetTime() - nTimeLastBumped > nTimeSyncTimeout)) {
                     // At this point we know that:
                     // a) there are peers (because we are looping on at least one of them);
