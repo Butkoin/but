@@ -115,6 +115,11 @@ void SendCoinsEntry::clear()
     updateDisplayUnit();
 }
 
+void SendCoinsEntry::checkSubtractFeeFromAmount()
+{
+    ui->checkboxSubtractFeeFromAmount->setChecked(true);
+}
+
 void SendCoinsEntry::deleteClicked()
 {
     Q_EMIT removeEntry(this);
@@ -234,6 +239,11 @@ void SendCoinsEntry::setAddress(const QString &address)
 bool SendCoinsEntry::isClear()
 {
     return ui->payTo->text().isEmpty() && ui->payTo_is->text().isEmpty() && ui->payTo_s->text().isEmpty();
+}
+
+void SendCoinsEntry::setAmount(const CAmount &amount)
+{
+    ui->payAmount->setValue(amount);
 }
 
 void SendCoinsEntry::setFocus()

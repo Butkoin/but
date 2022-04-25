@@ -2822,6 +2822,7 @@ bool CConnman::RemoveAddedNode(const std::string& strNode)
     return false;
 }
 
+
 bool CConnman::AddPendingSmartnode(const CService& service)
 {
     LOCK(cs_vPendingSmartnodes);
@@ -2833,6 +2834,7 @@ bool CConnman::AddPendingSmartnode(const CService& service)
     vPendingSmartnodes.push_back(service);
     return true;
 }
+
 
 bool CConnman::AddSmartnodeQuorumNodes(Consensus::LLMQType llmqType, const uint256& quorumHash, const std::set<uint256>& proTxHashes)
 {

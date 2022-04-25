@@ -49,7 +49,7 @@ void CPrivateSendServer::ProcessMessage(CNode* pfrom, const std::string& strComm
         CPrivateSendAccept dsa;
         vRecv >> dsa;
 
-        LogPrint(BCLog::PRIVATESEND, "DSACCEPT -- nDenom %d (%s)  txCollateral %s", dsa.nDenom, CPrivateSend::GetDenominationsToString(dsa.nDenom), dsa.txCollateral.ToString());
+        LogPrint(BCLog::PRIVATESEND, "DSACCEPT -- nDenom %d (%s) txCollateral %s", dsa.nDenom, CPrivateSend::DenominationToString(dsa.nDenom), dsa.txCollateral.ToString());
 
         auto mnList = deterministicMNManager->GetListAtChainTip();
         auto dmn = mnList.GetValidMNByCollateral(activeSmartnodeInfo.outpoint);
@@ -74,7 +74,8 @@ void CPrivateSendServer::ProcessMessage(CNode* pfrom, const std::string& strComm
             }
 
             int64_t nLastDsq = mmetaman.GetMetaInfo(dmn->proTxHash)->GetLastDsq();
-            if (nLastDsq != 0 && nLastDsq + mnList.GetValidMNsCount() / 5 > mmetaman.GetDsqCount()) {
+            int64_t nDsqThreshold = mmetaman.GetDsqThreshold(dmn->proTxHash, mnList.GetValidMNsCount());
+            if (nLastDsq != 0 && nDsqThreshold > mmetaman.GetDsqCount()) {
                 if (fLogIPs) {
                     LogPrint(BCLog::PRIVATESEND, "DSACCEPT -- last dsq too recent, must wait: peer=%d, addr=%s\n", pfrom->GetId(), pfrom->addr.ToString());
                 } else {
@@ -142,10 +143,10 @@ void CPrivateSendServer::ProcessMessage(CNode* pfrom, const std::string& strComm
 
         if (!dsq.fReady) {
             int64_t nLastDsq = mmetaman.GetMetaInfo(dmn->proTxHash)->GetLastDsq();
-            int nThreshold = nLastDsq + mnList.GetValidMNsCount() / 5;
-            LogPrint(BCLog::PRIVATESEND, "DSQUEUE -- nLastDsq: %d  threshold: %d  nDsqCount: %d\n", nLastDsq, nThreshold, mmetaman.GetDsqCount());
+            int64_t nDsqThreshold = mmetaman.GetDsqThreshold(dmn->proTxHash, mnList.GetValidMNsCount());
+            LogPrint(BCLog::PRIVATESEND, "DSQUEUE -- nLastDsq: %d  nDsqThreshold: %d  nDsqCount: %d\n", nLastDsq, nDsqThreshold, mmetaman.GetDsqCount());
             //don't allow a few nodes to dominate the queuing process
-            if (nLastDsq != 0 && nThreshold > mmetaman.GetDsqCount()) {
+            if (nLastDsq != 0 && nDsqThreshold > mmetaman.GetDsqCount()) {
                 LogPrint(BCLog::PRIVATESEND, "DSQUEUE -- Smartnode %s is sending too many dsq messages\n", dmn->pdmnState->addr.ToString());
                 return;
             }
@@ -654,8 +655,7 @@ bool CPrivateSendServer::IsAcceptableDSA(const CPrivateSendAccept& dsa, PoolMess
     if (!fSmartnodeMode) return false;
 
     // is denom even smth legit?
-    std::vector<int> vecBits;
-    if (!CPrivateSend::GetDenominationsBits(dsa.nDenom, vecBits)) {
+    if (!CPrivateSend::IsValidDenomination(dsa.nDenom)) {
         LogPrint(BCLog::PRIVATESEND, "CPrivateSendServer::%s -- denom not valid!\n", __func__);
         nMessageIDRet = ERR_DENOM;
         return false;
@@ -705,7 +705,7 @@ bool CPrivateSendServer::CreateNewSession(const CPrivateSendAccept& dsa, PoolMes
 
     vecSessionCollaterals.push_back(MakeTransactionRef(dsa.txCollateral));
     LogPrint(BCLog::PRIVATESEND, "CPrivateSendServer::CreateNewSession -- new session created, nSessionID: %d  nSessionDenom: %d (%s)  vecSessionCollaterals.size(): %d  nSessionMaxParticipants: %d\n",
-        nSessionID, nSessionDenom, CPrivateSend::GetDenominationsToString(nSessionDenom), vecSessionCollaterals.size(), nSessionMaxParticipants);
+    nSessionID, nSessionDenom, CPrivateSend::DenominationToString(nSessionDenom), vecSessionCollaterals.size(), CPrivateSend::GetMaxPoolParticipants());
 
     return true;
 }
@@ -727,7 +727,7 @@ bool CPrivateSendServer::AddUserToExistingSession(const CPrivateSendAccept& dsa,
 
     if (dsa.nDenom != nSessionDenom) {
         LogPrint(BCLog::PRIVATESEND, "CPrivateSendServer::AddUserToExistingSession -- incompatible denom %d (%s) != nSessionDenom %d (%s)\n",
-            dsa.nDenom, CPrivateSend::GetDenominationsToString(dsa.nDenom), nSessionDenom, CPrivateSend::GetDenominationsToString(nSessionDenom));
+        dsa.nDenom, CPrivateSend::DenominationToString(dsa.nDenom), nSessionDenom, CPrivateSend::DenominationToString(nSessionDenom));
         nMessageIDRet = ERR_DENOM;
         return false;
     }
@@ -738,7 +738,7 @@ bool CPrivateSendServer::AddUserToExistingSession(const CPrivateSendAccept& dsa,
     vecSessionCollaterals.push_back(MakeTransactionRef(dsa.txCollateral));
 
     LogPrint(BCLog::PRIVATESEND, "CPrivateSendServer::AddUserToExistingSession -- new user accepted, nSessionID: %d  nSessionDenom: %d (%s)  vecSessionCollaterals.size(): %d  nSessionMaxParticipants: %d\n",
-        nSessionID, nSessionDenom, CPrivateSend::GetDenominationsToString(nSessionDenom), vecSessionCollaterals.size(), nSessionMaxParticipants);
+    nSessionID, nSessionDenom, CPrivateSend::DenominationToString(nSessionDenom), vecSessionCollaterals.size(), CPrivateSend::GetMaxPoolParticipants());
 
     return true;
 }
@@ -751,7 +751,7 @@ bool CPrivateSendServer::IsSessionReady()
 void CPrivateSendServer::RelayFinalTransaction(const CTransaction& txFinal, CConnman& connman)
 {
     LogPrint(BCLog::PRIVATESEND, "CPrivateSendServer::%s -- nSessionID: %d  nSessionDenom: %d (%s)\n",
-        __func__, nSessionID, nSessionDenom, CPrivateSend::GetDenominationsToString(nSessionDenom));
+    __func__, nSessionID, nSessionDenom, CPrivateSend::DenominationToString(nSessionDenom));
 
     // final mixing tx with empty signatures should be relayed to mixing participants only
     for (const auto& entry : vecEntries) {
@@ -794,7 +794,7 @@ void CPrivateSendServer::RelayStatus(PoolStatusUpdate nStatusUpdate, CConnman& c
 
     // smth went wrong
     LogPrint(BCLog::PRIVATESEND, "CPrivateSendServer::%s -- can't continue, %llu client(s) disconnected, nSessionID: %d  nSessionDenom: %d (%s)\n",
-        __func__, nDisconnected, nSessionID, nSessionDenom, CPrivateSend::GetDenominationsToString(nSessionDenom));
+        __func__, nDisconnected, nSessionID, nSessionDenom, CPrivateSend::DenominationToString(nSessionDenom));
 
     // notify everyone else that this session should be terminated
     for (const auto& entry : vecEntries) {
@@ -814,7 +814,7 @@ void CPrivateSendServer::RelayStatus(PoolStatusUpdate nStatusUpdate, CConnman& c
 void CPrivateSendServer::RelayCompletedTransaction(PoolMessage nMessageID, CConnman& connman)
 {
     LogPrint(BCLog::PRIVATESEND, "CPrivateSendServer::%s -- nSessionID: %d  nSessionDenom: %d (%s)\n",
-        __func__, nSessionID, nSessionDenom, CPrivateSend::GetDenominationsToString(nSessionDenom));
+    __func__, nSessionID, nSessionDenom, CPrivateSend::DenominationToString(nSessionDenom));
 
     // final mixing tx with empty signatures should be relayed to mixing participants only
     for (const auto& entry : vecEntries) {
@@ -862,10 +862,7 @@ void CPrivateSendServer::GetJsonInfo(UniValue& obj) const
     obj.setObject();
     obj.push_back(Pair("queue_size",    GetQueueSize()));
     CAmount amount{0};
-    if (nSessionDenom) {
-        ParseFixedPoint(CPrivateSend::GetDenominationsToString(nSessionDenom), 8, &amount);
-    }
-    obj.push_back(Pair("denomination",  ValueFromAmount(amount)));
+    obj.push_back(Pair("denomination", ValueFromAmount(CPrivateSend::DenominationToAmount(nSessionDenom))));
     obj.push_back(Pair("state",         GetStateString()));
     obj.push_back(Pair("entries_count", GetEntriesCount()));
 }

@@ -39,6 +39,9 @@ static const int PRIVATESEND_KEYS_THRESHOLD_WARNING = 100;
 // Stop mixing completely, it's too dangerous to continue when we have only this many keys left
 static const int PRIVATESEND_KEYS_THRESHOLD_STOP = 50;
 
+// Pseudorandomly mix up to this many times in addition to base round count
+static const int PRIVATESEND_RANDOM_ROUNDS = 3;
+
 // The main object for accessing mixing
 extern CPrivateSendClientManager privateSendClient;
 
@@ -196,6 +199,7 @@ private:
 public:
     int nPrivateSendSessions;
     int nPrivateSendRounds;
+    int nPrivateSendRandomRounds;
     int nPrivateSendAmount;
     int nPrivateSendDenoms;
     bool fEnablePrivateSend;
@@ -214,6 +218,7 @@ public:
         strAutoDenomResult(),
         nCachedBlockHeight(0),
         nPrivateSendRounds(DEFAULT_PRIVATESEND_ROUNDS),
+        nPrivateSendRandomRounds(PRIVATESEND_RANDOM_ROUNDS),
         nPrivateSendAmount(DEFAULT_PRIVATESEND_AMOUNT),
         nPrivateSendDenoms(DEFAULT_PRIVATESEND_DENOMS),
         fEnablePrivateSend(false),

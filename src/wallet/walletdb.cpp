@@ -174,6 +174,16 @@ bool CWalletDB::WriteAccountingEntry(const uint64_t nAccEntryNum, const CAccount
     return WriteIC(std::make_pair(std::string("acentry"), std::make_pair(acentry.strAccount, nAccEntryNum)), acentry);
 }
 
+bool CWalletDB::ReadPrivateSendSalt(uint256& salt)
+{
+    return batch.Read(std::string("ps_salt"), salt);
+}
+
+bool CWalletDB::WritePrivateSendSalt(const uint256& salt)
+{
+    return WriteIC(std::string("ps_salt"), salt);
+}
+
 CAmount CWalletDB::GetAccountCreditDebit(const std::string& strAccount)
 {
     std::list<CAccountingEntry> entries;

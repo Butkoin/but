@@ -403,6 +403,8 @@ public:
     std::vector<AddedNodeInfo> GetAddedNodeInfo();
 
     bool AddPendingSmartnode(const CService& addr);
+    bool AddPendingSmartnode(const uint256& proTxHash);
+
     bool AddSmartnodeQuorumNodes(Consensus::LLMQType llmqType, const uint256& quorumHash, const std::set<uint256>& proTxHashes);
     bool HasSmartnodeQuorumNodes(Consensus::LLMQType llmqType, const uint256& quorumHash);
     std::set<uint256> GetSmartnodeQuorums(Consensus::LLMQType llmqType);
