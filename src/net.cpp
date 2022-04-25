@@ -2115,10 +2115,17 @@ void CConnman::ThreadOpenSmartnodeConnections()
     if (gArgs.IsArgSet("-connect") && gArgs.GetArgs("-connect").size() > 0)
         return;
 
+    bool didConnect = false;
+
     while (!interruptNet)
     {
-        if (!interruptNet.sleep_for(std::chrono::milliseconds(1000)))
+        int sleepTime = 1000;
+        if (didConnect) {
+            sleepTime = 100;
+        }
+        if (!interruptNet.sleep_for(std::chrono::milliseconds(sleepTime)))
             return;
+        didConnect = false;
 
         std::set<CService> connectedNodes;
         std::set<uint256> connectedProRegTxHashes;
@@ -2177,7 +2184,8 @@ void CConnman::ThreadOpenSmartnodeConnections()
             std::random_shuffle(pending.begin(), pending.end());
             addr = pending.front();
         }
-
+        didConnect = true;
+        
         OpenSmartnodeConnection(CAddress(addr, NODE_NETWORK));
         // should be in the list now if connection was opened
         ForNode(addr, CConnman::AllNodes, [&](CNode* pnode) {
