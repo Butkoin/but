@@ -35,7 +35,7 @@ void CSmartnodeSync::Reset(bool fForce, bool fNotifyReset)
 
 void CSmartnodeSync::BumpAssetLastTime(const std::string& strFuncName)
 {
-    if(IsSynced() || IsFailed()) return;
+    if (IsSynced()) return;
     nTimeLastBumped = GetTime();
     LogPrint(BCLog::MNSYNC, "CSmartnodeSync::BumpAssetLastTime -- %s\n", strFuncName);
 }
@@ -46,7 +46,6 @@ std::string CSmartnodeSync::GetAssetName()
     {
         case(SMARTNODE_SYNC_BLOCKCHAIN):   return "SMARTNODE_SYNC_BLOCKCHAIN";
         case(SMARTNODE_SYNC_GOVERNANCE):   return "SMARTNODE_SYNC_GOVERNANCE";
-        case(SMARTNODE_SYNC_FAILED):       return "SMARTNODE_SYNC_FAILED";
         case SMARTNODE_SYNC_FINISHED:      return "SMARTNODE_SYNC_FINISHED";
         default:                           return "UNKNOWN";
     }
@@ -56,9 +55,6 @@ void CSmartnodeSync::SwitchToNextAsset(CConnman& connman)
 {
     switch(nCurrentAsset)
     {
-        case(SMARTNODE_SYNC_FAILED):
-            throw std::runtime_error("Can't switch to next asset from failed, should use Reset() first!");
-            break;
         case(SMARTNODE_SYNC_BLOCKCHAIN):
             LogPrintf("CSmartnodeSync::SwitchToNextAsset -- Completed %s in %llds\n", GetAssetName(), GetTime() - nTimeAssetSyncStarted);
             nCurrentAsset = SMARTNODE_SYNC_GOVERNANCE;
@@ -86,7 +82,6 @@ std::string CSmartnodeSync::GetSyncStatus()
     switch (smartnodeSync.nCurrentAsset) {
         case SMARTNODE_SYNC_BLOCKCHAIN:    return _("Synchronizing blockchain...");
         case SMARTNODE_SYNC_GOVERNANCE:    return _("Synchronizing governance objects...");
-        case SMARTNODE_SYNC_FAILED:        return _("Synchronization failed");
         case SMARTNODE_SYNC_FINISHED:      return _("Synchronization finished");
         default:                           return "";
     }
@@ -97,7 +92,7 @@ void CSmartnodeSync::ProcessMessage(CNode* pfrom, const std::string& strCommand,
     if (strCommand == NetMsgType::SYNCSTATUSCOUNT) { //Sync status count
 
         //do not care about stats if sync process finished or failed
-        if(IsSynced() || IsFailed()) return;
+        if (IsSynced()) return;
 
         int nItemID;
         int nCount;
@@ -130,16 +125,6 @@ void CSmartnodeSync::ProcessTick(CConnman& connman)
     }
 
     nTimeLastProcess = GetTime();
-
-    // reset sync status in case of any other sync failure
-    if(IsFailed()) {
-        if(nTimeLastFailure + (1*60) < GetTime()) { // 1 minute cooldown after failed sync
-            LogPrintf("CSmartnodeSync::ProcessTick -- WARNING: failed to sync, trying again...\n");
-            Reset();
-            SwitchToNextAsset(connman);
-        }
-        return;
-    }
 
     // gradually request the rest of the votes after sync finished
     if(IsSynced()) {
@@ -330,7 +315,7 @@ void CSmartnodeSync::NotifyHeaderTip(const CBlockIndex *pindexNew, bool fInitial
 {
     LogPrint(BCLog::MNSYNC, "CSmartnodeSync::NotifyHeaderTip -- pindexNew->nHeight: %d fInitialDownload=%d\n", pindexNew->nHeight, fInitialDownload);
 
-    if (IsFailed() || IsSynced() || !pindexBestHeader)
+    if ( IsSynced() || !pindexBestHeader)
         return;
 
     if (!IsBlockchainSynced()) {
@@ -345,7 +330,7 @@ void CSmartnodeSync::UpdatedBlockTip(const CBlockIndex *pindexNew, bool fInitial
 
     nTimeLastUpdateBlockTip = GetAdjustedTime();
 
-    if (IsFailed() || IsSynced() || !pindexBestHeader)
+    if (IsSynced() || !pindexBestHeader)
         return;
 
     if (!IsBlockchainSynced()) {

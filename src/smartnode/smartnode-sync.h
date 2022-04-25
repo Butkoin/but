@@ -10,7 +10,6 @@
 
 class CSmartnodeSync;
 
-static const int SMARTNODE_SYNC_FAILED         = -1;
 static const int SMARTNODE_SYNC_BLOCKCHAIN     =  1;
 static const int SMARTNODE_SYNC_GOVERNANCE     =  4;
 static const int SMARTNODE_SYNC_GOVOBJ         = 10;
@@ -45,8 +44,6 @@ private:
     /// Last time UpdateBlockTip has been called
     int64_t nTimeLastUpdateBlockTip{0};
 
-    // ... or failed
-    int64_t nTimeLastFailure;
 
 public:
     CSmartnodeSync() { Reset(true, false); }
@@ -54,7 +51,6 @@ public:
 
     void SendGovernanceSyncRequest(CNode* pnode, CConnman& connman);
 
-    bool IsFailed() { return nCurrentAsset == SMARTNODE_SYNC_FAILED; }
     bool IsBlockchainSynced() { return nCurrentAsset > SMARTNODE_SYNC_BLOCKCHAIN; }
     bool IsSynced() { return nCurrentAsset == SMARTNODE_SYNC_FINISHED; }
 
