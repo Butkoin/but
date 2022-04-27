@@ -4,7 +4,7 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test various net timeouts.
 
-- Create three bitcoind nodes:
+- Create three butd nodes:
 
     no_verack_node - we never send a verack in response to their version
     no_version_node - we never send a version (only a ping)
@@ -14,11 +14,11 @@
 - Wait 1 second
 - Assert that we're connected
 - Send a ping to no_verack_node and no_version_node
-- Wait 30 seconds
+- Wait 1 second
 - Assert that we're still connected
 - Send a ping to no_verack_node and no_version_node
-- Wait 31 seconds
-- Assert that we're no longer connected (timeout to receive version/verack is 60 seconds)
+- Wait 2 seconds
+- Assert that we're no longer connected (timeout to receive version/verack is 3 seconds)
 """
 
 from time import sleep
@@ -27,8 +27,8 @@ from test_framework.mininode import *
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import *
 
-class TestNode(NodeConnCB):
-    def on_version(self, conn, message):
+class TestNode(P2PInterface):
+    def on_version(self, message):
         # Don't send a verack in response
         pass
 
@@ -36,6 +36,8 @@ class TimeoutsTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1
+        # set timeout to receive version/verack to 3 seconds
+        self.extra_args = [["-peertimeout=3"]]
 
     def run_test(self):
         # Setup the p2p connections and start up the network thread.
@@ -54,7 +56,7 @@ class TimeoutsTest(BitcoinTestFramework):
         no_verack_node.send_message(msg_ping())
         no_version_node.send_message(msg_ping())
 
-        sleep(30)
+        sleep(1)
 
         assert "version" in no_verack_node.last_message
 
@@ -65,11 +67,17 @@ class TimeoutsTest(BitcoinTestFramework):
         no_verack_node.send_message(msg_ping())
         no_version_node.send_message(msg_ping())
 
-        sleep(31)
+        expected_timeout_logs = [
+            "version handshake timeout from 0",
+            "socket no message in first 3 seconds, 1 0 from 1",
+            "socket no message in first 3 seconds, 0 0 from 2",
+        ]
 
-        assert not no_verack_node.connected
-        assert not no_version_node.connected
-        assert not no_send_node.connected
+        with self.nodes[0].assert_debug_log(expected_msgs=expected_timeout_logs):
+            sleep(2)
+            assert not no_verack_node.connected
+            assert not no_version_node.connected
+            assert not no_send_node.connected
 
 if __name__ == '__main__':
     TimeoutsTest().main()

@@ -1707,8 +1707,8 @@ int32_t ComputeBlockVersion(const CBlockIndex* pindexPrev, const Consensus::Para
     }
     switch (algo)
     {
-        case ALGO_SCRYPT:
-        nVersion |= BLOCK_VERSION_SCRYPT;
+        case ALGO_BUTKSCRYPT:
+        nVersion |= BLOCK_VERSION_BUTKSCRYPT;
         break;
         case ALGO_SHA256D:
         nVersion |= BLOCK_VERSION_SHA256D;
@@ -1718,15 +1718,20 @@ int32_t ComputeBlockVersion(const CBlockIndex* pindexPrev, const Consensus::Para
         break;
         case ALGO_YESPOWER:
         if (pindexPrev->nHeight < params.v2DiffChangeHeight)
-            nVersion |= BLOCK_VERSION_SCRYPT;
+            nVersion |= BLOCK_VERSION_BUTKSCRYPT;
         else
             nVersion |= BLOCK_VERSION_YESPOWER;
         break;
         case ALGO_LYRA2:
         if (pindexPrev->nHeight < params.AlgoChangeHeight)
-            nVersion |= BLOCK_VERSION_SCRYPT;
+            nVersion |= BLOCK_VERSION_BUTKSCRYPT;
         else
             nVersion |= BLOCK_VERSION_LYRA2;
+        case ALGO_SCRYPT:
+        if (pindexPrev->nHeight < params.nSwitchHeight)
+            nVersion |= BLOCK_VERSION_BUTKSCRYPT;
+        else
+            nVersion |= BLOCK_VERSION_SCRYPT;
         break;
         default:
         break;
@@ -3178,11 +3183,12 @@ static bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state,
    if (block.nVersion > 4) { 
         switch (block.nVersion & BLOCK_VERSION_ALGO)
         {
-            case BLOCK_VERSION_SCRYPT:
+            case BLOCK_VERSION_BUTKSCRYPT:
             case BLOCK_VERSION_SHA256D:
             case BLOCK_VERSION_LYRA2:
             case BLOCK_VERSION_GHOSTRIDER:
             case BLOCK_VERSION_YESPOWER:
+            case BLOCK_VERSION_SCRYPT:
                 break;
             default:
                 return state.DoS(50, false, REJECT_INVALID, "unknown-algo", false, "unknown proof of work algorithm");

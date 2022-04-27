@@ -437,15 +437,12 @@ public:
     static std::vector<CAmount> GetStandardDenominations() { return vecStandardDenominations; }
     static CAmount GetSmallestDenomination() { return vecStandardDenominations.back(); }
 
-    /// Get the denominations for a specific amount of but.
-    static int GetDenominationsByAmounts(const std::vector<CAmount>& vecAmount);
-
     static bool IsDenominatedAmount(CAmount nInputAmount);
 
-    /// Get the denominations for a list of outputs (returns a bitshifted integer)
-    static int GetDenominations(const std::vector<CTxOut>& vecTxOut, bool fSingleRandomDenom = false);
-    static std::string GetDenominationsToString(int nDenom);
-    static bool GetDenominationsBits(int nDenom, std::vector<int>& vecBitsRet);
+    static int AmountToDenomination(CAmount nInputAmount);
+    static std::string DenominationToString(int nDenom);
+    static CAmount DenominationToAmount(int nDenom);
+    static bool IsValidDenomination(int nDenom);
 
     static std::string GetMessageByID(PoolMessage nMessageID);
 

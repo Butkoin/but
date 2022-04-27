@@ -522,6 +522,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-proxyrandomize", strprintf(_("Randomize credentials for every proxy connection. This enables Tor stream isolation (default: %u)"), DEFAULT_PROXYRANDOMIZE));
     strUsage += HelpMessageOpt("-seednode=<ip>", _("Connect to a node to retrieve peer addresses, and disconnect"));
     strUsage += HelpMessageOpt("-timeout=<n>", strprintf(_("Specify connection timeout in milliseconds (minimum: 1, default: %d)"), DEFAULT_CONNECT_TIMEOUT));
+    strUsage += HelpMessageOpt("-peertimeout=<n>", strprintf("Specify p2p connection timeout in seconds. This option determines the amount of time a peer may be inactive before the connection to it is dropped. (minimum: 1, default: %d)", DEFAULT_PEER_CONNECT_TIMEOUT));
     strUsage += HelpMessageOpt("-torcontrol=<ip>:<port>", strprintf(_("Tor control port to use if onion listening enabled (default: %s)"), DEFAULT_TOR_CONTROL));
     strUsage += HelpMessageOpt("-torpassword=<pass>", _("Tor control port password (default: empty)"));
 #ifdef USE_UPNP
@@ -1043,6 +1044,8 @@ int nUserMaxConnections;
 int nFD;
 ServiceFlags nLocalServices = NODE_NETWORK;
 
+int64_t peer_connect_timeout;
+
 } // namespace
 
 [[noreturn]] static void new_handler_terminate()
@@ -1283,8 +1286,14 @@ bool AppInitParameterInteraction()
 #endif
 
     nConnectTimeout = gArgs.GetArg("-timeout", DEFAULT_CONNECT_TIMEOUT);
-    if (nConnectTimeout <= 0)
+    if (nConnectTimeout <= 0) {
         nConnectTimeout = DEFAULT_CONNECT_TIMEOUT;
+     }
+
+    peer_connect_timeout = gArgs.GetArg("-peertimeout", DEFAULT_PEER_CONNECT_TIMEOUT);
+    if (peer_connect_timeout <= 0) {
+        return InitError("peertimeout cannot be configured with a negative value.");
+    }
 
     if (gArgs.IsArgSet("-minrelaytxfee")) {
         CAmount n = 0;
@@ -1666,7 +1675,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     // -proxy sets a proxy for all outgoing network traffic
     // -noproxy (or -proxy=0) as well as the empty string can be used to not set a proxy, this is the default
     std::string proxyArg = gArgs.GetArg("-proxy", "");
-    SetLimited(NET_TOR);
+    SetLimited(NET_ONION);
     if (proxyArg != "" && proxyArg != "0") {
         CService proxyAddr;
         if (!Lookup(proxyArg.c_str(), proxyAddr, 9050, fNameLookup)) {
@@ -1679,9 +1688,9 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
 
         SetProxy(NET_IPV4, addrProxy);
         SetProxy(NET_IPV6, addrProxy);
-        SetProxy(NET_TOR, addrProxy);
+        SetProxy(NET_ONION, addrProxy);
         SetNameProxy(addrProxy);
-        SetLimited(NET_TOR, false); // by default, -proxy sets onion as reachable, unless -noonion later
+        SetLimited(NET_ONION, false); // by default, -proxy sets onion as reachable, unless -noonion later
     }
 
     // -onion can be used to set only a proxy for .onion, or override normal proxy for .onion addresses
@@ -1690,7 +1699,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     std::string onionArg = gArgs.GetArg("-onion", "");
     if (onionArg != "") {
         if (onionArg == "0") { // Handle -noonion/-onion=0
-            SetLimited(NET_TOR); // set onions as unreachable
+            SetLimited(NET_ONION); // set onions as unreachable
         } else {
             CService onionProxy;
             if (!Lookup(onionArg.c_str(), onionProxy, 9050, fNameLookup)) {
@@ -1699,26 +1708,28 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
             proxyType addrOnion = proxyType(onionProxy, proxyRandomize);
             if (!addrOnion.IsValid())
                 return InitError(strprintf(_("Invalid -onion address or hostname: '%s'"), onionArg));
-            SetProxy(NET_TOR, addrOnion);
-            SetLimited(NET_TOR, false);
+            SetProxy(NET_ONION, addrOnion);
+            SetLimited(NET_ONION, false);
         }
     }
 
     // Algo
-    std::string strAlgo = gArgs.GetArg("-algo", "scrypt");
+    std::string strAlgo = gArgs.GetArg("-algo", "butkscrypt");
     transform(strAlgo.begin(),strAlgo.end(),strAlgo.begin(),::tolower);
     if (strAlgo == "sha" || strAlgo == "sha256" || strAlgo == "sha256d")
         miningAlgo = ALGO_SHA256D;
-    else if (strAlgo == "scrypt")
-        miningAlgo = ALGO_SCRYPT;
+    else if (strAlgo == "butkscrypt")
+        miningAlgo = ALGO_BUTKSCRYPT;
     else if (strAlgo == "ghostrider")
         miningAlgo = ALGO_GHOSTRIDER;
     else if (strAlgo == "yespower")
         miningAlgo = ALGO_YESPOWER;
     else if (strAlgo == "lyra2" || strAlgo == "lyra2z330")
         miningAlgo = ALGO_LYRA2;
-    else
+    else if (strAlgo == "scrypt")
         miningAlgo = ALGO_SCRYPT;
+    else
+        miningAlgo = ALGO_BUTKSCRYPT;
 
     LogPrintf("Selected Algo: %s\n", strAlgo);
 
@@ -2249,6 +2260,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     connOptions.nMaxOutboundTimeframe = nMaxOutboundTimeframe;
     connOptions.nMaxOutboundLimit = nMaxOutboundLimit;
+    connOptions.m_peer_connect_timeout = peer_connect_timeout;
 
     for (const std::string& strBind : gArgs.GetArgs("-bind")) {
         CService addrBind;

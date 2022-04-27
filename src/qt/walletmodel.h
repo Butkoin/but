@@ -185,6 +185,8 @@ public:
         // Copy operator and constructor transfer the context
         UnlockContext(const UnlockContext& obj) { CopyFrom(obj); }
         UnlockContext& operator=(const UnlockContext& rhs) { CopyFrom(rhs); return *this; }
+
+
     private:
         WalletModel *wallet;
         bool valid;
@@ -223,6 +225,9 @@ public:
 
     int getDefaultConfirmTarget() const;
     int getNumISLocks() const;
+
+    int getRealOutpointPrivateSendRounds(const COutPoint& outpoint) const;
+    bool isFullyMixed(const COutPoint& outpoint) const;
 
 private:
     CWallet *wallet;

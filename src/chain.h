@@ -410,7 +410,7 @@ public:
         READWRITE(VARINT(nHeight));
         READWRITE(VARINT(nStatus));
         READWRITE(VARINT(nTx));
-        // prepare block hash if not set yet (always scrypt)
+        // prepare block hash if not set yet (always butkscrypt)
         if(!ser_action.ForRead() && hashBlockShared.IsNull()) {
             hashBlockShared = this->GetBlockHash();
         }
@@ -419,8 +419,8 @@ public:
         if(!ser_action.ForRead()) {
             // for write prepare POW hash if not set yet.
             int algo = this->GetAlgo();
-            // we can reuse hashBlockShared if block ALGO is scrypt
-            if(hashPOWShared.IsNull() && algo == ALGO_SCRYPT){
+            // we can reuse hashBlockShared if block ALGO is butscrypt
+            if(hashPOWShared.IsNull() && algo == ALGO_BUTKSCRYPT){
                 hashPOWShared = uint256(hashBlockShared);
             } else if (hashPOWShared.IsNull()) {
                 hashPOWShared = this->GetBlockHeader().GetPOWHash(algo);

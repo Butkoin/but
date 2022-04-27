@@ -1634,6 +1634,30 @@ bool CWallet::IsDenominated(const COutPoint& outpoint) const
     return CPrivateSend::IsDenominatedAmount(it->second.tx->vout[outpoint.n].nValue);
 }
 
+bool CWallet::IsFullyMixed(const COutPoint& outpoint) const
+{
+    int nRounds = GetRealOutpointPrivateSendRounds(outpoint);
+    // Mix again if we don't have N rounds yet
+    if (nRounds < privateSendClient.nPrivateSendRounds) return false;
+
+    // Try to mix a "random" number of rounds more than minimum.
+    // If we have already mixed N + MaxOffset rounds, don't mix again.
+    // Otherwise, we should mix again 50% of the time, this results in an exponential decay
+    // N rounds 50% N+1 25% N+2 12.5%... until we reach N + GetRandomRounds() rounds where we stop.
+    if (nRounds < privateSendClient.nPrivateSendRounds + privateSendClient.nPrivateSendRandomRounds) {
+        CDataStream ss(SER_GETHASH, PROTOCOL_VERSION);
+        ss << outpoint << nPrivateSendSalt;
+        uint256 nHash;
+        CSHA256().Write((const unsigned char*)ss.data(), ss.size()).Finalize(nHash.begin());
+        if (nHash.GetCheapHash() % 2 == 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 isminetype CWallet::IsMine(const CTxOut& txout) const
 {
     return ::IsMine(*this, txout.scriptPubKey);
@@ -2252,7 +2276,7 @@ CAmount CWalletTx::GetAvailableWatchOnlyCredit(const bool& fUseCache) const
     return nCredit;
 }
 
-CAmount CWalletTx::GetAnonymizedCredit(bool fUseCache) const
+CAmount CWalletTx::GetAnonymizedCredit(const CCoinControl* coinControl) const
 {
     if (pwallet == 0)
         return 0;
@@ -2261,7 +2285,7 @@ CAmount CWalletTx::GetAnonymizedCredit(bool fUseCache) const
     if (IsCoinBase() || GetDepthInMainChain() < 0)
         return 0;
 
-    if (fUseCache && fAnonymizedCreditCached)
+    if (coinControl == nullptr && fAnonymizedCreditCached)
         return nAnonymizedCreditCached;
 
     CAmount nCredit = 0;
@@ -2271,18 +2295,24 @@ CAmount CWalletTx::GetAnonymizedCredit(bool fUseCache) const
         const CTxOut &txout = tx->vout[i];
         const COutPoint outpoint = COutPoint(hashTx, i);
 
+        if (coinControl != nullptr && coinControl->HasSelected() && !coinControl->IsSelected(outpoint)) {
+            continue;
+        }
+
         if (pwallet->IsSpent(hashTx, i) || !CPrivateSend::IsDenominatedAmount(txout.nValue)) continue;
 
-        const int nRounds = pwallet->GetCappedOutpointPrivateSendRounds(outpoint);
-        if (nRounds >= privateSendClient.nPrivateSendRounds){
+        if (pwallet->IsFullyMixed(outpoint)) {
             nCredit += pwallet->GetCredit(txout, ISMINE_SPENDABLE);
             if (!MoneyRange(nCredit))
                 throw std::runtime_error(std::string(__func__) + ": value out of range");
         }
     }
 
-    nAnonymizedCreditCached = nCredit;
-    fAnonymizedCreditCached = true;
+    if (coinControl == nullptr) {
+        nAnonymizedCreditCached = nCredit;
+        fAnonymizedCreditCached = true;
+    }
+
     return nCredit;
 }
 
@@ -2738,8 +2768,12 @@ void CWallet::AvailableCoins(std::vector<COutput> &vCoins, bool fOnlySafe, const
                 continue;
             for (unsigned int i = 0; i < pcoin->tx->vout.size(); i++) {
                 bool found = false;
-                if(nCoinType == CoinType::ONLY_DENOMINATED) {
-                    found = CPrivateSend::IsDenominatedAmount(pcoin->tx->vout[i].nValue);
+                if (nCoinType == CoinType::ONLY_FULLY_MIXED) {
+                    if (!CPrivateSend::IsDenominatedAmount(pcoin->tx->vout[i].nValue)) continue;
+                    found = IsFullyMixed(COutPoint(wtxid, i));
+                } else if(nCoinType == CoinType::ONLY_READY_TO_MIX) {
+                    if (!CPrivateSend::IsDenominatedAmount(pcoin->tx->vout[i].nValue)) continue;
+                    found = !IsFullyMixed(COutPoint(wtxid, i));
                 } else if(nCoinType == CoinType::ONLY_NONDENOMINATED) {
                     if (CPrivateSend::IsCollateralAmount(pcoin->tx->vout[i].nValue)) continue; // do not use collateral amounts
                     found = !CPrivateSend::IsDenominatedAmount(pcoin->tx->vout[i].nValue);
@@ -2856,6 +2890,21 @@ const CTxOut& CWallet::FindNonChangeParentOutput(const CTransaction& tx, int out
     return ptx->vout[n];
 }
 
+void CWallet::InitPrivateSendSalt()
+{
+    // Avoid fetching it multiple times
+    assert(nPrivateSendSalt.IsNull());
+
+    CWalletDB  walletdb(*dbw);
+    walletdb.ReadPrivateSendSalt(nPrivateSendSalt);
+
+    while (nPrivateSendSalt.IsNull()) {
+        // We never generated/saved it
+        nPrivateSendSalt = GetRandHash();
+        walletdb.WritePrivateSendSalt(nPrivateSendSalt);
+    }
+}
+
 static void ApproximateBestSubset(const std::vector<CInputCoin>& vValue, const CAmount& nTotalLower, const CAmount& nTargetValue,
                                   std::vector<char>& vfBest, CAmount& nBest, int iterations = 1000)
 {
@@ -2948,7 +2997,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
     int tryDenomStart = 0;
     CAmount nMinChange = MIN_CHANGE;
 
-    if (nCoinType == CoinType::ONLY_DENOMINATED) {
+    if (nCoinType == CoinType::ONLY_FULLY_MIXED) {
         // larger denoms first
         std::sort(vCoins.rbegin(), vCoins.rend(), CompareByPriority());
         // we actually want denoms only, so let's skip "non-denom only" step
@@ -2988,13 +3037,6 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
             CInputCoin coin = CInputCoin(pcoin, i);
 
             if (tryDenom == 0 && CPrivateSend::IsDenominatedAmount(coin.txout.nValue)) continue; // we don't want denom values on first run
-
-            if (nCoinType == CoinType::ONLY_DENOMINATED) {
-                // Make sure it's actually mixed
-                COutPoint outpoint = COutPoint(pcoin->GetHash(), i);
-                int nRounds = GetRealOutpointPrivateSendRounds(outpoint);
-                if (nRounds < privateSendClient.nPrivateSendRounds) continue;
-            }
 
             if (coin.txout.nValue == nTargetValue)
             {
@@ -3038,7 +3080,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
             nValueRet += coinLowestLarger->txout.nValue;
             // There is no change in PS, so we know the fee beforehand,
             // can see if we exceeded the max fee and thus fail quickly.
-            return (nCoinType == CoinType::ONLY_DENOMINATED) ? (nValueRet - nTargetValue <= maxTxFee) : true;
+            return (nCoinType == CoinType::ONLY_FULLY_MIXED) ? (nValueRet - nTargetValue <= maxTxFee) : true;
         }
 
         // nTotalLower > nTargetValue
@@ -3079,7 +3121,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
 
     // There is no change in PS, so we know the fee beforehand,
     // can see if we exceeded the max fee and thus fail quickly.
-    return (nCoinType == CoinType::ONLY_DENOMINATED) ? (nValueRet - nTargetValue <= maxTxFee) : true;
+    return (nCoinType == CoinType::ONLY_FULLY_MIXED) ? (nValueRet - nTargetValue <= maxTxFee) : true;
 }
 
 bool CWallet::SelectCoins(const std::vector<COutput>& vAvailableCoins, const CAmount& nTargetValue, std::set<CInputCoin>& setCoinsRet, CAmount& nValueRet, const CCoinControl* coinControl) const
@@ -3097,12 +3139,6 @@ bool CWallet::SelectCoins(const std::vector<COutput>& vAvailableCoins, const CAm
             if(!out.fSpendable)
                 continue;
 
-            if(nCoinType == CoinType::ONLY_DENOMINATED) {
-                COutPoint outpoint = COutPoint(out.tx->GetHash(),out.i);
-                int nRounds = GetCappedOutpointPrivateSendRounds(outpoint);
-                // make sure it's actually mixed
-                if(nRounds < privateSendClient.nPrivateSendRounds) continue;
-            }
             nValueRet += out.tx->tx->vout[out.i].nValue;
             setCoinsRet.insert(CInputCoin(out.tx, out.i));
 
@@ -3131,11 +3167,10 @@ bool CWallet::SelectCoins(const std::vector<COutput>& vAvailableCoins, const CAm
             // Clearly invalid input, fail
             if (pcoin->tx->vout.size() <= outpoint.n)
                 return false;
-            if (nCoinType == CoinType::ONLY_DENOMINATED) {
+            if (nCoinType == CoinType::ONLY_FULLY_MIXED) {
                 // Make sure to include mixed preset inputs only,
                 // even if some non-mixed inputs were manually selected via CoinControl
-                int nRounds = GetRealOutpointPrivateSendRounds(outpoint);
-                if (nRounds < privateSendClient.nPrivateSendRounds) continue;
+                if (!IsFullyMixed(outpoint)) continue;
             }
             nValueFromPresetInputs += pcoin->tx->vout[outpoint.n].nValue;
             setPresetCoins.insert(CInputCoin(pcoin, outpoint.n));
@@ -3230,54 +3265,47 @@ bool CWallet::FundTransaction(CMutableTransaction& tx, CAmount& nFeeRet, int& nC
     return true;
 }
 
-bool CWallet::SelectPSInOutPairsByDenominations(int nDenom, CAmount nValueMin, CAmount nValueMax, std::vector< std::pair<CTxDSIn, CTxOut> >& vecPSInOutPairsRet)
+bool CWallet::SelectPSInOutPairsByDenominations(int nDenom, CAmount nValueMax, std::vector< std::pair<CTxDSIn, CTxOut> >& vecPSInOutPairsRet)
 {
     CAmount nValueTotal{0};
-    int nDenomResult{0};
 
     std::set<uint256> setRecentTxIds;
     std::vector<COutput> vCoins;
 
     vecPSInOutPairsRet.clear();
 
-    std::vector<int> vecBits;
-    if (!CPrivateSend::GetDenominationsBits(nDenom, vecBits)) {
+    if (!CPrivateSend::IsValidDenomination(nDenom)) {
         return false;
     }
-
+    CAmount nDenomAmount = CPrivateSend::DenominationToAmount(nDenom);
     CCoinControl coin_control;
-    coin_control.nCoinType = CoinType::ONLY_DENOMINATED;
+    coin_control.nCoinType = CoinType::ONLY_READY_TO_MIX;
     AvailableCoins(vCoins, true, &coin_control);
     LogPrint(BCLog::PRIVATESEND, "CWallet::%s -- vCoins.size(): %d\n", __func__, vCoins.size());
 
     std::random_shuffle(vCoins.rbegin(), vCoins.rend(), GetRandInt);
 
-    std::vector<CAmount> vecPrivateSendDenominations = CPrivateSend::GetStandardDenominations();
     for (const auto& out : vCoins) {
         uint256 txHash = out.tx->GetHash();
-        int nValue = out.tx->tx->vout[out.i].nValue;
+        CAmount nValue = out.tx->tx->vout[out.i].nValue;
         if (setRecentTxIds.find(txHash) != setRecentTxIds.end()) continue; // no duplicate txids
         if (nValueTotal + nValue > nValueMax) continue;
 
         CTxIn txin = CTxIn(txHash, out.i);
         CScript scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
         int nRounds = GetRealOutpointPrivateSendRounds(txin.prevout);
-        if (nRounds >= privateSendClient.nPrivateSendRounds) continue;
 
-        for (const auto& nBit : vecBits) {
-            if (nValue != vecPrivateSendDenominations[nBit]) continue;
-            nValueTotal += nValue;
-            vecPSInOutPairsRet.emplace_back(CTxDSIn(txin, scriptPubKey), CTxOut(nValue, scriptPubKey, nRounds));
-            setRecentTxIds.emplace(txHash);
-            nDenomResult |= 1 << nBit;
-            LogPrint(BCLog::PRIVATESEND, "CWallet::%s -- hash: %s, nValue: %d.%08d, nRounds: %d\n",
-                            __func__, txHash.ToString(), nValue / COIN, nValue % COIN, nRounds);
-        }
+        if (nValue != nDenomAmount) continue;
+        nValueTotal += nValue;
+        vecPSInOutPairsRet.emplace_back(CTxDSIn(txin, scriptPubKey), CTxOut(nValue, scriptPubKey, nRounds));
+        setRecentTxIds.emplace(txHash);
+        LogPrint(BCLog::PRIVATESEND, "CWallet::%s -- hash: %s, nValue: %d.%08d, nRounds: %d\n",
+                        __func__, txHash.ToString(), nValue / COIN, nValue % COIN, nRounds);
     }
 
     LogPrint(BCLog::PRIVATESEND, "CWallet::%s -- setRecentTxIds.size(): %d\n", __func__, setRecentTxIds.size());
 
-    return nValueTotal >= nValueMin && nDenom == nDenomResult;
+    return nValueTotal > 0;
 }
 
 bool CWallet::SelectCoinsGroupedByAddresses(std::vector<CompactTallyItem>& vecTallyRet, bool fSkipDenominated, bool fAnonymizable, bool fSkipUnconfirmed, int nMaxOupointsPerAddress) const
@@ -3340,7 +3368,8 @@ bool CWallet::SelectCoinsGroupedByAddresses(std::vector<CompactTallyItem>& vecTa
                 // otherwise they will just lead to higher fee / lower priority
                 if(wtx.tx->vout[i].nValue <= nSmallestDenom/10) continue;
                 // ignore mixed
-                if(GetCappedOutpointPrivateSendRounds(COutPoint(outpoint.hash, i)) >= privateSendClient.nPrivateSendRounds) continue;
+                if (IsFullyMixed(COutPoint(outpoint.hash, i))) continue;
+
             }
 
             if (itTallyItem == mapTally.end()) {
@@ -3383,40 +3412,27 @@ bool CWallet::SelectCoinsGroupedByAddresses(std::vector<CompactTallyItem>& vecTa
     return vecTallyRet.size() > 0;
 }
 
-bool CWallet::SelectPrivateCoins(CAmount nValueMin, CAmount nValueMax, std::vector<CTxIn>& vecTxInRet, CAmount& nValueRet, int nPrivateSendRoundsMin, int nPrivateSendRoundsMax) const
+bool CWallet::SelectDenominatedAmounts(CAmount nValueMax, std::set<CAmount>& setAmountsRet) const
 {
-    vecTxInRet.clear();
-    nValueRet = 0;
+    CAmount nValueTotal{0};
+    setAmountsRet.clear();
 
     std::vector<COutput> vCoins;
     CCoinControl coin_control;
-    coin_control.nCoinType = nPrivateSendRoundsMin < 0 ? CoinType::ONLY_NONDENOMINATED : CoinType::ONLY_DENOMINATED;
+    coin_control.nCoinType = CoinType::ONLY_READY_TO_MIX;
     AvailableCoins(vCoins, true, &coin_control);
-
-    //order the array so largest nondenom are first, then denominations, then very small inputs.
+    // larger denoms first
     std::sort(vCoins.rbegin(), vCoins.rend(), CompareByPriority());
-    SmartnodeCollaterals collaterals = Params().GetConsensus().nCollaterals;
-    for (const auto& out : vCoins)
-    {
-        //do not allow inputs less than 1/10th of minimum value
-        if(out.tx->tx->vout[out.i].nValue < nValueMin/10) continue;
-        //do not allow collaterals to be selected
-        if(CPrivateSend::IsCollateralAmount(out.tx->tx->vout[out.i].nValue)) continue;
-        if(fSmartnodeMode && collaterals.isValidCollateral(out.tx->tx->vout[out.i].nValue)) continue; //smartnode input
 
-        if(nValueRet + out.tx->tx->vout[out.i].nValue <= nValueMax){
-            CTxIn txin = CTxIn(out.tx->GetHash(),out.i);
-
-            int nRounds = GetCappedOutpointPrivateSendRounds(txin.prevout);
-            if(nRounds > nPrivateSendRoundsMax) continue;
-            if(nRounds < nPrivateSendRoundsMin) continue;
-
-            nValueRet += out.tx->tx->vout[out.i].nValue;
-            vecTxInRet.push_back(txin);
+    for (const auto& out : vCoins) {
+        CAmount nValue = out.tx->tx->vout[out.i].nValue;
+        if (nValueTotal + nValue <= nValueMax) {
+            nValueTotal += nValue;
+            setAmountsRet.emplace(nValue);
         }
     }
 
-    return nValueRet >= nValueMin;
+    return nValueTotal >= CPrivateSend::GetSmallestDenomination();
 }
 
 bool CWallet::GetCollateralTxDSIn(CTxDSIn& txdsinRet, CAmount& nValueRet) const
@@ -3598,22 +3614,6 @@ bool CWallet::GetBudgetSystemCollateralTX(CWalletTx& tx, uint256 hash, CAmount a
 }
 
 
-bool CWallet::ConvertList(std::vector<CTxIn> vecTxIn, std::vector<CAmount>& vecAmounts)
-{
-    LOCK2(cs_main, cs_wallet);
-
-    for (const auto& txin : vecTxIn) {
-        if (mapWallet.count(txin.prevout.hash)) {
-            CWalletTx& wtx = mapWallet[txin.prevout.hash];
-            if(txin.prevout.n < wtx.tx->vout.size()){
-                vecAmounts.push_back(wtx.tx->vout[txin.prevout.n].nValue);
-            }
-        } else {
-            LogPrintf("CWallet::ConvertList -- Couldn't find transaction\n");
-        }
-    }
-    return true;
-}
 
 static CFeeRate GetDiscardRate(const CBlockPolicyEstimator& estimator)
 {
@@ -3652,7 +3652,7 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
 
     wtxNew.fTimeReceivedIsTxTime = true;
     wtxNew.BindWallet(this);
-    if (coin_control.nCoinType == CoinType::ONLY_DENOMINATED) {
+    if (coin_control.nCoinType == CoinType::ONLY_FULLY_MIXED) {
         wtxNew.mapValue["DS"] = "1";
     }
 
@@ -3787,7 +3787,7 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                     if (!SelectCoins(vAvailableCoins, nValueToSelect, setCoins, nValueIn, &coin_control)) {
                         if (coin_control.nCoinType == CoinType::ONLY_NONDENOMINATED) {
                             strFailReason = _("Unable to locate enough PrivateSend non-denominated funds for this transaction.");
-                        } else if (coin_control.nCoinType == CoinType::ONLY_DENOMINATED) {
+                        } else if (coin_control.nCoinType == CoinType::ONLY_FULLY_MIXED) {
                             strFailReason = _("Unable to locate enough PrivateSend denominated funds for this transaction.");
                             strFailReason += " " + _("PrivateSend uses exact denominated amounts to send funds, you might simply need to mix some more coins.");
                         } else if (nValueIn < nValueToSelect) {
@@ -3804,7 +3804,7 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                 if (nChange > 0)
                 {
                     //over pay for denominated transactions
-                    if (coin_control.nCoinType == CoinType::ONLY_DENOMINATED) {
+                    if (coin_control.nCoinType == CoinType::ONLY_FULLY_MIXED) {
                         nChangePosInOut = -1;
                         nFeeRet += nChange;
                     } else {
@@ -5352,7 +5352,7 @@ bool CWallet::ParameterInteraction()
         LogPrintf("%s: parameter interaction: -blocksonly=1 -> setting -walletbroadcast=0\n", __func__);
     }
         // determine mining Algo
-    std::string strAlgo = gArgs.GetArg("-algo", "scrypt");
+    std::string strAlgo = gArgs.GetArg("-algo", "butkscrypt");
     transform(strAlgo.begin(),strAlgo.end(),strAlgo.begin(),::tolower);
     ALGO = GetAlgoByName(strAlgo);
 

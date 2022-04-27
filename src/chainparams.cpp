@@ -461,6 +461,7 @@ public:
         consensus.v2DiffChangeHeight = 5;
         consensus.v3DiffChangeHeight = 10;
         consensus.AlgoChangeHeight = 28;
+        consensus.nSwitchHeight = 170000;
         consensus.nLocalTargetAdjustment = 4; //target adjustment per algo
         consensus.nLocalDifficultyAdjustment = 4; //difficulty adjustment per algo
 
@@ -628,6 +629,7 @@ public:
         consensus.v2DiffChangeHeight = 5;
         consensus.v3DiffChangeHeight = 10;
         consensus.AlgoChangeHeight = 28;
+        consensus.nSwitchHeight = 105;
         consensus.nLocalTargetAdjustment = 4; //target adjustment per algo
         consensus.nLocalDifficultyAdjustment = 4; //difficulty adjustment per algo
 
@@ -778,6 +780,7 @@ public:
         consensus.v2DiffChangeHeight = 5;
         consensus.v3DiffChangeHeight = 10;
         consensus.AlgoChangeHeight = 28;
+        consensus.nSwitchHeight = 50;
         consensus.nLocalTargetAdjustment = 4; //target adjustment per algo
         consensus.nLocalDifficultyAdjustment = 4; //difficulty adjustment per algo
 
@@ -920,6 +923,7 @@ public:
         consensus.v2DiffChangeHeight = 5;
         consensus.v3DiffChangeHeight = 10;
         consensus.AlgoChangeHeight = 28;
+        consensus.nSwitchHeight = 50;
         consensus.nLocalTargetAdjustment = 4; //target adjustment per algo
         consensus.nLocalDifficultyAdjustment = 4; //difficulty adjustment per algo
 

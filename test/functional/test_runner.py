@@ -130,6 +130,7 @@ BASE_SCRIPTS= [
     'p2p-compactblocks.py',
     'sporks.py',
     'rpc_getblockstats.py',
+    'rpc_smartnode.py',
     'p2p-fingerprint.py',
     'wallet-encryption.py',
     'bipdersig-p2p.py',

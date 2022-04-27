@@ -1277,6 +1277,12 @@ void CConnman::ThreadSocketHandler()
             LOCK(cs_vNodes);
             vNodesSize = vNodes.size();
         }
+
+    // If we had zero connections before and new connections now or if we just dropped
+    // to zero connections reset the sync process if its outdated.
+    if ((vNodesSize > 0 && nPrevNodeCount == 0) || (vNodesSize == 0 && nPrevNodeCount > 0)) {
+        smartnodeSync.Reset();
+    }
         if(vNodesSize != nPrevNodeCount) {
             nPrevNodeCount = vNodesSize;
             if(clientInterface)
@@ -1498,11 +1504,11 @@ void CConnman::ThreadSocketHandler()
             // Inactivity checking
             //
             int64_t nTime = GetSystemTimeInSeconds();
-            if (nTime - pnode->nTimeConnected > 60)
+            if (nTime - pnode->nTimeConnected > m_peer_connect_timeout)
             {
                 if (pnode->nLastRecv == 0 || pnode->nLastSend == 0)
                 {
-                    LogPrint(BCLog::NET, "socket no message in first 60 seconds, %d %d from %d\n", pnode->nLastRecv != 0, pnode->nLastSend != 0, pnode->GetId());
+                    LogPrint(BCLog::NET, "socket no message in first %i seconds, %d %d from %d\n", m_peer_connect_timeout, pnode->nLastRecv != 0, pnode->nLastSend != 0, pnode->GetId());
                     pnode->fDisconnect = true;
                 }
                 else if (nTime - pnode->nLastSend > TIMEOUT_INTERVAL)
@@ -2109,10 +2115,17 @@ void CConnman::ThreadOpenSmartnodeConnections()
     if (gArgs.IsArgSet("-connect") && gArgs.GetArgs("-connect").size() > 0)
         return;
 
+    bool didConnect = false;
+
     while (!interruptNet)
     {
-        if (!interruptNet.sleep_for(std::chrono::milliseconds(1000)))
+        int sleepTime = 1000;
+        if (didConnect) {
+            sleepTime = 100;
+        }
+        if (!interruptNet.sleep_for(std::chrono::milliseconds(sleepTime)))
             return;
+        didConnect = false;
 
         std::set<CService> connectedNodes;
         std::set<uint256> connectedProRegTxHashes;
@@ -2171,7 +2184,8 @@ void CConnman::ThreadOpenSmartnodeConnections()
             std::random_shuffle(pending.begin(), pending.end());
             addr = pending.front();
         }
-
+        didConnect = true;
+        
         OpenSmartnodeConnection(CAddress(addr, NODE_NETWORK));
         // should be in the list now if connection was opened
         ForNode(addr, CConnman::AllNodes, [&](CNode* pnode) {
@@ -2442,6 +2456,10 @@ void CConnman::SetNetworkActive(bool active)
 
     fNetworkActive = active;
 
+    // Always call the Reset() if the network gets enabled/disabled to make sure the sync process
+    // gets a reset if its outdated..
+    smartnodeSync.Reset();
+    
     uiInterface.NotifyNetworkActiveChanged(fNetworkActive);
 }
 
@@ -2804,6 +2822,7 @@ bool CConnman::RemoveAddedNode(const std::string& strNode)
     return false;
 }
 
+
 bool CConnman::AddPendingSmartnode(const CService& service)
 {
     LOCK(cs_vPendingSmartnodes);
@@ -2815,6 +2834,7 @@ bool CConnman::AddPendingSmartnode(const CService& service)
     vPendingSmartnodes.push_back(service);
     return true;
 }
+
 
 bool CConnman::AddSmartnodeQuorumNodes(Consensus::LLMQType llmqType, const uint256& quorumHash, const std::set<uint256>& proTxHashes)
 {

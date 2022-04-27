@@ -102,7 +102,9 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     smartnodeAction(0),
     quitAction(0),
     sendCoinsAction(0),
+    privateSendCoinsAction(0),
     sendCoinsMenuAction(0),
+    privateSendCoinsMenuAction(0),
     usedSendingAddressesAction(0),
     usedReceivingAddressesAction(0),
     signMessageAction(0),
@@ -343,14 +345,29 @@ void BitcoinGUI::createActions()
     sendCoinsMenuAction->setStatusTip(sendCoinsAction->statusTip());
     sendCoinsMenuAction->setToolTip(sendCoinsMenuAction->statusTip());
 
+    privateSendCoinsAction = new QAction(tr("&PrivateSend"), this);
+    privateSendCoinsAction->setStatusTip(tr("PrivateSend coins to a Butk address"));
+    privateSendCoinsAction->setToolTip(privateSendCoinsAction->statusTip());
+    privateSendCoinsAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    privateSendCoinsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_3));
+#else
+    privateSendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
+#endif
+    tabGroup->addAction(privateSendCoinsAction);
+
+    privateSendCoinsMenuAction = new QAction(QIcon(":/icons/send"), privateSendCoinsAction->text(), this);
+    privateSendCoinsMenuAction->setStatusTip(privateSendCoinsAction->statusTip());
+    privateSendCoinsMenuAction->setToolTip(privateSendCoinsMenuAction->statusTip());
+
     receiveCoinsAction = new QAction(tr("&Receive"), this);
     receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and butk: URIs)"));
     receiveCoinsAction->setToolTip(receiveCoinsAction->statusTip());
     receiveCoinsAction->setCheckable(true);
 #ifdef Q_OS_MAC
-    receiveCoinsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_3));
+    receiveCoinsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_4));
 #else
-    receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
+    receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
 #endif
     tabGroup->addAction(receiveCoinsAction);
 
@@ -363,9 +380,9 @@ void BitcoinGUI::createActions()
     historyAction->setToolTip(historyAction->statusTip());
     historyAction->setCheckable(true);
 #ifdef Q_OS_MAC
-    historyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_4));
+    historyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_5));
 #else
-    historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
+    historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
 #endif
     tabGroup->addAction(historyAction);
 
@@ -377,9 +394,9 @@ void BitcoinGUI::createActions()
         smartnodeAction->setToolTip(smartnodeAction->statusTip());
         smartnodeAction->setCheckable(true);
 #ifdef Q_OS_MAC
-        smartnodeAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_5));
+        smartnodeAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
 #else
-        smartnodeAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+        smartnodeAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
 #endif
         tabGroup->addAction(smartnodeAction);
         connect(smartnodeAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -394,6 +411,10 @@ void BitcoinGUI::createActions()
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
     connect(sendCoinsMenuAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(sendCoinsMenuAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
+    connect(privateSendCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(privateSendCoinsAction, SIGNAL(triggered()), this, SLOT(gotoPrivateSendCoinsPage()));
+    connect(privateSendCoinsMenuAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(privateSendCoinsMenuAction, SIGNAL(triggered()), this, SLOT(gotoPrivateSendCoinsPage()));
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
     connect(receiveCoinsMenuAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -586,6 +607,7 @@ void BitcoinGUI::createToolBars()
         toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         toolbar->addAction(overviewAction);
         toolbar->addAction(sendCoinsAction);
+        toolbar->addAction(privateSendCoinsAction);
         toolbar->addAction(receiveCoinsAction);
         toolbar->addAction(historyAction);
         QSettings settings;
@@ -744,6 +766,8 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     overviewAction->setEnabled(enabled);
     sendCoinsAction->setEnabled(enabled);
     sendCoinsMenuAction->setEnabled(enabled);
+    privateSendCoinsAction->setEnabled(enabled && privateSendClient.fEnablePrivateSend);
+    privateSendCoinsMenuAction->setEnabled(enabled && privateSendClient.fEnablePrivateSend);
     receiveCoinsAction->setEnabled(enabled);
     receiveCoinsMenuAction->setEnabled(enabled);
     historyAction->setEnabled(enabled);
@@ -777,6 +801,7 @@ void BitcoinGUI::createIconMenu(QMenu *pmenu)
     pmenu->addAction(toggleHideAction);
     pmenu->addSeparator();
     pmenu->addAction(sendCoinsMenuAction);
+    pmenu->addAction(privateSendCoinsMenuAction);
     pmenu->addAction(receiveCoinsMenuAction);
     pmenu->addSeparator();
     pmenu->addAction(signMessageAction);
@@ -930,6 +955,12 @@ void BitcoinGUI::gotoSendCoinsPage(QString addr)
 {
     sendCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoSendCoinsPage(addr);
+}
+
+void BitcoinGUI::gotoPrivateSendCoinsPage(QString addr)
+{
+    privateSendCoinsAction->setChecked(true);
+    if (walletFrame) walletFrame->gotoPrivateSendCoinsPage(addr);
 }
 
 void BitcoinGUI::gotoSignMessageTab(QString addr)

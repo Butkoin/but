@@ -491,8 +491,8 @@ public:
     CAmount GetAvailableWatchOnlyCredit(const bool& fUseCache=true) const;
     CAmount GetChange() const;
 
-    CAmount GetAnonymizedCredit(bool fUseCache=true) const;
     CAmount GetDenominatedCredit(bool unconfirmed, bool fUseCache=true) const;
+    CAmount GetAnonymizedCredit(const CCoinControl* coinControl = nullptr) const;
 
     void GetAmounts(std::list<COutputEntry>& listReceived,
                     std::list<COutputEntry>& listSent, CAmount& nFee, std::string& strSentAccount, const isminefilter& filter) const;
@@ -785,6 +785,18 @@ private:
     // A helper function which loops through wallet UTXOs
     std::unordered_set<const CWalletTx*, WalletTxHasher> GetSpendableTXs() const;
 
+    /** Pulled from wallet DB ("ps_salt") and used when mixing a random number of rounds.
+     *  This salt is needed to prevent an attacker from learning how many extra times
+     *  the input was mixed based only on information in the blockchain.
+     */
+    uint256 nPrivateSendSalt;
+
+    /**
+     * Fetches PrivateSend salt from database or generates and saves a new one if no salt was found in the db
+     */
+    void InitPrivateSendSalt();
+
+
 public:
     /*
      * Main wallet lock.
@@ -911,9 +923,9 @@ public:
     bool SelectCoinsMinConf(const CAmount& nTargetValue, int nConfMine, int nConfTheirs, uint64_t nMaxAncestors, std::vector<COutput> vCoins, std::set<CInputCoin>& setCoinsRet, CAmount& nValueRet, CoinType nCoinType = CoinType::ALL_COINS) const;
 
     // Coin selection
-    bool SelectPSInOutPairsByDenominations(int nDenom, CAmount nValueMin, CAmount nValueMax, std::vector< std::pair<CTxDSIn, CTxOut> >& vecPSInOutPairsRet);
+    bool SelectPSInOutPairsByDenominations(int nDenom, CAmount nValueMax, std::vector< std::pair<CTxDSIn, CTxOut> >& vecPSInOutPairsRet);
     bool GetCollateralTxDSIn(CTxDSIn& txdsinRet, CAmount& nValueRet) const;
-    bool SelectPrivateCoins(CAmount nValueMin, CAmount nValueMax, std::vector<CTxIn>& vecTxInRet, CAmount& nValueRet, int nPrivateSendRoundsMin, int nPrivateSendRoundsMax) const;
+    bool SelectDenominatedAmounts(CAmount nValueMax, std::set<CAmount>& setAmountsRet) const;
 
     bool SelectCoinsGroupedByAddresses(std::vector<CompactTallyItem>& vecTallyRet, bool fSkipDenominated = true, bool fAnonymizable = true, bool fSkipUnconfirmed = true, int nMaxOupointsPerAddress = -1) const;
 
@@ -931,6 +943,7 @@ public:
     int GetCappedOutpointPrivateSendRounds(const COutPoint& outpoint) const;
 
     bool IsDenominated(const COutPoint& outpoint) const;
+    bool IsFullyMixed(const COutPoint& outpoint) const;
 
     bool IsSpent(const uint256& hash, unsigned int n) const;
 
@@ -1065,7 +1078,6 @@ public:
     bool CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey, CConnman* connman, CValidationState& state);
 
     bool CreateCollateralTransaction(CMutableTransaction& txCollateral, std::string& strReason);
-    bool ConvertList(std::vector<CTxIn> vecTxIn, std::vector<CAmount>& vecAmounts);
 
     void ListAccountCreditDebit(const std::string& strAccount, std::list<CAccountingEntry>& entries);
     bool AddAccountingEntry(const CAccountingEntry&);

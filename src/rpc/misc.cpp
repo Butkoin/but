@@ -114,6 +114,7 @@ UniValue getinfo(const JSONRPCRequest& request)
     obj.pushKV("pow_algo",              GetAlgoName(ALGO));
     obj.pushKV("difficulty",            GetDifficulty(ALGO));
     obj.pushKV("difficulty_sha256d",        GetDifficulty(ALGO_SHA256D));
+    obj.pushKV("difficulty_butkscrypt",     GetDifficulty(ALGO_BUTKSCRYPT));
     obj.pushKV("difficulty_scrypt",     GetDifficulty(ALGO_SCRYPT));
     obj.pushKV("difficulty_yespower",    GetDifficulty(ALGO_YESPOWER));
     obj.pushKV("difficulty_lyra2",    GetDifficulty(ALGO_LYRA2));
@@ -223,8 +224,7 @@ UniValue mnsync(const JSONRPCRequest& request)
 
     if(strMode == "reset")
     {
-        smartnodeSync.Reset();
-        smartnodeSync.SwitchToNextAsset(*g_connman);
+        smartnodeSync.Reset(true);
         return "success";
     }
     return "failure";

@@ -205,8 +205,10 @@ unsigned int GetNextWorkRequiredV3(const CBlockIndex* pindexLast, const Consensu
     int nAdjustments{0};
     if (pindexLast->nHeight < params.AlgoChangeHeight) {
         nAdjustments = pindexPrevAlgo->nHeight + NUM_ALGOSV2 - 1 - pindexLast->nHeight;
-    } else {
+    } else if (pindexLast->nHeight < params.nSwitchHeight) {
         nAdjustments = pindexPrevAlgo->nHeight + NUM_ALGOSV3 - 1 - pindexLast->nHeight;
+    } else {
+        nAdjustments = pindexPrevAlgo->nHeight + NUM_ALGOSV4 - 1 - pindexLast->nHeight;
     }
 
     if (nAdjustments > 0)
@@ -285,8 +287,10 @@ unsigned int GetAlgoWeight(int algo)
             return (unsigned int)(6 * 100000);
         case ALGO_LYRA2:
             return (unsigned int)(6 * 100000);
-        case ALGO_SCRYPT:
+        case ALGO_BUTKSCRYPT:
             return (unsigned int)(1.4 * 100000);
+        case ALGO_SCRYPT:
+            return (unsigned int)(1.2 * 100000);
         default: // Lowest
             printf("GetAlgoWeight(): can't find algo %d", algo);
             return (unsigned int)(0.00015 * 100000);

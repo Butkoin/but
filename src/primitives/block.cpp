@@ -14,7 +14,7 @@
 #include <crypto/algos/yespower/yespower.h>
 #include <crypto/algos/Lyra2Z/Lyra2.h>
 
-int ALGO = ALGO_SCRYPT;
+int ALGO = ALGO_BUTKSCRYPT;
 
 uint256 CBlockHeader::GetHash() const
 {
@@ -53,6 +53,12 @@ uint256 CBlockHeader::GetPOWHash(int algo) const
             return powHash;
         }
         case ALGO_SCRYPT:
+        {
+            uint256 thash;
+            scrypt_1024_1_1_256(BEGIN(nVersion), BEGIN(thash));
+            return thash;
+        }
+        case ALGO_BUTKSCRYPT:
         default:
             scrypt_1024_1_1_256(BEGIN(nVersion), BEGIN(thash));
 

@@ -127,7 +127,11 @@ arith_uint256 GetBlockProof(const CBlockIndex& block)
 
     int CURRENT_ALGOS;
 
-    if (block.nHeight >= params.AlgoChangeHeight)
+    if (block.nHeight >= params.nSwitchHeight)
+    {
+        CURRENT_ALGOS = NUM_ALGOSV4;
+    }
+    else if (block.nHeight >= params.AlgoChangeHeight)
     {
         CURRENT_ALGOS = NUM_ALGOSV3;
     }
