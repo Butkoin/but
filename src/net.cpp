@@ -1800,6 +1800,7 @@ void CConnman::ProcessOneShot()
         strDest = vOneShots.front();
         vOneShots.pop_front();
     }
+
     CAddress addr;
     CSemaphoreGrant grant(*semOutbound, true);
     if (grant) {
