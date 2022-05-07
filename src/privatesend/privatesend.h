@@ -1,5 +1,4 @@
 // Copyright (c) 2014-2020 The Dash Core developers
-// Copyright (c) 2020 The But developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -12,6 +11,7 @@
 #include <primitives/transaction.h>
 #include <pubkey.h>
 #include <sync.h>
+#include <spork.h>
 #include <timedata.h>
 #include <tinyformat.h>
 
@@ -66,9 +66,8 @@ enum PoolState : int32_t {
     POOL_STATE_ACCEPTING_ENTRIES,
     POOL_STATE_SIGNING,
     POOL_STATE_ERROR,
-    POOL_STATE_SUCCESS,
     POOL_STATE_MIN = POOL_STATE_IDLE,
-    POOL_STATE_MAX = POOL_STATE_SUCCESS
+    POOL_STATE_MAX = POOL_STATE_ERROR
 };
 template<> struct is_serializable_enum<PoolState> : std::true_type {};
 
@@ -438,17 +437,21 @@ public:
     static CAmount GetSmallestDenomination() { return vecStandardDenominations.back(); }
 
     static bool IsDenominatedAmount(CAmount nInputAmount);
+    static bool IsValidDenomination(int nDenom);
 
     static int AmountToDenomination(CAmount nInputAmount);
-    static std::string DenominationToString(int nDenom);
     static CAmount DenominationToAmount(int nDenom);
-    static bool IsValidDenomination(int nDenom);
+    static std::string DenominationToString(int nDenom);
 
     static std::string GetMessageByID(PoolMessage nMessageID);
 
     /// Get the minimum/maximum number of participants for the pool
-    static int GetMinPoolParticipants() { return Params().PoolMinParticipants(); }
-    static int GetMaxPoolParticipants() { return Params().PoolMaxParticipants(); }
+    static int GetMinPoolParticipants() { return sporkManager.IsSporkActive(SPORK_22_PS_MORE_PARTICIPANTS) ?
+                                                 Params().PoolNewMinParticipants() :
+                                                 Params().PoolMinParticipants(); }
+    static int GetMaxPoolParticipants() { return sporkManager.IsSporkActive(SPORK_22_PS_MORE_PARTICIPANTS) ?
+                                                 Params().PoolNewMaxParticipants() :
+                                                 Params().PoolMaxParticipants(); }
 
     static CAmount GetMaxPoolAmount() { return vecStandardDenominations.empty() ? 0 : PRIVATESEND_ENTRY_MAX_SIZE * vecStandardDenominations.front(); }
 

@@ -199,8 +199,8 @@ public:
     void Interrupt();
     bool GetNetworkActive() const { return fNetworkActive; };
     void SetNetworkActive(bool active);
-    bool OpenNetworkConnection(const CAddress& addrConnect, bool fCountFailure, CSemaphoreGrant *grantOutbound = nullptr, const char *strDest = nullptr, bool fOneShot = false, bool fFeeler = false, bool manual_connection = false, bool fConnectToSmartnode = false);
-    bool OpenSmartnodeConnection(const CAddress& addrConnect);
+    bool OpenNetworkConnection(const CAddress& addrConnect, bool fCountFailure, CSemaphoreGrant *grantOutbound = nullptr, const char *strDest = nullptr, bool fOneShot = false, bool fFeeler = false, bool manual_connection = false, bool fConnectToSmartnode = false, bool fSmartnodeProbe = false);
+    void OpenSmartnodeConnection(const CAddress& addrConnect, bool probe = false);
     bool CheckIncomingNonce(uint64_t nonce);
 
     struct CFullyConnectedOnly {
@@ -402,7 +402,6 @@ public:
     bool RemoveAddedNode(const std::string& node);
     std::vector<AddedNodeInfo> GetAddedNodeInfo();
 
-    bool AddPendingSmartnode(const CService& addr);
     bool AddPendingSmartnode(const uint256& proTxHash);
 
     bool AddSmartnodeQuorumNodes(Consensus::LLMQType llmqType, const uint256& quorumHash, const std::set<uint256>& proTxHashes);
@@ -543,9 +542,10 @@ private:
     CCriticalSection cs_vOneShots;
     std::vector<std::string> vAddedNodes;
     CCriticalSection cs_vAddedNodes;
-    std::vector<CService> vPendingSmartnodes;
+    std::vector<uint256> vPendingSmartnodes;
     std::map<std::pair<Consensus::LLMQType, uint256>, std::set<uint256>> smartnodeQuorumNodes; // protected by cs_vPendingSmartnodes
     mutable CCriticalSection cs_vPendingSmartnodes;
+    std::set<uint256> smartnodePendingProbes;
     std::vector<CNode*> vNodes;
     std::list<CNode*> vNodesDisconnected;
     mutable CCriticalSection cs_vNodes;
@@ -817,6 +817,8 @@ public:
     bool fSentAddr;
     // If 'true' this node will be disconnected on CSmartnodeMan::ProcessSmartnodeConnections()
     bool fSmartnode;
+    // If 'true' this node will be disconnected after MNAUTH
+    bool fSmartnodeProbe;
     CSemaphoreGrant grantOutbound;
     CSemaphoreGrant grantSmartnodeOutbound;
     CCriticalSection cs_filter;
