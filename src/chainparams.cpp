@@ -461,7 +461,7 @@ public:
         consensus.v2DiffChangeHeight = 5;
         consensus.v3DiffChangeHeight = 10;
         consensus.AlgoChangeHeight = 28;
-        consensus.nSwitchHeight = 170000;
+        consensus.nSwitchHeight = 150000;
         consensus.nLocalTargetAdjustment = 4; //target adjustment per algo
         consensus.nLocalDifficultyAdjustment = 4; //difficulty adjustment per algo
 
@@ -527,7 +527,10 @@ public:
         consensus.nFounderPayment = FounderPayment(rewardStructures, 250);
         consensus.nCollaterals = SmartnodeCollaterals(
 			{
-				{400000, 6000000 * COIN}, {INT_MAX, 8000000 * COIN}
+				{150000, 6000000 * COIN},
+                                {500000, 15000000 * COIN},
+                                {700000, 20000000 * COIN},
+                                {INT_MAX, 25000000 * COIN}
 			},
 			{
 				{5761, 0}, {INT_MAX, 20}
@@ -697,6 +700,14 @@ public:
                                                 										   };
 	consensus.nFounderPayment = FounderPayment(rewardStructures, 200);
 
+        consensus.nCollaterals = SmartnodeCollaterals(
+			{
+				{40000, 15000000 * COIN}, {INT_MAX, 20000000 * COIN}
+			},
+			{
+				{200, 0}, {INT_MAX, 20}
+			}
+        );
         fDefaultConsistencyChecks = false;
         fRequireStandard = false;
         fRequireRoutableExternalIP = true;
