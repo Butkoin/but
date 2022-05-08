@@ -176,7 +176,7 @@ bool WalletBatch::WriteAccountingEntry(const uint64_t nAccEntryNum, const CAccou
 
 bool WalletBatch::ReadPrivateSendSalt(uint256& salt)
 {
-    return batch.Read(std::string("ps_salt"), salt);
+    return m_batch.Read(std::string("ps_salt"), salt);
 }
 
 bool WalletBatch::WritePrivateSendSalt(const uint256& salt)
