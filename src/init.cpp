@@ -621,7 +621,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-privatesendsessions=<n>", strprintf(_("Use N separate smartnodes in parallel to mix funds (%u-%u, default: %u)"), MIN_PRIVATESEND_SESSIONS, MAX_PRIVATESEND_SESSIONS, DEFAULT_PRIVATESEND_SESSIONS));
     strUsage += HelpMessageOpt("-privatesendrounds=<n>", strprintf(_("Use N separate smartnodes for each denominated input to mix funds (%u-%u, default: %u)"), MIN_PRIVATESEND_ROUNDS, MAX_PRIVATESEND_ROUNDS, DEFAULT_PRIVATESEND_ROUNDS));
     strUsage += HelpMessageOpt("-privatesendamount=<n>", strprintf(_("Target PrivateSend balance (%u-%u, default: %u)"), MIN_PRIVATESEND_AMOUNT, MAX_PRIVATESEND_AMOUNT, DEFAULT_PRIVATESEND_AMOUNT));
-    strUsage += HelpMessageOpt("-privatesenddenoms=<n>", strprintf(_("Create up to N inputs of each denominated amount (%u-%u, default: %u)"), MIN_PRIVATESEND_DENOMS, MAX_PRIVATESEND_DENOMS, DEFAULT_PRIVATESEND_DENOMS));
+    strUsage += HelpMessageOpt("-privatesenddenoms=<n>", strprintf(_("Create up to N inputs of each denominated amount (%u-%u, default: %u)"), MIN_PRIVATESEND_DENOMS_GOAL, MAX_PRIVATESEND_DENOMS_GOAL, DEFAULT_PRIVATESEND_DENOMS_GOAL));
 #endif // ENABLE_WALLET
 
     strUsage += HelpMessageGroup(_("InstantSend options:"));
@@ -2101,14 +2101,14 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     privateSendClient.nPrivateSendSessions = std::min(std::max((int)gArgs.GetArg("-privatesendsessions", DEFAULT_PRIVATESEND_SESSIONS), MIN_PRIVATESEND_SESSIONS), MAX_PRIVATESEND_SESSIONS);
     privateSendClient.nPrivateSendRounds = std::min(std::max((int)gArgs.GetArg("-privatesendrounds", DEFAULT_PRIVATESEND_ROUNDS), MIN_PRIVATESEND_ROUNDS), nMaxRounds);
     privateSendClient.nPrivateSendAmount = std::min(std::max((int)gArgs.GetArg("-privatesendamount", DEFAULT_PRIVATESEND_AMOUNT), MIN_PRIVATESEND_AMOUNT), MAX_PRIVATESEND_AMOUNT);
-    privateSendClient.nPrivateSendDenoms = std::min(std::max((int)gArgs.GetArg("-privatesenddenoms", DEFAULT_PRIVATESEND_DENOMS), MIN_PRIVATESEND_DENOMS), MAX_PRIVATESEND_DENOMS);
+    privateSendClient.nPrivateSendDenomsGoal = std::min(std::max((int)gArgs.GetArg("-privatesenddenoms", DEFAULT_PRIVATESEND_DENOMS_GOAL), MIN_PRIVATESEND_DENOMS_GOAL), MAX_PRIVATESEND_DENOMS_GOAL);
 
     if (privateSendClient.fEnablePrivateSend) {
         LogPrintf("PrivateSend: autostart=%d, multisession=%d, "
             "sessions=%d, rounds=%d, amount=%d, denoms=%d\n",
             privateSendClient.fPrivateSendRunning, privateSendClient.fPrivateSendMultiSession,
             privateSendClient.nPrivateSendSessions, privateSendClient.nPrivateSendRounds,
-            privateSendClient.nPrivateSendAmount, privateSendClient.nPrivateSendDenoms);
+            privateSendClient.nPrivateSendAmount, privateSendClient.nPrivateSendDenomsGoal);
     }
 #endif // ENABLE_WALLET
 

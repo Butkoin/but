@@ -461,7 +461,7 @@ public:
         consensus.v2DiffChangeHeight = 5;
         consensus.v3DiffChangeHeight = 10;
         consensus.AlgoChangeHeight = 28;
-        consensus.nSwitchHeight = 170000;
+        consensus.nSwitchHeight = 150000;
         consensus.nLocalTargetAdjustment = 4; //target adjustment per algo
         consensus.nLocalDifficultyAdjustment = 4; //difficulty adjustment per algo
 
@@ -477,10 +477,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000fade80"); // 153
+        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000000008d254bb784e3f00"); // 127918
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x0000012eb451fbdf5e8b5c588c0912b3e70e2ea5a37ac88e4ca8c1ad27279509"); // 153
+        consensus.defaultAssumeValid = uint256S("0x0000000000000307a7ca1e00c041513a63eab4f62a083aae6d19466478737894"); // 127918
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -527,7 +527,10 @@ public:
         consensus.nFounderPayment = FounderPayment(rewardStructures, 250);
         consensus.nCollaterals = SmartnodeCollaterals(
 			{
-				{400000, 6000000 * COIN}, {INT_MAX, 8000000 * COIN}
+				{150000, 6000000 * COIN},
+                                {500000, 15000000 * COIN},
+                                {700000, 20000000 * COIN},
+                                {INT_MAX, 25000000 * COIN}
 			},
 			{
 				{5761, 0}, {INT_MAX, 20}
@@ -552,7 +555,9 @@ public:
         miningRequiresPeers = true;
 
         nPoolMinParticipants = 3;
+        nPoolNewMinParticipants = 3;
         nPoolMaxParticipants = 5;
+        nPoolNewMaxParticipants = 20;
         nFulfilledRequestExpireTime = 60*60; // fulfilled requests expire in 1 hour
 
         vSporkAddresses = {"XdccBnRd4AMEnfEhVgoLUL6aPjC3kkgJih"};
@@ -561,18 +566,16 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-                {0,     uint256S("0x001787e5f9c3cd249f84f0142071f6098d9e3b7ec8591ff73543ddc4900c1dc2")},
-                {10,    uint256S("0x005cab51de3bef6840c7866dbc1d2f69738cff67155a975fa3f1800aa4bbfcf9")},
-                {50,    uint256S("0x0037fcf4a01c6c445f2ca1201aa67bca5c3a769cd9225199764c5d2b20e10e9f")},
-                {100,   uint256S("0x00008474034c9e03197c723b565b14cfdbedefbac17b6f25fb0a37214be66062")},
+                {0,        uint256S("0x001787e5f9c3cd249f84f0142071f6098d9e3b7ec8591ff73543ddc4900c1dc2")},
+                {127918,   uint256S("0x0000000000000307a7ca1e00c041513a63eab4f62a083aae6d19466478737894")},
 	    }
         };
 
         chainTxData = ChainTxData{
-            // Data from RPC: getchaintxstats 4096 00000000000000000008a89e854d57e5667df88f1cdef6fde2fbca1de5b639ad
-            /* nTime    */ 1642793439,
-            /* nTxCount */ 465,
-            /* dTxRate  */ 0.003272177305365523,
+            // Data from RPC: getchaintxstats 127917 00000000000000000008a89e854d57e5667df88f1cdef6fde2fbca1de5b639ad
+            /* nTime    */ 1652019164,
+            /* nTxCount */ 281951,
+            /* dTxRate  */ 0.03009734730359049,
         };
     }
 };
@@ -695,6 +698,14 @@ public:
                                                 										   };
 	consensus.nFounderPayment = FounderPayment(rewardStructures, 200);
 
+        consensus.nCollaterals = SmartnodeCollaterals(
+			{
+				{40000, 15000000 * COIN}, {INT_MAX, 20000000 * COIN}
+			},
+			{
+				{200, 0}, {INT_MAX, 20}
+			}
+        );
         fDefaultConsistencyChecks = false;
         fRequireStandard = false;
         fRequireRoutableExternalIP = true;
@@ -703,10 +714,12 @@ public:
         fAllowMultiplePorts = true;
 
         nPoolMinParticipants = 3;
+        nPoolNewMinParticipants = 2;
         nPoolMaxParticipants = 5;
+        nPoolNewMaxParticipants = 20;
         nFulfilledRequestExpireTime = 5*60; // fulfilled requests expire in 5 minutes
 
-        vSporkAddresses = {"yVeVxPpzbebak4EZdASJdrnCSPZfAucLNv"};
+        vSporkAddresses = {"yVcjXscgATKsvq8JYPKus2opsj6gxEuV7t"};
         nMinSporkKeys = 1;
         fBIP9CheckSmartnodesUpgraded = true;
 
@@ -846,8 +859,10 @@ public:
         fAllowMultipleAddressesFromGroup = true;
         fAllowMultiplePorts = true;
 
-        nPoolMinParticipants = 3;
+        nPoolMinParticipants = 2;
+        nPoolNewMinParticipants = 2;
         nPoolMaxParticipants = 5;
+        nPoolNewMaxParticipants = 20;
         nFulfilledRequestExpireTime = 5*60; // fulfilled requests expire in 5 minutes
 
         vSporkAddresses = {"yjPtiKh2uwk3bDutTEA2q9mCtXyiZRWn55"};

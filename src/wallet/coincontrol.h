@@ -38,6 +38,8 @@ public:
     boost::optional<CFeeRate> m_feerate;
     //! Override the default confirmation target if set
     boost::optional<unsigned int> m_confirm_target;
+    //! Override the discard feerate estimation with m_discard_feerate in CreateTransaction if set
+    boost::optional<CFeeRate> m_discard_feerate;
     //! Fee estimation mode to control arguments to estimateSmartFee
     FeeEstimateMode m_fee_mode;
     //! Controls which types of coins are allowed to be used (default: ALL_COINS)
@@ -55,6 +57,7 @@ public:
         fRequireAllInputs = true;
         fAllowWatchOnly = false;
         setSelected.clear();
+        m_discard_feerate.reset();
         m_feerate.reset();
         fOverrideFeeRate = false;
         m_confirm_target.reset();

@@ -92,10 +92,6 @@ static const bool DEFAULT_UPNP = USE_UPNP;
 #else
 static const bool DEFAULT_UPNP = false;
 #endif
-/** The maximum number of entries in mapAskFor */
-static const size_t MAPASKFOR_MAX_SZ = MAX_INV_SZ;
-/** The maximum number of entries in setAskFor (larger due to getdata latency)*/
-static const size_t SETASKFOR_MAX_SZ = 2 * MAX_INV_SZ;
 /** The maximum number of peer connections to maintain.
  *  Smartnodes are forced to accept at least this many connections
  */
@@ -199,8 +195,8 @@ public:
     void Interrupt();
     bool GetNetworkActive() const { return fNetworkActive; };
     void SetNetworkActive(bool active);
-    bool OpenNetworkConnection(const CAddress& addrConnect, bool fCountFailure, CSemaphoreGrant *grantOutbound = nullptr, const char *strDest = nullptr, bool fOneShot = false, bool fFeeler = false, bool manual_connection = false, bool fConnectToSmartnode = false);
-    bool OpenSmartnodeConnection(const CAddress& addrConnect);
+    bool OpenNetworkConnection(const CAddress& addrConnect, bool fCountFailure, CSemaphoreGrant *grantOutbound = nullptr, const char *strDest = nullptr, bool fOneShot = false, bool fFeeler = false, bool manual_connection = false, bool fConnectToSmartnode = false, bool fSmartnodeProbe = false);
+    void OpenSmartnodeConnection(const CAddress& addrConnect, bool probe = false);
     bool CheckIncomingNonce(uint64_t nonce);
 
     struct CFullyConnectedOnly {
@@ -352,7 +348,6 @@ public:
     void RelayInvFiltered(CInv &inv, const CTransaction &relatedTx, const int minProtoVersion = MIN_PEER_PROTO_VERSION);
     // This overload will not update node filters,  so use it only for the cases when other messages will update related transaction data in filters
     void RelayInvFiltered(CInv &inv, const uint256 &relatedTxHash, const int minProtoVersion = MIN_PEER_PROTO_VERSION);
-    void RemoveAskFor(const uint256& hash);
 
     // Addrman functions
     size_t GetAddressCount() const;
@@ -402,7 +397,6 @@ public:
     bool RemoveAddedNode(const std::string& node);
     std::vector<AddedNodeInfo> GetAddedNodeInfo();
 
-    bool AddPendingSmartnode(const CService& addr);
     bool AddPendingSmartnode(const uint256& proTxHash);
 
     bool AddSmartnodeQuorumNodes(Consensus::LLMQType llmqType, const uint256& quorumHash, const std::set<uint256>& proTxHashes);
@@ -543,9 +537,10 @@ private:
     CCriticalSection cs_vOneShots;
     std::vector<std::string> vAddedNodes;
     CCriticalSection cs_vAddedNodes;
-    std::vector<CService> vPendingSmartnodes;
+    std::vector<uint256> vPendingSmartnodes;
     std::map<std::pair<Consensus::LLMQType, uint256>, std::set<uint256>> smartnodeQuorumNodes; // protected by cs_vPendingSmartnodes
     mutable CCriticalSection cs_vPendingSmartnodes;
+    std::set<uint256> smartnodePendingProbes;
     std::vector<CNode*> vNodes;
     std::list<CNode*> vNodesDisconnected;
     mutable CCriticalSection cs_vNodes;
@@ -660,8 +655,6 @@ CAddress GetLocalAddress(const CNetAddr *paddrPeer, ServiceFlags nLocalServices)
 extern bool fDiscover;
 extern bool fListen;
 extern bool fRelayTxes;
-
-extern unordered_limitedmap<uint256, int64_t, StaticSaltedHasher> mapAlreadyAskedFor;
 
 /** Subversion as sent to the P2P network in `version` messages */
 extern std::string strSubVersion;
@@ -817,6 +810,8 @@ public:
     bool fSentAddr;
     // If 'true' this node will be disconnected on CSmartnodeMan::ProcessSmartnodeConnections()
     bool fSmartnode;
+    // If 'true' this node will be disconnected after MNAUTH
+    bool fSmartnodeProbe;
     CSemaphoreGrant grantOutbound;
     CSemaphoreGrant grantSmartnodeOutbound;
     CCriticalSection cs_filter;
@@ -856,9 +851,6 @@ public:
     // List of non-tx/non-block inventory items
     std::vector<CInv> vInventoryOtherToSend;
     CCriticalSection cs_inventory;
-    std::unordered_set<uint256, StaticSaltedHasher> setAskFor;
-    std::unordered_set<uint256, StaticSaltedHasher> setAskForInQueue;
-    std::priority_queue<std::pair<int64_t, CInv>, std::vector<std::pair<int64_t, CInv>>, std::greater<>> queueAskFor;
     int64_t nNextInvSend;
     // Used for headers announcements - unfiltered blocks to relay
     // Also protected by cs_inventory
@@ -1035,8 +1027,6 @@ public:
         vBlockHashesToAnnounce.push_back(hash);
     }
 
-    void AskFor(const CInv& inv, int64_t doubleRequestDelay = 2 * 60 * 1000000);
-    void RemoveAskFor(const uint256& hash);
 
     void CloseSocketDisconnect();
 

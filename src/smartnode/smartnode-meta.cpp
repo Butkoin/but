@@ -9,6 +9,7 @@ CSmartnodeMetaMan mmetaman;
 
 const std::string CSmartnodeMetaMan::SERIALIZATION_VERSION_STRING = "CSmartnodeMetaMan-Version-1";
 
+
 void CSmartnodeMetaInfo::AddGovernanceVote(const uint256& nGovernanceObjectHash)
 {
     LOCK(cs);

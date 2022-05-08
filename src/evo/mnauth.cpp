@@ -8,6 +8,7 @@
 #include "smartnode/activesmartnode.h"
 #include "evo/deterministicmns.h"
 #include "smartnode/smartnode-sync.h"
+#include <smartnode/smartnode-meta.h>
 #include "net.h"
 #include "net_processing.h"
 #include "netmessagemaker.h"
@@ -98,6 +99,16 @@ void CMNAuth::ProcessMessage(CNode* pnode, const std::string& strCommand, CDataS
             // malicious actor (DoSing us), we'll ban him soon.
             Misbehaving(pnode->GetId(), 10);
             return;
+        }
+
+        if (!pnode->fInbound) {
+            mmetaman.GetMetaInfo(mnauth.proRegTxHash)->SetLastOutboundSuccess(GetAdjustedTime());
+            if (pnode->fSmartnodeProbe) {
+                LogPrint(BCLog::NET, "CMNAuth::ProcessMessage -- Smartnode probe successful for %s, disconnecting. peer=%d\n",
+                         mnauth.proRegTxHash.ToString(), pnode->GetId());
+                pnode->fDisconnect = true;
+                return;
+            }
         }
 
         connman.ForEachNode([&](CNode* pnode2) {

@@ -20,15 +20,15 @@
 /**
  * Overview of wallet database classes:
  *
- * - CDBEnv is an environment in which the database exists (has no analog in dbwrapper.h)
- * - CWalletDBWrapper represents a wallet database (similar to CDBWrapper in dbwrapper.h)
- * - CDB is a low-level database transaction (similar to CDBBatch in dbwrapper.h)
- * - CWalletDB is a modifier object for the wallet, and encapsulates a database
+ * - BerkeleyEnvironment is an environment in which the database exists (has no analog in dbwrapper.h)
+ * - WalletDatabase represents a wallet database (similar to CDBWrapper in dbwrapper.h)
+ * - BerkeleyBatch is a low-level database transaction (similar to CDBBatch in dbwrapper.h)
+ * - WalletBatch is a modifier object for the wallet, and encapsulates a database
  *   transaction as well as methods to act on the database (no analog in
  *   dbwrapper.h)
  *
- * The latter two are named confusingly, in contrast to what the names CDB
- * and CWalletDB suggest they are transient transaction objects and don't
+ * The latter two are named confusingly, in contrast to what the names BerkeleyBatch
+ * and WalletBatch suggest they are transient transaction objects and don't
  * represent the database itself.
  */
 
@@ -44,6 +44,9 @@ class CWallet;
 class CWalletTx;
 class uint160;
 class uint256;
+
+/** Backend-agnostic database type. */
+using WalletDatabase = BerkeleyDatabase;
 
 /** Error statuses for the wallet database */
 enum DBErrors
@@ -93,33 +96,33 @@ public:
  * database. It will be committed when the object goes out of scope.
  * Optionally (on by default) it will flush to disk as well.
  */
-class CWalletDB
+class WalletBatch
 {
 private:
     template <typename K, typename T>
     bool WriteIC(const K& key, const T& value, bool fOverwrite = true)
     {
-        if (!batch.Write(key, value, fOverwrite)) {
+        if (!m_batch.Write(key, value, fOverwrite)) {
             return false;
         }
-        m_dbw.IncrementUpdateCounter();
+        m_database.IncrementUpdateCounter();
         return true;
     }
 
     template <typename K>
     bool EraseIC(const K& key)
     {
-        if (!batch.Erase(key)) {
+        if (!m_batch.Erase(key)) {
             return false;
         }
-        m_dbw.IncrementUpdateCounter();
+        m_database.IncrementUpdateCounter();
         return true;
     }
 
 public:
-    CWalletDB(CWalletDBWrapper& dbw, const char* pszMode = "r+", bool _fFlushOnClose = true) :
-        batch(dbw, pszMode, _fFlushOnClose),
-        m_dbw(dbw)
+    WalletBatch(WalletDatabase& database, const char* pszMode = "r+", bool _fFlushOnClose = true) :
+        m_batch(database, pszMode, _fFlushOnClose),
+        m_database(database)
     {
     }
 
@@ -203,11 +206,11 @@ public:
     //! Write wallet version
     bool WriteVersion(int nVersion);
 private:
-    CDB batch;
-    CWalletDBWrapper& m_dbw;
+    BerkeleyBatch m_batch;
+    WalletDatabase& m_database;
 
-    CWalletDB(const CWalletDB&);
-    void operator=(const CWalletDB&);
+    WalletBatch(const WalletBatch&);
+    void operator=(const WalletBatch&);
 };
 
 //! Compacts BDB state so that wallet.dat is self-contained (if there are changes)

@@ -1,5 +1,4 @@
 // Copyright (c) 2014-2020 The Dash Core developers
-// Copyright (c) 2020 The But developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -218,8 +217,6 @@ std::string CPrivateSendBaseSession::GetStateString() const
         return "SIGNING";
     case POOL_STATE_ERROR:
         return "ERROR";
-    case POOL_STATE_SUCCESS:
-        return "SUCCESS";
     default:
         return "UNKNOWN";
     }
@@ -325,17 +322,17 @@ void CPrivateSend::InitStandardDenominations()
         is convertible to another.
 
         For example:
-        100BUT+1000 == (10BUT+100)*10
-        10RM+10000 == (1BUT+1000)*10
+        1DRK+1000 == (.1DRK+100)*10
+        10DRK+10000 == (1DRK+1000)*10
     */
     /* Disabled
     vecStandardDenominations.push_back( (100      * COIN)+100000 );
     */
-    vecStandardDenominations.push_back((10000 * COIN) + 10000);
-    vecStandardDenominations.push_back((1000 * COIN) + 1000);
-    vecStandardDenominations.push_back((100 * COIN) + 100);
-    vecStandardDenominations.push_back((10 * COIN) + 10);
-    vecStandardDenominations.push_back((1 * COIN) + 1);
+    vecStandardDenominations.push_back((10 * COIN) + 10000);
+    vecStandardDenominations.push_back((1 * COIN) + 1000);
+    vecStandardDenominations.push_back((.1 * COIN) + 100);
+    vecStandardDenominations.push_back((.01 * COIN) + 10);
+    vecStandardDenominations.push_back((.001 * COIN) + 1);
 }
 
 // check to make sure the collateral provided by the client is valid
@@ -384,7 +381,7 @@ bool CPrivateSend::IsCollateralValid(const CTransaction& txCollateral)
     {
         LOCK(cs_main);
         CValidationState validationState;
-        if (!AcceptToMemoryPool(mempool, validationState, MakeTransactionRef(txCollateral), false, nullptr, false, maxTxFee, true)) {
+        if (!AcceptToMemoryPool(mempool, validationState, MakeTransactionRef(txCollateral), false, nullptr /* pfMissingInputs */, false /* bypass_limits */, maxTxFee /* nAbsurdFee */, true /* fDryRun */)) {
             LogPrint(BCLog::PRIVATESEND, "CPrivateSend::IsCollateralValid -- didn't pass AcceptToMemoryPool()\n");
             return false;
         }
@@ -403,7 +400,6 @@ bool CPrivateSend::IsCollateralAmount(CAmount nInputAmount)
     Return a bitshifted integer representing a denomination in vecStandardDenominations
     or 0 if none was found
 */
-
 int CPrivateSend::AmountToDenomination(CAmount nInputAmount)
 {
     for (size_t i = 0; i < vecStandardDenominations.size(); ++i) {
@@ -414,16 +410,11 @@ int CPrivateSend::AmountToDenomination(CAmount nInputAmount)
     return 0;
 }
 
-
-
-/*  Return a bitshifted integer representing the denominations in this list
-    Function returns as follows (for 4 denominations):
-        ( bit on if present )
-        10        - bit 0
-        1         - bit 1
-        .1        - bit 2
-        .01       - bit 3
-        non-denom - 0, all bits off
+/*
+    Returns:
+    - one of standard denominations from vecStandardDenominations based on the provided bitshifted integer
+    - 0 for non-initialized sessions (nDenom = 0)
+    - a value below 0 if an error occured while converting from one to another
 */
 CAmount CPrivateSend::DenominationToAmount(int nDenom)
 {
@@ -444,7 +435,7 @@ CAmount CPrivateSend::DenominationToAmount(int nDenom)
         return -2;
     }
 
-      CAmount nDenomAmount{-3};
+    CAmount nDenomAmount{-3};
 
     for (size_t i = 0; i < nMaxDenoms; ++i) {
         if (nDenom & (1 << i)) {
@@ -453,9 +444,8 @@ CAmount CPrivateSend::DenominationToAmount(int nDenom)
         }
     }
 
-       return nDenomAmount;
+    return nDenomAmount;
 }
-
 
 /*
     Same as DenominationToAmount but returns a string representation
@@ -480,7 +470,6 @@ bool CPrivateSend::IsDenominatedAmount(CAmount nInputAmount)
 {
     return AmountToDenomination(nInputAmount) > 0;
 }
-
 
 bool CPrivateSend::IsValidDenomination(int nDenom)
 {
