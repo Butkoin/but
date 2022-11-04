@@ -499,16 +499,21 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0x001787e5f9c3cd249f84f0142071f6098d9e3b7ec8591ff73543ddc4900c1dc2"));
         assert(genesis.hashMerkleRoot == uint256S("0xc083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
 
-        vSeeds.emplace_back("107.161.24.34","107.161.24.34");
-        vSeeds.emplace_back("74.74.76.149","74.74.76.149");
-        vSeeds.emplace_back("135.181.169.222","135.181.169.222");
-        vSeeds.emplace_back("161.97.105.255","161.97.105.255");
-        vSeeds.emplace_back("125.168.95.217","125.168.95.217");
-        vSeeds.emplace_back("81.68.112.118","81.68.112.118");
-        vSeeds.emplace_back("31.40.251.11","31.40.251.11");
-        vSeeds.emplace_back("nod.butcoin.tech","nod.butcoin.tech");
-        vSeeds.emplace_back("51.79.220.19","51.79.220.19");
-        vSeeds.emplace_back("45.9.191.62","45.9.191.62");
+
+       vSeeds.emplace_back("113.125.38.80","113.125.38.80");
+       vSeeds.emplace_back("116.203.130.246","116.203.130.246");
+       vSeeds.emplace_back("135.181.34.18","135.181.34.18");
+       vSeeds.emplace_back("139.198.168.107","139.198.168.107");
+       vSeeds.emplace_back("157.90.168.255","157.90.168.255");
+       vSeeds.emplace_back("159.69.111.55","159.69.111.55");
+       vSeeds.emplace_back("167.86.124.240","167.86.124.240");
+       vSeeds.emplace_back("188.34.194.136","188.34.194.136");
+       vSeeds.emplace_back("42.192.12.170","42.192.12.170");
+       vSeeds.emplace_back("49.232.149.16","49.232.149.16");
+       vSeeds.emplace_back("5.161.93.58","5.161.93.58");
+       vSeeds.emplace_back("65.108.91.65","65.108.91.65");
+       vSeeds.emplace_back("81.70.52.126","81.70.52.126");
+       vSeeds.emplace_back("95.216.204.251","95.216.204.251");
 
         // But addresses start with 'x'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,76);
