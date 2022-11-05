@@ -406,6 +406,20 @@ static void SendMoney(CWallet * const pwallet, const CTxDestination &address, CA
             strError = strprintf("Error: This transaction requires a transaction fee of at least %s", FormatMoney(nFeeRequired));
         throw JSONRPCError(RPC_WALLET_ERROR, strError);
     }
+
+    CTransactionRef tx;
+    if(!Params().IsMaxCash(chainActive.Tip())){ 
+        CAmount subtotal = nValue;
+        if (nChangePosRet >= 0)
+            subtotal += tx.get()->vout.at(nChangePosRet).nValue;
+        if(!fSubtractFeeFromAmount)
+            subtotal += nFeeRequired;
+        if (subtotal > OLD_MAX_MONEY){
+            strError = "Error: This transaction exceeds the limit of 21 million.";
+            throw JSONRPCError(RPC_WALLET_ERROR, strError);
+        }
+    }
+
     CValidationState state;
     if (!pwallet->CommitTransaction(wtxNew, reservekey, g_connman.get(), state)) {
         strError = strprintf("Error: The transaction was rejected! Reason given: %s", state.GetRejectReason());
@@ -1108,6 +1122,13 @@ UniValue sendmany(const JSONRPCRequest& request)
 
     bool fCreated = pwallet->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired, nChangePosRet, strFailReason,
                                                coin_control);
+
+    CTransactionRef tx;
+    if(!Params().IsMaxCash(chainActive.Tip()) && fCreated){ 
+        if (tx.get()->GetValueOut() > OLD_MAX_MONEY)
+            throw JSONRPCError(RPC_WALLET_ERROR, "Error: This transaction exceeds the limit of 21 million.");
+    }
+
     if (!fCreated)
         throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, strFailReason);
     CValidationState state;

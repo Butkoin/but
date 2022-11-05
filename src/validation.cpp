@@ -652,7 +652,8 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
         } // end LOCK(pool.cs)
 
         CAmount nFees = 0;
-        if (!Consensus::CheckTxInputs(tx, state, view, GetSpendHeight(view), nFees)) {
+        bool ismaxcash = Params().IsMaxCash(chainActive.Tip());
+        if (!Consensus::CheckTxInputs(tx, state, view, GetSpendHeight(view),  ismaxcash, nFees)) {
             return error("%s: Consensus::CheckTxInputs: %s, %s", __func__, tx.GetHash().ToString(), FormatStateMessage(state));
         }
 
@@ -1939,6 +1940,7 @@ static bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockInd
     txdata.reserve(block.vtx.size()); // Required so that pointers to individual PrecomputedTransactionData don't get invalidated
 
     bool fDIP0001Active_context = Params().GetConsensus().DIP0001Enabled;
+    bool ismaxcash = Params().IsMaxCash(chainActive.Tip());
 
     for (unsigned int i = 0; i < block.vtx.size(); i++)
     {
@@ -1950,11 +1952,11 @@ static bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockInd
         if (!tx.IsCoinBase())
         {
             CAmount txfee = 0;
-            if (!Consensus::CheckTxInputs(tx, state, view, pindex->nHeight, txfee)) {
+            if (!Consensus::CheckTxInputs(tx, state, view, pindex->nHeight, ismaxcash, txfee)) {
                 return error("%s: Consensus::CheckTxInputs: %s, %s", __func__, tx.GetHash().ToString(), FormatStateMessage(state));
             }
             nFees += txfee;
-            if (!MoneyRange(nFees)) {
+            if (!MoneyRange(nFees, ismaxcash)) {
                 return state.DoS(100, error("%s: accumulated fee in the block out of range.", __func__),
                                  REJECT_INVALID, "bad-txns-accumulated-fee-outofrange");
             }

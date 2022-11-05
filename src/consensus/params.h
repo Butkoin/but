@@ -193,6 +193,7 @@ struct Params {
     int v3DiffChangeHeight;
     int AlgoChangeHeight;
     int nSwitchHeight;
+    int nMaxCash;
 
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;

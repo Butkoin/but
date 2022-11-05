@@ -10,6 +10,8 @@
 #include <consensus/params.h>
 #include <primitives/block.h>
 #include <protocol.h>
+#include <primitives/block.h>
+#include <chain.h>
 
 #include <memory>
 #include <vector>
@@ -99,6 +101,10 @@ public:
     const std::vector<std::string>& SporkAddresses() const { return vSporkAddresses; }
     int MinSporkKeys() const { return nMinSporkKeys; }
     bool BIP9CheckSmartnodesUpgraded() const { return fBIP9CheckSmartnodesUpgraded; }
+    bool IsMaxCash(CBlockIndex *index) const {
+        int height = index == nullptr ? 0 : index->nHeight;
+        return height >= GetConsensus().nMaxCash;
+    }
 protected:
     CChainParams() {}
 

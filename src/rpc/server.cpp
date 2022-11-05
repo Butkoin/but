@@ -15,7 +15,7 @@
 #include <ui_interface.h>
 #include <util.h>
 #include <utilstrencodings.h>
-
+#include <validation.h>
 #include <univalue.h>
 
 #include <boost/bind.hpp>
@@ -121,7 +121,7 @@ CAmount AmountFromValue(const UniValue& value)
     CAmount amount;
     if (!ParseFixedPoint(value.getValStr(), 8, &amount))
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount");
-    if (!MoneyRange(amount))
+    if (!MoneyRange(amount, Params().IsMaxCash(chainActive.Tip())))
         throw JSONRPCError(RPC_TYPE_ERROR, "Amount out of range");
     return amount;
 }
