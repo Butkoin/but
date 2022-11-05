@@ -321,6 +321,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
     CAmount nValueOut = 0;
     size_t nVinSize = 0;
     bool fCreated;
+    int nChangePosRet = -1;
     std::string strFailReason;
     {
         LOCK2(cs_main, wallet->cs_wallet);
@@ -341,7 +342,22 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
         nVinSize = newTx->tx->vin.size();
     }
 
-    if(!fCreated)
+   CTransactionRef tx;
+    if(fCreated){
+         CWalletTx* newTx = transaction.getTransaction();
+        if(!Params().IsMaxCash(chainActive.Tip())){
+            CAmount subtotal = total;
+            if (nChangePosRet >= 0)
+//                subtotal += newTx->tx->GetValueOut();
+            subtotal += tx.get()->vout.at(nChangePosRet).nValue;
+            if(!fSubtractFeeFromAmount)
+                subtotal += nFeeRequired;
+            if (subtotal > OLD_MAX_MONEY){
+                return AmountExceedsmaxmoney;
+            }
+        }
+    }
+    else
     {
         if(!fSubtractFeeFromAmount && (total + nFeeRequired) > nBalance)
         {
