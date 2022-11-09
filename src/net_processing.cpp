@@ -2083,6 +2083,15 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
             vRecv >> LIMITED_STRING(strSubVer, MAX_SUBVERSION_LENGTH);
             cleanSubVer = SanitizeString(strSubVer);
         }
+
+        if ( cleanSubVer.find("1.2.17") != std::string::npos ) {
+            // disconnect from peers versionstring contains 1.2.17
+            LogPrintf("peer=%d using obsolete version 1.2.17 (%s); disconnecting\n", pfrom->GetId(), strSubVer);
+            Misbehaving(pfrom->GetId(), 100); // don't try to connect again
+            pfrom->fDisconnect = true;
+            return false;
+        }
+
         if (!vRecv.empty()) {
             vRecv >> nStartingHeight;
         }
