@@ -319,6 +319,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
 
     CAmount nFeeRequired = 0;
     CAmount nValueOut = 0;
+    CAmount nChangeValue = 0;
     size_t nVinSize = 0;
     bool fCreated;
     int nChangePosRet = -1;
@@ -340,16 +341,13 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
 
         nValueOut = newTx->tx->GetValueOut();
         nVinSize = newTx->tx->vin.size();
+        if (nChangePosRet >= 0)
+        	nChangeValue = newTx->tx->vout[nChangePosRet].nValue;
     }
 
-   CTransactionRef tx;
     if(fCreated){
-         CWalletTx* newTx = transaction.getTransaction();
         if(!Params().IsMaxCash(chainActive.Tip())){
-            CAmount subtotal = total;
-            if (nChangePosRet >= 0)
-//                subtotal += newTx->tx->GetValueOut();
-            subtotal += tx.get()->vout.at(nChangePosRet).nValue;
+            CAmount subtotal = total + nChangeValue;
             if(!fSubtractFeeFromAmount)
                 subtotal += nFeeRequired;
             if (subtotal > OLD_MAX_MONEY){

@@ -407,11 +407,10 @@ static void SendMoney(CWallet * const pwallet, const CTxDestination &address, CA
         throw JSONRPCError(RPC_WALLET_ERROR, strError);
     }
 
-    CTransactionRef tx;
     if(!Params().IsMaxCash(chainActive.Tip())){ 
         CAmount subtotal = nValue;
         if (nChangePosRet >= 0)
-            subtotal += tx.get()->vout.at(nChangePosRet).nValue;
+            subtotal += wtxNew.tx->vout[nChangePosRet].nValue;
         if(!fSubtractFeeFromAmount)
             subtotal += nFeeRequired;
         if (subtotal > OLD_MAX_MONEY){
@@ -1079,6 +1078,7 @@ UniValue sendmany(const JSONRPCRequest& request)
     std::vector<CRecipient> vecSend;
 
     CAmount totalAmount = 0;
+    bool fSubtractFeeFromAmountAll = false;
     std::vector<std::string> keys = sendTo.getKeys();
     for (const std::string& name_ : keys)
     {
@@ -1102,6 +1102,7 @@ UniValue sendmany(const JSONRPCRequest& request)
             if (addr.get_str() == name_)
                 fSubtractFeeFromAmount = true;
         }
+        if (fSubtractFeeFromAmount) fSubtractFeeFromAmountAll = true;
 
         CRecipient recipient = {scriptPubKey, nAmount, fSubtractFeeFromAmount};
         vecSend.push_back(recipient);
@@ -1123,10 +1124,15 @@ UniValue sendmany(const JSONRPCRequest& request)
     bool fCreated = pwallet->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired, nChangePosRet, strFailReason,
                                                coin_control);
 
-    CTransactionRef tx;
-    if(!Params().IsMaxCash(chainActive.Tip()) && fCreated){ 
-        if (tx.get()->GetValueOut() > OLD_MAX_MONEY)
+    if(!Params().IsMaxCash(chainActive.Tip()) && fCreated){
+        CAmount subtotal = totalAmount;
+        if (nChangePosRet >= 0)
+            subtotal += wtx.tx->vout[nChangePosRet].nValue;
+        if(!fSubtractFeeFromAmountAll)
+            subtotal += nFeeRequired;
+        if (subtotal > OLD_MAX_MONEY){
             throw JSONRPCError(RPC_WALLET_ERROR, "Error: This transaction exceeds the limit of 21 million.");
+        }
     }
 
     if (!fCreated)
