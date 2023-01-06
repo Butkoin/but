@@ -3,7 +3,7 @@ But Core version 0.1.2.16
 
 Release is now available from:
 
-  <https://www.butcoin.tech/downloads/#wallets>
+  <https://www.butkoin.com/downloads/#wallets>
 
 This is a new minor version release, bringing various bugfixes and other improvements.
 
