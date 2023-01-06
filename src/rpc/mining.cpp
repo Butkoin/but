@@ -272,11 +272,17 @@ UniValue getmininginfo(const JSONRPCRequest& request)
     obj.push_back(Pair("blocks",           (int)chainActive.Height()));
     obj.push_back(Pair("currentblocksize", (uint64_t)nLastBlockSize));
     obj.push_back(Pair("currentblocktx",   (uint64_t)nLastBlockTx));
-    obj.pushKV("difficulty",       (double)GetDifficulty(chainActive.Tip()));
+    obj.pushKV("difficulty",               (double)GetDifficulty(chainActive.Tip()));
     obj.push_back(Pair("errors",           GetWarnings("statusbar")));
     obj.push_back(Pair("networkhashps",    getnetworkhashps(request)));
+    obj.pushKV("networkhashps_ghostrider", GetNetworkHashPS(120, -1, ALGO_GHOSTRIDER));
+    obj.pushKV("networkhashps_yespower",   GetNetworkHashPS(120, -1, ALGO_YESPOWER));
+    obj.pushKV("networkhashps_lyra2",      GetNetworkHashPS(120, -1, ALGO_LYRA2));
+    obj.pushKV("networkhashps_sha256d",    GetNetworkHashPS(120, -1, ALGO_SHA256D));
+    obj.pushKV("networkhashps_scrypt",     GetNetworkHashPS(120, -1, ALGO_SCRYPT));
+    obj.pushKV("networkhashps_butkscrypt", GetNetworkHashPS(120, -1, ALGO_BUTKSCRYPT));
     obj.push_back(Pair("hashespersec",     (double)nHashesPerSec));
-	obj.push_back(Pair("algos", (std::string)alsoHashString));
+	obj.push_back(Pair("algos",            (std::string)alsoHashString));
 	obj.push_back(Pair("pooledtx",         (uint64_t)mempool.size()));
 	obj.push_back(Pair("chain",            Params().NetworkIDString()));
 
@@ -1143,6 +1149,7 @@ static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
   //  --------------------- ------------------------  -----------------------  ----------
     { "mining",             "getnetworkhashps",       &getnetworkhashps,       true,  {"nblocks","height"} },
+    { "mining",             "getallnetworkhashps",    &getallnetworkhashps,    true,  {"nblocks","height"} },
     { "mining",             "getmininginfo",          &getmininginfo,          true,  {} },
     { "mining",             "prioritisetransaction",  &prioritisetransaction,  true,  {"txid","fee_delta"} },
     { "mining",             "getblocktemplate",       &getblocktemplate,       true,  {"template_request", "algo"} },
