@@ -1728,6 +1728,7 @@ int32_t ComputeBlockVersion(const CBlockIndex* pindexPrev, const Consensus::Para
             nVersion |= BLOCK_VERSION_BUTKSCRYPT;
         else
             nVersion |= BLOCK_VERSION_LYRA2;
+		break;
         case ALGO_SCRYPT:
         if (pindexPrev->nHeight < params.nSwitchHeight)
             nVersion |= BLOCK_VERSION_BUTKSCRYPT;
