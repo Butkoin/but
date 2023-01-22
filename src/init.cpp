@@ -670,7 +670,7 @@ std::string HelpMessage(HelpMessageMode mode)
 std::string LicenseInfo()
 {
     const std::string URL_SOURCE_CODE = "<https://github.com/Butkoin/but>";
-    const std::string URL_WEBSITE = "<https://butcoin.tech>";
+    const std::string URL_WEBSITE = "<https://butkoin.com>";
 
     return CopyrightHolders(_("Copyright (C)"), 2014, COPYRIGHT_YEAR) + "\n" +
            "\n" +

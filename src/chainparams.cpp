@@ -500,21 +500,20 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0x001787e5f9c3cd249f84f0142071f6098d9e3b7ec8591ff73543ddc4900c1dc2"));
         assert(genesis.hashMerkleRoot == uint256S("0xc083fb7c3b6936c15dc2685a522ffa685247e8c665c818888b51b0771584d7b4"));
 
-
-       vSeeds.emplace_back("113.125.38.80","113.125.38.80");
-       vSeeds.emplace_back("116.203.130.246","116.203.130.246");
-       vSeeds.emplace_back("135.181.34.18","135.181.34.18");
-       vSeeds.emplace_back("139.198.168.107","139.198.168.107");
-       vSeeds.emplace_back("157.90.168.255","157.90.168.255");
-       vSeeds.emplace_back("159.69.111.55","159.69.111.55");
-       vSeeds.emplace_back("167.86.124.240","167.86.124.240");
-       vSeeds.emplace_back("188.34.194.136","188.34.194.136");
-       vSeeds.emplace_back("42.192.12.170","42.192.12.170");
-       vSeeds.emplace_back("49.232.149.16","49.232.149.16");
-       vSeeds.emplace_back("5.161.93.58","5.161.93.58");
-       vSeeds.emplace_back("65.108.91.65","65.108.91.65");
-       vSeeds.emplace_back("81.70.52.126","81.70.52.126");
-       vSeeds.emplace_back("95.216.204.251","95.216.204.251");
+        vSeeds.emplace_back("135.181.34.18","135.181.34.18");
+        vSeeds.emplace_back("135.181.36.174","135.181.36.174");
+        vSeeds.emplace_back("65.108.91.65","65.108.91.65");
+        vSeeds.emplace_back("95.216.204.251","95.216.204.251");
+        vSeeds.emplace_back("135.181.249.150","135.181.249.150");
+        vSeeds.emplace_back("116.203.130.246","116.203.130.246");
+        vSeeds.emplace_back("159.69.111.55","159.69.111.55");
+        vSeeds.emplace_back("88.99.186.230","88.99.186.230");
+        vSeeds.emplace_back("157.90.168.255","157.90.168.255");
+        vSeeds.emplace_back("188.34.194.136","188.34.194.136");
+        vSeeds.emplace_back("5.161.93.58","5.161.93.58");
+        vSeeds.emplace_back("5.161.93.62","5.161.93.62");
+        vSeeds.emplace_back("5.161.54.85","5.161.54.85");
+        vSeeds.emplace_back("5.161.97.150","5.161.97.150");
 
         // But addresses start with 'x'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,76);
@@ -578,7 +577,10 @@ public:
                 {10,       uint256S("0x005cab51de3bef6840c7866dbc1d2f69738cff67155a975fa3f1800aa4bbfcf9")},
                 {50,       uint256S("0x0037fcf4a01c6c445f2ca1201aa67bca5c3a769cd9225199764c5d2b20e10e9f")},
                 {100,      uint256S("0x00008474034c9e03197c723b565b14cfdbedefbac17b6f25fb0a37214be66062")},
-	    }
+                {406423,   uint256S("0xff7f4f9a259661351a52cde70c8717bab47ffe0e2ac3e598a7811d64544a2659")},
+                {406901,   uint256S("0xdb4c6a37c176ebc6ce1fa0cd90c1c82877af0c64a8cf5e289d967efdc52221f7")},
+                {406903,   uint256S("0x0000000000000911608ed6953991fcfeb01d70e8da606e57a20f21467470a4da")},
+	        }
         };
 
         chainTxData = ChainTxData{
